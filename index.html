@@ -1,0 +1,352 @@
+import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Sparkle, ArrowRight } from 'lucide-react';
+
+// =============== Utilities ===============
+function easeOutCubic(x) {
+  return 1 - Math.pow(1 - x, 3);
+}
+
+function useReveal() {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (!ref.current || typeof IntersectionObserver === 'undefined') return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, visible };
+}
+
+function Reveal({ children, delay = 0 }) {
+  const { ref, visible } = useReveal();
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={visible ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: easeOutCubic }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// =============== Hero Section ===============
+export default function BlackScholesLanding() {
+  return (
+    <>
+      {/* Hero */}
+      <section className="relative min-h-screen bg-neutral-950 text-neutral-100 overflow-hidden flex items-center">
+        {/* Animated background gradient */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-neutral-950 to-black"
+          initial={{ scale: 1.2, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.2 }}
+        />
+
+        <div className="relative mx-auto max-w-5xl px-6 py-24 text-center">
+          <Reveal>
+            <div className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-2 text-sm text-neutral-300 mb-8">
+              <Sparkle className="h-4 w-4" /> AI powered Financial Optimization
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.2}>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-neutral-200 to-neutral-400">
+              Precision in finance.
+              <br />
+              Simplicity in execution.
+            </h1>
+          </Reveal>
+
+          <Reveal delay={0.4}>
+            <p className="mt-6 text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+              We design and deliver systems that make reporting faster, analysis sharper, and decisions clearer. Built with the rigor of Wall Street, applied with the practicality of a cafe counter.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.6}>
+            <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center rounded-xl px-6 py-3 bg-white text-neutral-950 font-semibold shadow-lg hover:opacity-90 transition"
+              >
+                Start the conversation <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <ServicesSection />
+      <ProcessSection />
+      <WhoWeHelpSection />
+      <MissionSection />
+      <ContactSection />
+    </>
+  );
+}
+
+// Services section component (Tailored Systems)
+function ServicesSection() {
+  const pillars = [
+    {
+      title: 'Strategy',
+      copy: 'We conduct financial analysis and market modeling to uncover clear opportunities and risks, giving leaders the data they need to act decisively.',
+    },
+    {
+      title: 'Engineering',
+      copy: 'Our team builds models and automations with precision, ensuring they are resilient, transparent, and practical for day to day operations.',
+    },
+    {
+      title: 'Delivery',
+      copy: 'From implementation to training, we integrate systems with care, acknowledging complexity, addressing constraints, and ensuring adoption across teams.',
+    },
+  ];
+
+  const card = {
+    hidden: { opacity: 0, y: 40, scale: 0.95 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: 'easeOut' } },
+  };
+
+  return (
+    <section id="tailored" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
+      <div className="mx-auto max-w-6xl px-6 py-28 text-center">
+        <Reveal>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Systems built around your reality</h2>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <p className="mt-6 text-neutral-400 leading-relaxed text-lg max-w-3xl mx-auto">
+            We design reporting, automation, and decision support systems tailored to the scale and context of your business. Whether a capital intensive firm or a boutique cafe, our work adapts to your environment and ambitions.
+          </p>
+        </Reveal>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-10%' }}
+          transition={{ staggerChildren: 0.18 }}
+          className="mt-16 grid sm:grid-cols-3 gap-8 text-left"
+        >
+          {pillars.map((p, i) => (
+            <motion.div
+              key={i}
+              variants={card}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 relative overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
+            >
+              <motion.div
+                aria-hidden
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 0.3 }}
+                transition={{ duration: 0.4 }}
+                className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent"
+              />
+              <h3 className="font-semibold text-xl mb-3 text-neutral-100 tracking-wide">{p.title}</h3>
+              <p className="text-neutral-400 text-sm leading-relaxed">{p.copy}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <Reveal delay={0.5}>
+          <p className="mt-14 text-neutral-300 max-w-2xl mx-auto text-lg italic">
+            Every engagement begins with listening and concludes with systems that deliver clarity and durability.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ===== Process Section =====
+function ProcessSection() {
+  const steps = [
+    {
+      title: 'Discovery',
+      copy: 'We start with structured conversations to understand your goals, constraints, and context, building a clear baseline before solutions are proposed.',
+    },
+    {
+      title: 'Design',
+      copy: 'We develop models and workflows with a balance of rigor and practicality, ensuring they address real needs and can be integrated smoothly.',
+    },
+    {
+      title: 'Deployment',
+      copy: 'Delivery may take several forms: a solutions and reporting package, full implementation by our team, or an on site workshop to implement and train your staff.',
+    },
+  ];
+
+  const item = {
+    hidden: { opacity: 0, x: -40 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+  };
+
+  return (
+    <section id="process" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
+      <div className="mx-auto max-w-5xl px-6 py-28">
+        <Reveal>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-center">How we work</h2>
+        </Reveal>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-10%' }}
+          transition={{ staggerChildren: 0.2 }}
+          className="mt-16 space-y-12"
+        >
+          {steps.map((s, i) => (
+            <motion.div
+              key={i}
+              variants={item}
+              className="relative rounded-xl border border-neutral-800 bg-gradient-to-r from-neutral-900 to-neutral-950 p-8 shadow-md"
+            >
+              <h3 className="font-semibold text-2xl mb-3 text-neutral-100">{s.title}</h3>
+              <p className="text-neutral-400 leading-relaxed">{s.copy}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ===== Who We Help Section =====
+function WhoWeHelpSection() {
+  const groups = [
+    {
+      title: 'Growing Businesses',
+      copy: 'Entrepreneurs and operators seeking to scale without losing control of their numbers. We build systems that simplify growth while preserving discipline.',
+    },
+    {
+      title: 'Established Firms',
+      copy: 'Organizations with legacy processes that need modernization, our solutions integrate with care and elevate efficiency without disruption.',
+    },
+    {
+      title: 'Financial Leaders',
+      copy: 'Executives, CFOs, and investors who require precise dashboards, streamlined reporting, and confidence to act swiftly and strategically.',
+    },
+  ];
+
+  const card = {
+    hidden: { opacity: 0, y: 40 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
+  return (
+    <section id="who-we-help" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
+      <div className="mx-auto max-w-6xl px-6 py-28 text-center">
+        <Reveal>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Who We Help</h2>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <p className="mt-6 text-neutral-400 leading-relaxed text-lg max-w-3xl mx-auto">
+            Our services are crafted for those who move with ambition and demand clarity. From entrepreneurs to boardrooms, we align our systems with your reality.
+          </p>
+        </Reveal>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-10%' }}
+          transition={{ staggerChildren: 0.15 }}
+          className="mt-16 grid sm:grid-cols-3 gap-8 text-left"
+        >
+          {groups.map((g, i) => (
+            <motion.div
+              key={i}
+              variants={card}
+              whileHover={{ y: -6 }}
+              className="rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <h3 className="font-semibold text-xl mb-3 text-neutral-100 tracking-wide">{g.title}</h3>
+              <p className="text-neutral-400 text-sm leading-relaxed">{g.copy}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ===== Mission Section =====
+function MissionSection() {
+  return (
+    <section id="mission" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
+      <div className="mx-auto max-w-4xl px-6 py-28 text-center">
+        <Reveal>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Our Mission</h2>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <p className="mt-6 text-neutral-400 leading-relaxed text-lg">
+            The value of time has risen sharply over the last half century. What once passed as fast is now ordinary. In 1980, a Ferrari road car needed about 8.1 seconds to reach 0 to 100 km/h; today, production Ferraris do it in under three. In the same spirit, our AI engineers focus on compressing hours into minutes and minutes into moments, so leaders can act sooner, with clarity and confidence.
+          </p>
+          <div className="mt-10 flex justify-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Ferrari_308_GTB_1976.jpg" alt="Classic Ferrari 308 GTB (1980s)" className="rounded-xl shadow-lg max-h-80 object-cover" />
+          </div>
+        </Reveal>
+        <Reveal delay={0.3}>
+          <p className="mt-4 text-neutral-300 max-w-2xl mx-auto">
+            Our role is to design tools that stand quietly behind strong leaders, supporting decisions, not overshadowing them.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ===== Contact Section =====
+function ContactSection() {
+  return (
+    <section id="contact" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
+      <div className="mx-auto max-w-3xl px-6 py-28 text-center">
+        <Reveal>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Get in Touch</h2>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <p className="mt-6 text-neutral-400 leading-relaxed text-lg">
+            Tell us about your company and we will show you how tailored systems can save time and sharpen decisions.
+          </p>
+        </Reveal>
+        <form className="mt-12 space-y-6 text-left">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-neutral-300">Name</label>
+            <input id="name" name="name" type="text" required className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500" />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-neutral-300">Email</label>
+            <input id="email" name="email" type="email" required className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500" />
+          </div>
+          <div>
+            <label htmlFor="message" className="block text-sm font-medium text-neutral-300">Message</label>
+            <textarea id="message" name="message" rows={4} required className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500"></textarea>
+          </div>
+          <a href="mailto:contact@blackscholes.ca?subject=Inquiry%20from%20website" className="w-full inline-flex items-center justify-center rounded-md bg-white text-neutral-950 font-semibold px-6 py-3 shadow hover:opacity-90 transition">
+            Email contact@blackscholes.ca
+          </a>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+// =============== Dev sanity checks (non-breaking) ===============
+if (typeof window !== 'undefined' && typeof console !== 'undefined') {
+  const approx = (a, b, eps = 1e-9) => Math.abs(a - b) < eps;
+  console.assert(typeof easeOutCubic === 'function', 'easeOutCubic defined');
+  console.assert(approx(easeOutCubic(0), 0), 'easeOutCubic(0) == 0');
+  console.assert(approx(easeOutCubic(1), 1), 'easeOutCubic(1) == 1');
+  console.assert(easeOutCubic(0.5) > 0.5, 'easeOutCubic ease out midpoint');
+  // additional test: monotonic samples
+  const s0 = easeOutCubic(0.25);
+  const s1 = easeOutCubic(0.5);
+  const s2 = easeOutCubic(0.75);
+  console.assert(s0 < s1 && s1 < s2, 'easeOutCubic increases on sample points');
+}
