@@ -1,480 +1,562 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Sparkle, ArrowRight } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Black Scholes — Financial Optimization</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #050505;
+        --bg-soft: #0b0b0f;
+        --surface: #101016;
+        --surface-soft: rgba(255, 255, 255, 0.04);
+        --text-primary: #f5f5f5;
+        --text-muted: #9ca3af;
+        --accent: #f5f5f5;
+        --accent-dark: #e5e7eb;
+        --border: rgba(255, 255, 255, 0.08);
+        --success: #34d399;
+        --error: #f87171;
+      }
 
-// =============== Utilities ===============
-function easeOutCubic(x) {
-  return 1 - Math.pow(1 - x, 3);
-}
+      * {
+        box-sizing: border-box;
+      }
 
-function useReveal() {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!ref.current || typeof IntersectionObserver === 'undefined') return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-  return { ref, visible };
-}
+      body {
+        margin: 0;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: radial-gradient(circle at top, rgba(90, 60, 255, 0.12), transparent 55%),
+          radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.18), transparent 55%),
+          var(--bg);
+        color: var(--text-primary);
+        line-height: 1.6;
+      }
 
-function Reveal({ children, delay = 0 }) {
-  const { ref, visible } = useReveal();
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: easeOutCubic }}
-    >
-      {children}
-    </motion.div>
-  );
-}
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
 
-// =============== App ===============
-export default function BlackScholesLanding() {
-  return (
-    <>
-      {/* Global smooth scroll */}
-      <style>{`html{scroll-behavior:smooth}`}</style>
-      <NavBar />
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(14px);
+        background: rgba(5, 5, 8, 0.82);
+        border-bottom: 1px solid var(--border);
+      }
 
-      {/* Hero */}
-      <section className="relative min-h-screen bg-black text-neutral-100 overflow-hidden flex items-center">
-        {/* Background: prestige grid + aurora */}
-        <BackgroundGrid />
+      .nav-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
 
-        <div className="relative mx-auto max-w-6xl px-6 py-28 text-center">
-          <Reveal>
-            <div className="inline-flex items-center gap-2 rounded-full border border-neutral-800/70 bg-neutral-900/60 backdrop-blur px-4 py-2 text-sm text-neutral-300 mb-8">
-              <Sparkle className="h-4 w-4" /> AI powered Financial Optimization
-            </div>
-          </Reveal>
+      .brand {
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
 
-          <Reveal delay={0.2}>
-            <h1 className="text-[40px] leading-tight md:text-7xl md:leading-[1.05] font-semibold tracking-tight">
-              Precision in finance.
-              <br />
-              Simplicity in execution.
-            </h1>
-          </Reveal>
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+      }
 
-          <Reveal delay={0.35}>
-            <p className="mt-6 text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto">
-              We design and deliver systems that make reporting faster, analysis sharper, and decisions clearer. Built with the rigor of Wall Street, applied with the practicality of a cafe counter.
-            </p>
-          </Reveal>
+      .nav-links a:hover {
+        color: var(--text-primary);
+      }
 
-          <Reveal delay={0.5}>
-            <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center rounded-full px-6 py-3 bg-white text-neutral-950 font-semibold shadow-sm hover:opacity-90 transition"
-              >
-                Start the conversation <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
-            </div>
-          </Reveal>
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: transform 150ms ease, box-shadow 150ms ease, opacity 150ms ease;
+        text-decoration: none;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #050505;
+        padding: 0.75rem 1.75rem;
+        box-shadow: 0 10px 35px rgba(255, 255, 255, 0.08);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 45px rgba(255, 255, 255, 0.16);
+      }
+
+      .hero {
+        position: relative;
+        padding: 9rem 1.5rem 7rem;
+        overflow: hidden;
+        background: linear-gradient(160deg, rgba(15, 15, 20, 0.85), rgba(5, 5, 5, 0.9)),
+          url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1500&q=80') center/cover;
+      }
+
+      .hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(5, 5, 5, 0.75), rgba(5, 5, 8, 0.95));
+        pointer-events: none;
+      }
+
+      .hero-inner {
+        position: relative;
+        max-width: 840px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.45rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(15, 15, 20, 0.55);
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.02em;
+      }
+
+      h1 {
+        margin: 1.2rem 0 1.4rem;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+      }
+
+      .lead {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        margin: 0 auto 2.4rem;
+        max-width: 600px;
+      }
+
+      main {
+        background: linear-gradient(180deg, rgba(8, 8, 12, 0.82), rgba(5, 5, 6, 0.96));
+      }
+
+      section {
+        padding: 5rem 1.5rem;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-size: clamp(2.1rem, 4vw, 3.1rem);
+        margin-bottom: 1.2rem;
+        text-align: center;
+      }
+
+      .section-intro {
+        max-width: 640px;
+        margin: 0.5rem auto 3rem;
+        text-align: center;
+        color: var(--text-muted);
+      }
+
+      .grid {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      }
+
+      .card {
+        background: rgba(15, 15, 20, 0.85);
+        border: 1px solid var(--border);
+        padding: 2rem 2rem 2.4rem;
+        border-radius: 18px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .card h3 {
+        margin-top: 0;
+        margin-bottom: 0.8rem;
+        font-size: 1.35rem;
+      }
+
+      .list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .list li {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        color: var(--text-muted);
+      }
+
+      .list li::before {
+        content: '•';
+        color: var(--accent);
+        line-height: 1.4;
+      }
+
+      .who-grid {
+        display: grid;
+        gap: 1.25rem;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+
+      .who-card {
+        border-radius: 16px;
+        padding: 1.6rem;
+        background: rgba(16, 16, 24, 0.85);
+        border: 1px solid var(--border);
+        min-height: 180px;
+      }
+
+      .mission {
+        text-align: center;
+        max-width: 760px;
+        margin: 0 auto;
+        color: var(--text-muted);
+      }
+
+      .contact-section {
+        border-top: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(10, 10, 15, 0.95), rgba(5, 5, 6, 1));
+      }
+
+      .contact-wrapper {
+        max-width: 640px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      form {
+        margin-top: 2.5rem;
+        text-align: left;
+        display: grid;
+        gap: 1.2rem;
+      }
+
+      label {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: 0.45rem;
+        color: var(--text-muted);
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(15, 15, 20, 0.8);
+        color: var(--text-primary);
+        padding: 0.9rem 1rem;
+        font: inherit;
+        transition: border-color 150ms ease, box-shadow 150ms ease;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.45);
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 140px;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 0.85rem 1.4rem;
+        background: var(--accent);
+        color: #050505;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: transform 150ms ease, box-shadow 150ms ease, opacity 150ms ease;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 35px rgba(255, 255, 255, 0.16);
+      }
+
+      .submit-btn:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .status-message {
+        font-size: 0.95rem;
+        margin-top: 0.35rem;
+        min-height: 1.4em;
+      }
+
+      .status-message.success {
+        color: var(--success);
+      }
+
+      .status-message.error {
+        color: var(--error);
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem 1.5rem 3rem;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      @media (max-width: 720px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero {
+          padding-top: 7.5rem;
+          padding-bottom: 6rem;
+        }
+
+        section {
+          padding: 4rem 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="nav-inner">
+        <a class="brand" href="#top">Black Scholes</a>
+        <nav class="nav-links">
+          <a href="#systems">Systems</a>
+          <a href="#process">Process</a>
+          <a href="#who-we-help">Who we help</a>
+          <a href="#mission">Mission</a>
+          <a class="btn btn-primary" href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-inner">
+          <span class="badge">AI powered Financial Optimization</span>
+          <h1>Precision in finance. Simplicity in execution.</h1>
+          <p class="lead">
+            We design and deliver systems that make reporting faster, analysis sharper, and decisions clearer. Built with the rigor
+            of Wall Street, applied with the practicality of a cafe counter.
+          </p>
+          <a class="btn btn-primary" href="#contact">Start the conversation</a>
         </div>
       </section>
 
-      <ServicesSection />
-      <ProcessSection />
-      <WhoWeHelpSection />
-      <MissionSection />
-      <ContactSection />
-      {/* <Footer /> Uncomment to render footer */}
-    </>
-  );
-}
-
-// ===== Services (Tailored Systems) =====
-function ServicesSection() {
-  const pillars = [
-    {
-      title: 'Strategy',
-      copy: 'We conduct financial analysis and market modeling to uncover clear opportunities and risks, giving leaders the data they need to act decisively.',
-    },
-    {
-      title: 'Engineering',
-      copy: 'Our team builds models and automations with precision, ensuring they are resilient, transparent, and practical for day to day operations.',
-    },
-    {
-      title: 'Delivery',
-      copy: 'From implementation to training, we integrate systems with care, acknowledging complexity, addressing constraints, and ensuring adoption across teams.',
-    },
-  ];
-
-  const card = {
-    hidden: { opacity: 0, y: 40, scale: 0.95 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: 'easeOut' } },
-  };
-
-  return (
-    <section id="tailored" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-6xl px-6 py-28 text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Systems built around your reality</h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-neutral-400 leading-relaxed text-lg max-w-3xl mx-auto">
-            We design reporting, automation, and decision support systems tailored to the scale and context of your business. Whether a capital intensive firm or a boutique cafe, our work adapts to your environment and ambitions.
+      <section id="systems">
+        <div class="container">
+          <h2 class="section-title">Tailored systems that compound value</h2>
+          <p class="section-intro">
+            From strategy to delivery, we bring together financial expertise and engineering precision to build tools that empower
+            your team.
           </p>
-        </Reveal>
+          <div class="grid grid-3">
+            <article class="card">
+              <h3>Strategy</h3>
+              <p>
+                We conduct financial analysis and market modeling to uncover opportunities and risks, giving leaders the data they
+                need to act decisively.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Engineering</h3>
+              <p>
+                Our team builds models and automations with precision, ensuring they are resilient, transparent, and practical for
+                day-to-day operations.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Delivery</h3>
+              <p>
+                From implementation to training, we integrate systems with care, acknowledging complexity and ensuring adoption across
+                teams.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-10%' }}
-          transition={{ staggerChildren: 0.18 }}
-          className="mt-16 grid sm:grid-cols-3 gap-8 text-left"
-        >
-          {pillars.map((p, i) => (
-            <motion.div
-              key={i}
-              variants={card}
-              whileHover={{ y: -8, scale: 1.02 }}
-              className="rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 relative overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
-            >
-              <motion.div
-                aria-hidden
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 0.3 }}
-                transition={{ duration: 0.4 }}
-                className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent"
-              />
-              <h3 className="font-semibold text-xl mb-3 text-neutral-100 tracking-wide">{p.title}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">{p.copy}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <Reveal delay={0.5}>
-          <p className="mt-14 text-neutral-300 max-w-2xl mx-auto text-lg italic">
-            Every engagement begins with listening and concludes with systems that deliver clarity and durability.
+      <section id="process">
+        <div class="container">
+          <h2 class="section-title">Process designed for clarity</h2>
+          <p class="section-intro">
+            Each engagement is intentionally structured to keep stakeholders aligned and momentum high.
           </p>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
+          <ol class="list">
+            <li>
+              <strong>Discover</strong> — collaborative sessions surface the real constraints, workflows, and goals.
+            </li>
+            <li>
+              <strong>Design</strong> — we shape systems that balance accuracy with usability, ensuring the path to adoption is clear.
+            </li>
+            <li>
+              <strong>Deliver</strong> — implementation plans prioritize the most valuable wins and include training for your team.
+            </li>
+          </ol>
+        </div>
+      </section>
 
-// ===== Process =====
-function ProcessSection() {
-  const steps = [
-    {
-      title: 'Discovery',
-      copy: 'We start with structured conversations to understand your goals, constraints, and context, building a clear baseline before solutions are proposed.',
-    },
-    {
-      title: 'Design',
-      copy: 'We develop models and workflows with a balance of rigor and practicality, ensuring they address real needs and can be integrated smoothly.',
-    },
-    {
-      title: 'Deployment',
-      copy: 'Delivery may take several forms: a solutions and reporting package, full implementation by our team, or an on site workshop to implement and train your staff.',
-    },
-  ];
-
-  const item = {
-    hidden: { opacity: 0, x: -40 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-  };
-
-  return (
-    <section id="process" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-5xl px-6 py-28">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-center">How we work</h2>
-        </Reveal>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-10%' }}
-          transition={{ staggerChildren: 0.2 }}
-          className="mt-16 space-y-12"
-        >
-          {steps.map((s, i) => (
-            <motion.div
-              key={i}
-              variants={item}
-              className="relative rounded-xl border border-neutral-800 bg-gradient-to-r from-neutral-900 to-neutral-950 p-8 shadow-md"
-            >
-              <h3 className="font-semibold text-2xl mb-3 text-neutral-100">{s.title}</h3>
-              <p className="text-neutral-400 leading-relaxed">{s.copy}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-// ===== Who We Help =====
-function WhoWeHelpSection() {
-  const groups = [
-    {
-      title: 'Growing Businesses',
-      copy: 'Entrepreneurs and operators seeking to scale without losing control of their numbers. We build systems that simplify growth while preserving discipline.',
-    },
-    {
-      title: 'Established Firms',
-      copy: 'Organizations with legacy processes that need modernization, our solutions integrate with care and elevate efficiency without disruption.',
-    },
-    {
-      title: 'Financial Leaders',
-      copy: 'Executives, CFOs, and investors who require precise dashboards, streamlined reporting, and confidence to act swiftly and strategically.',
-    },
-  ];
-
-  const card = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
-  return (
-    <section id="who-we-help" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-6xl px-6 py-28 text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Who We Help</h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-neutral-400 leading-relaxed text-lg max-w-3xl mx-auto">
-            Our services are crafted for those who move with ambition and demand clarity. From entrepreneurs to boardrooms, we align our systems with your reality.
+      <section id="who-we-help">
+        <div class="container">
+          <h2 class="section-title">Who we help</h2>
+          <p class="section-intro">
+            We work with leaders who see financial operations as a strategic advantage.
           </p>
-        </Reveal>
+          <div class="who-grid">
+            <article class="who-card">
+              <h3>Finance teams</h3>
+              <p>Automate reporting, reduce manual reconciliations, and surface insights faster for decision-makers.</p>
+            </article>
+            <article class="who-card">
+              <h3>Operations leaders</h3>
+              <p>Build dashboards and forecasting tools that connect supply, demand, and capital in real time.</p>
+            </article>
+            <article class="who-card">
+              <h3>Founders &amp; executives</h3>
+              <p>Get clarity on growth, margins, and risk with models you can trust when raising capital or planning expansion.</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-10%' }}
-          transition={{ staggerChildren: 0.15 }}
-          className="mt-16 grid sm:grid-cols-3 gap-8 text-left"
-        >
-          {groups.map((g, i) => (
-            <motion.div
-              key={i}
-              variants={card}
-              whileHover={{ y: -6 }}
-              className="rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 shadow-lg hover:shadow-xl transition-shadow"
-            >
-              <h3 className="font-semibold text-xl mb-3 text-neutral-100 tracking-wide">{g.title}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">{g.copy}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-// ===== Mission =====
-function MissionSection() {
-  return (
-    <section id="mission" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-4xl px-6 py-28 text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Our Mission</h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-neutral-400 leading-relaxed text-lg">
-            The value of time has risen sharply over the last decades. What was once considered as fast is now ordinary. In 1980, the Ferrari 308 needed about 8.1 seconds to reach 100 km/h; today, Ferraris do it in under 2.9. In the same spirit, our AI engineers focus on compressing hours into minutes and minutes into automatic workflows, so leaders can act sooner, with clarity and confidence.
+      <section id="mission">
+        <div class="container mission">
+          <h2 class="section-title">Built on a mission of quiet excellence</h2>
+          <p>
+            We believe the best systems feel intuitive and disappear into the background. Our role is to design tools that stand
+            quietly behind strong leaders, supporting decisions rather than overshadowing them.
           </p>
-        </Reveal>
-        <Reveal delay={0.3}>
-          <p className="mt-4 text-neutral-300 max-w-2xl mx-auto">
-            Our role is to design tools that stand quietly behind strong leaders, supporting decisions, not overshadowing them.
-          </p>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
+        </div>
+      </section>
 
-// ===== Contact =====
-function ContactSection() {
-  const [submitStatus, setSubmitStatus] = useState('idle');
-  const [feedbackMessage, setFeedbackMessage] = useState('');
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-
-    setSubmitStatus('submitting');
-    setFeedbackMessage('');
-
-    try {
-      const response = await fetch(form.action, {
-        method: form.method,
-        headers: {
-          Accept: 'application/json',
-        },
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      form.reset();
-      setSubmitStatus('success');
-      setFeedbackMessage("Thank you! We'll be in touch shortly.");
-    } catch (error) {
-      console.error('Unable to submit contact form', error);
-      setSubmitStatus('error');
-      setFeedbackMessage(
-        'We had trouble sending your message. Please try again or reach us directly at contact@blackscholes.ca.'
-      );
-    }
-  };
-
-  return (
-    <section id="contact" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-3xl px-6 py-28 text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Get in Touch</h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-neutral-400 leading-relaxed text-lg">
+      <section id="contact" class="contact-section">
+        <div class="container contact-wrapper">
+          <h2 class="section-title">Get in touch</h2>
+          <p class="section-intro">
             Tell us about your company and we will show you how tailored systems can save time and sharpen decisions.
           </p>
-        </Reveal>
-        <form
-          className="mt-12 space-y-6 text-left"
-          method="POST"
-          action="https://formspree.io/f/maylwpka"
-          onSubmit={handleSubmit}
-        >
-          <input type="hidden" name="_subject" value="New inquiry from blackscholes.ca" />
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-neutral-300">Name</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500"
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-neutral-300">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500"
-            />
-          </div>
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-neutral-300">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              rows={4}
-              required
-              className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500"
-            ></textarea>
-          </div>
-          <button
-            type="submit"
-            className="w-full inline-flex items-center justify-center rounded-md bg-white text-neutral-950 font-semibold px-6 py-3 shadow hover:opacity-90 transition disabled:opacity-60"
-            disabled={submitStatus === 'submitting'}
-          >
-            {submitStatus === 'submitting' ? 'Sending…' : 'Send Message'}
-          </button>
-          {feedbackMessage && (
-            <p
-              className={`text-sm ${submitStatus === 'success' ? 'text-emerald-400' : 'text-red-400'}`}
-              role="status"
-            >
-              {feedbackMessage}
-            </p>
-          )}
-        </form>
-      </div>
-    </section>
-  );
-}
-
-// ===== Nav (Vercel style) =====
-function NavBar() {
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="mt-4 flex items-center justify-between rounded-full border border-neutral-800/60 bg-neutral-900/40 backdrop-blur supports-[backdrop-filter]:bg-neutral-900/40 px-4 py-2">
-          <a href="#" className="font-medium tracking-tight">Black Scholes</a>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-300">
-            <a className="hover:text-white" href="#tailored">Systems</a>
-            <a className="hover:text-white" href="#process">Process</a>
-            <a className="hover:text-white" href="#who-we-help">Who we help</a>
-            <a className="hover:text-white" href="#mission">Mission</a>
-            <a className="inline-flex items-center justify-center rounded-full px-3 py-1.5 bg-white text-neutral-950 font-medium" href="#contact">Contact</a>
-          </nav>
+          <form id="contact-form" method="POST" action="https://formsubmit.co/contact@blackscholes.ca">
+            <input type="hidden" name="_subject" value="Black Scholes contact form" />
+            <input type="hidden" name="_captcha" value="false" />
+            <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div>
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="4" required></textarea>
+            </div>
+            <button id="contact-submit" class="submit-btn" type="submit">Send message</button>
+            <p id="contact-status" class="status-message" role="status" aria-live="polite"></p>
+          </form>
         </div>
-      </div>
-    </header>
-  );
-}
+      </section>
+    </main>
 
-// ===== Prestige Background with Aurora =====
-function BackgroundGrid() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0">
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-neutral-900 via-black to-neutral-950" />
-
-      {/* Animated aurora shimmer */}
-      <motion.div
-        aria-hidden
-        className="absolute inset-0 opacity-20"
-        animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        style={{
-          backgroundImage: 'linear-gradient(120deg, rgba(180,180,255,0.15), rgba(255,180,255,0.1), rgba(180,255,220,0.15))',
-          backgroundSize: '200% 200%'
-        }}
-      />
-
-      {/* Fine grid overlay */}
-      <div className="absolute inset-0 opacity-[0.05] [background:repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_80px)], [background:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_80px)]" />
-
-      {/* Vignette mask */}
-      <div className="absolute inset-0 [mask-image:radial-gradient(65%_50%_at_50%_40%,black,transparent)]" />
-    </div>
-  );
-}
-
-// ===== Footer (optional) =====
-function Footer() {
-  return (
-    <footer className="border-t border-neutral-900 bg-black">
-      <div className="mx-auto max-w-7xl px-6 py-10 text-sm text-neutral-400 flex items-center justify-between">
-        <span>© {new Date().getFullYear()} Black Scholes</span>
-        <a className="hover:text-white" href="mailto:contact@blackscholes.ca">contact@blackscholes.ca</a>
-      </div>
+    <footer>
+      © <span id="year"></span> Black Scholes. All rights reserved.
     </footer>
-  );
-}
 
-// =============== Dev sanity checks (non-breaking) ===============
-if (typeof window !== 'undefined' && typeof console !== 'undefined') {
-  const approx = (a, b, eps = 1e-9) => Math.abs(a - b) < eps;
-  console.assert(typeof easeOutCubic === 'function', 'easeOutCubic defined');
-  console.assert(approx(easeOutCubic(0), 0), 'easeOutCubic(0) == 0');
-  console.assert(approx(easeOutCubic(1), 1), 'easeOutCubic(1) == 1');
-  console.assert(easeOutCubic(0.5) > 0.5, 'easeOutCubic ease out midpoint');
-  const s0 = easeOutCubic(0.25);
-  const s1 = easeOutCubic(0.5);
-  const s2 = easeOutCubic(0.75);
-  console.assert(s0 < s1 && s1 < s2, 'easeOutCubic increases on sample points');
-}
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      (function () {
+        const form = document.getElementById('contact-form');
+        const status = document.getElementById('contact-status');
+        const submitButton = document.getElementById('contact-submit');
+
+        if (!form || !window.fetch) {
+          return;
+        }
+
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          status.textContent = 'Sending…';
+          status.classList.remove('success', 'error');
+          status.classList.add('pending');
+          submitButton.disabled = true;
+
+          try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+              method: 'POST',
+              body: formData,
+              headers: {
+                Accept: 'application/json'
+              }
+            });
+
+            if (!response.ok) {
+              const data = await response.json().catch(() => ({}));
+              const message = data.message || 'There was a problem sending your message. Please try again soon.';
+              throw new Error(message);
+            }
+
+            form.reset();
+            status.textContent = 'Thanks for reaching out — we will get back to you shortly.';
+            status.classList.remove('pending');
+            status.classList.add('success');
+          } catch (error) {
+            status.textContent = error.message || 'Unable to send your message right now. Please email contact@blackscholes.ca.';
+            status.classList.remove('pending');
+            status.classList.add('error');
+          } finally {
+            submitButton.disabled = false;
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
