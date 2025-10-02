@@ -38,46 +38,45 @@ function Reveal({ children, delay = 0 }) {
   );
 }
 
-// =============== Hero Section ===============
+// =============== App ===============
 export default function BlackScholesLanding() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative min-h-screen bg-neutral-950 text-neutral-100 overflow-hidden flex items-center">
-        {/* Animated background gradient */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-neutral-950 to-black"
-          initial={{ scale: 1.2, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.2 }}
-        />
+      {/* Global smooth scroll */}
+      <style>{`html{scroll-behavior:smooth}`}</style>
+      <NavBar />
 
-        <div className="relative mx-auto max-w-5xl px-6 py-24 text-center">
+      {/* Hero */}
+      <section className="relative min-h-screen bg-black text-neutral-100 overflow-hidden flex items-center">
+        {/* Background: prestige grid + aurora */}
+        <BackgroundGrid />
+
+        <div className="relative mx-auto max-w-6xl px-6 py-28 text-center">
           <Reveal>
-            <div className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-2 text-sm text-neutral-300 mb-8">
+            <div className="inline-flex items-center gap-2 rounded-full border border-neutral-800/70 bg-neutral-900/60 backdrop-blur px-4 py-2 text-sm text-neutral-300 mb-8">
               <Sparkle className="h-4 w-4" /> AI powered Financial Optimization
             </div>
           </Reveal>
 
           <Reveal delay={0.2}>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-neutral-200 to-neutral-400">
+            <h1 className="text-[40px] leading-tight md:text-7xl md:leading-[1.05] font-semibold tracking-tight">
               Precision in finance.
               <br />
               Simplicity in execution.
             </h1>
           </Reveal>
 
-          <Reveal delay={0.4}>
-            <p className="mt-6 text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+          <Reveal delay={0.35}>
+            <p className="mt-6 text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto">
               We design and deliver systems that make reporting faster, analysis sharper, and decisions clearer. Built with the rigor of Wall Street, applied with the practicality of a cafe counter.
             </p>
           </Reveal>
 
-          <Reveal delay={0.6}>
+          <Reveal delay={0.5}>
             <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center rounded-xl px-6 py-3 bg-white text-neutral-950 font-semibold shadow-lg hover:opacity-90 transition"
+                className="inline-flex items-center justify-center rounded-full px-6 py-3 bg-white text-neutral-950 font-semibold shadow-sm hover:opacity-90 transition"
               >
                 Start the conversation <ArrowRight className="ml-2 h-5 w-5" />
               </a>
@@ -91,11 +90,12 @@ export default function BlackScholesLanding() {
       <WhoWeHelpSection />
       <MissionSection />
       <ContactSection />
+      {/* <Footer /> Uncomment to render footer */}
     </>
   );
 }
 
-// Services section component (Tailored Systems)
+// ===== Services (Tailored Systems) =====
 function ServicesSection() {
   const pillars = [
     {
@@ -166,7 +166,7 @@ function ServicesSection() {
   );
 }
 
-// ===== Process Section =====
+// ===== Process =====
 function ProcessSection() {
   const steps = [
     {
@@ -218,7 +218,7 @@ function ProcessSection() {
   );
 }
 
-// ===== Who We Help Section =====
+// ===== Who We Help =====
 function WhoWeHelpSection() {
   const groups = [
     {
@@ -276,7 +276,7 @@ function WhoWeHelpSection() {
   );
 }
 
-// ===== Mission Section =====
+// ===== Mission =====
 function MissionSection() {
   return (
     <section id="mission" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
@@ -286,11 +286,8 @@ function MissionSection() {
         </Reveal>
         <Reveal delay={0.15}>
           <p className="mt-6 text-neutral-400 leading-relaxed text-lg">
-            The value of time has risen sharply over the last half century. What once passed as fast is now ordinary. In 1980, a Ferrari road car needed about 8.1 seconds to reach 0 to 100 km/h; today, production Ferraris do it in under three. In the same spirit, our AI engineers focus on compressing hours into minutes and minutes into moments, so leaders can act sooner, with clarity and confidence.
+            The value of time has risen sharply over the last decades. What was once considered as fast is now ordinary. In 1980, the Ferrari 308 needed about 8.1 seconds to reach 100 km/h; today, Ferraris do it in under 2.9. In the same spirit, our AI engineers focus on compressing hours into minutes and minutes into automatic workflows, so leaders can act sooner, with clarity and confidence.
           </p>
-          <div className="mt-10 flex justify-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Ferrari_308_GTB_1976.jpg" alt="Classic Ferrari 308 GTB (1980s)" className="rounded-xl shadow-lg max-h-80 object-cover" />
-          </div>
         </Reveal>
         <Reveal delay={0.3}>
           <p className="mt-4 text-neutral-300 max-w-2xl mx-auto">
@@ -302,7 +299,7 @@ function MissionSection() {
   );
 }
 
-// ===== Contact Section =====
+// ===== Contact =====
 function ContactSection() {
   return (
     <section id="contact" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
@@ -337,6 +334,66 @@ function ContactSection() {
   );
 }
 
+// ===== Nav (Vercel style) =====
+function NavBar() {
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="mt-4 flex items-center justify-between rounded-full border border-neutral-800/60 bg-neutral-900/40 backdrop-blur supports-[backdrop-filter]:bg-neutral-900/40 px-4 py-2">
+          <a href="#" className="font-medium tracking-tight">Black Scholes</a>
+          <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-300">
+            <a className="hover:text-white" href="#tailored">Systems</a>
+            <a className="hover:text-white" href="#process">Process</a>
+            <a className="hover:text-white" href="#who-we-help">Who we help</a>
+            <a className="hover:text-white" href="#mission">Mission</a>
+            <a className="inline-flex items-center justify-center rounded-full px-3 py-1.5 bg-white text-neutral-950 font-medium" href="#contact">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+// ===== Prestige Background with Aurora =====
+function BackgroundGrid() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0">
+      {/* Base gradient */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-neutral-900 via-black to-neutral-950" />
+
+      {/* Animated aurora shimmer */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 opacity-20"
+        animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        style={{
+          backgroundImage: 'linear-gradient(120deg, rgba(180,180,255,0.15), rgba(255,180,255,0.1), rgba(180,255,220,0.15))',
+          backgroundSize: '200% 200%'
+        }}
+      />
+
+      {/* Fine grid overlay */}
+      <div className="absolute inset-0 opacity-[0.05] [background:repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_80px)], [background:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_80px)]" />
+
+      {/* Vignette mask */}
+      <div className="absolute inset-0 [mask-image:radial-gradient(65%_50%_at_50%_40%,black,transparent)]" />
+    </div>
+  );
+}
+
+// ===== Footer (optional) =====
+function Footer() {
+  return (
+    <footer className="border-t border-neutral-900 bg-black">
+      <div className="mx-auto max-w-7xl px-6 py-10 text-sm text-neutral-400 flex items-center justify-between">
+        <span>© {new Date().getFullYear()} Black Scholes</span>
+        <a className="hover:text-white" href="mailto:contact@blackscholes.ca">contact@blackscholes.ca</a>
+      </div>
+    </footer>
+  );
+}
+
 // =============== Dev sanity checks (non-breaking) ===============
 if (typeof window !== 'undefined' && typeof console !== 'undefined') {
   const approx = (a, b, eps = 1e-9) => Math.abs(a - b) < eps;
@@ -344,7 +401,6 @@ if (typeof window !== 'undefined' && typeof console !== 'undefined') {
   console.assert(approx(easeOutCubic(0), 0), 'easeOutCubic(0) == 0');
   console.assert(approx(easeOutCubic(1), 1), 'easeOutCubic(1) == 1');
   console.assert(easeOutCubic(0.5) > 0.5, 'easeOutCubic ease out midpoint');
-  // additional test: monotonic samples
   const s0 = easeOutCubic(0.25);
   const s1 = easeOutCubic(0.5);
   const s2 = easeOutCubic(0.75);
