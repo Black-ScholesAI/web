@@ -301,6 +301,42 @@ function MissionSection() {
 
 // ===== Contact =====
 function ContactSection() {
+  const [submitStatus, setSubmitStatus] = useState('idle');
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setSubmitStatus('submitting');
+    setFeedbackMessage('');
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        headers: {
+          Accept: 'application/json',
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      form.reset();
+      setSubmitStatus('success');
+      setFeedbackMessage("Thank you! We'll be in touch shortly.");
+    } catch (error) {
+      console.error('Unable to submit contact form', error);
+      setSubmitStatus('error');
+      setFeedbackMessage(
+        'We had trouble sending your message. Please try again or reach us directly at contact@blackscholes.ca.'
+      );
+    }
+  };
+
   return (
     <section id="contact" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
       <div className="mx-auto max-w-3xl px-6 py-28 text-center">
@@ -312,22 +348,58 @@ function ContactSection() {
             Tell us about your company and we will show you how tailored systems can save time and sharpen decisions.
           </p>
         </Reveal>
-        <form className="mt-12 space-y-6 text-left">
+        <form
+          className="mt-12 space-y-6 text-left"
+          method="POST"
+          action="https://formspree.io/f/maylwpka"
+          onSubmit={handleSubmit}
+        >
+          <input type="hidden" name="_subject" value="New inquiry from blackscholes.ca" />
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-neutral-300">Name</label>
-            <input id="name" name="name" type="text" required className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500" />
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500"
+            />
           </div>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-neutral-300">Email</label>
-            <input id="email" name="email" type="email" required className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500" />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500"
+            />
           </div>
           <div>
             <label htmlFor="message" className="block text-sm font-medium text-neutral-300">Message</label>
-            <textarea id="message" name="message" rows={4} required className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500"></textarea>
+            <textarea
+              id="message"
+              name="message"
+              rows={4}
+              required
+              className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500"
+            ></textarea>
           </div>
-          <a href="mailto:contact@blackscholes.ca?subject=Inquiry%20from%20website" className="w-full inline-flex items-center justify-center rounded-md bg-white text-neutral-950 font-semibold px-6 py-3 shadow hover:opacity-90 transition">
-            Email contact@blackscholes.ca
-          </a>
+          <button
+            type="submit"
+            className="w-full inline-flex items-center justify-center rounded-md bg-white text-neutral-950 font-semibold px-6 py-3 shadow hover:opacity-90 transition disabled:opacity-60"
+            disabled={submitStatus === 'submitting'}
+          >
+            {submitStatus === 'submitting' ? 'Sending…' : 'Send Message'}
+          </button>
+          {feedbackMessage && (
+            <p
+              className={`text-sm ${submitStatus === 'success' ? 'text-emerald-400' : 'text-red-400'}`}
+              role="status"
+            >
+              {feedbackMessage}
+            </p>
+          )}
         </form>
       </div>
     </section>
