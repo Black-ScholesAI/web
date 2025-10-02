@@ -1,42 +1,187 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Sparkle, ArrowRight } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Black Scholes — Financial Systems & Automation</title>
+    <meta
+      name="description"
+      content="Black Scholes designs financial reporting, automation, and decision support systems for ambitious teams."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background-color: #050505;
+        color: #e5e5e5;
+      }
+      .aurora::before,
+      .aurora::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .aurora::before {
+        background: linear-gradient(120deg, rgba(180, 180, 255, 0.18), rgba(255, 180, 255, 0.12), rgba(180, 255, 220, 0.18));
+        background-size: 200% 200%;
+        opacity: 0.4;
+        animation: auroraShift 22s linear infinite;
+      }
+      .aurora::after {
+        background-image: 
+          repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0, rgba(255, 255, 255, 0.05) 1px, transparent 1px, transparent 80px),
+          repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0, rgba(255, 255, 255, 0.05) 1px, transparent 1px, transparent 80px);
+        opacity: 0.08;
+        mask-image: radial-gradient(65% 55% at 50% 35%, black, transparent);
+      }
+      @keyframes auroraShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      .section-border {
+        border-top: 1px solid rgba(63, 63, 63, 0.7);
+      }
+      .glass {
+        backdrop-filter: blur(16px);
+        background: rgba(15, 15, 15, 0.65);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-black text-neutral-100">
+    <header class="fixed top-0 left-0 right-0 z-50">
+      <div class="mx-auto max-w-7xl px-4">
+        <div
+          class="mt-4 flex items-center justify-between rounded-full border border-neutral-800/60 glass px-5 py-3 text-sm"
+        >
+          <a href="#" class="font-semibold tracking-tight text-white">Black Scholes</a>
+          <nav class="hidden items-center gap-6 text-neutral-300 md:flex">
+            <a class="transition hover:text-white" href="#tailored">Systems</a>
+            <a class="transition hover:text-white" href="#process">Process</a>
+            <a class="transition hover:text-white" href="#who-we-help">Who we help</a>
+            <a class="transition hover:text-white" href="#mission">Mission</a>
+            <a class="transition hover:text-white" href="#faq">FAQ</a>
+            <a
+              class="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 font-medium text-neutral-950"
+              href="#contact"
+            >
+              Contact
+            </a>
+          </nav>
+        </div>
+      </div>
+    </header>
 
-// =============== Utilities ===============
-function easeOutCubic(x) {
-  return 1 - Math.pow(1 - x, 3);
-}
+    <main>
+      <section class="relative flex min-h-screen items-center overflow-hidden bg-black text-neutral-100">
+        <div class="aurora absolute inset-0 bg-gradient-to-tr from-neutral-900 via-black to-neutral-950"></div>
+        <div class="relative mx-auto max-w-5xl px-6 py-36 text-center">
+          <div
+            class="mb-8 inline-flex items-center gap-2 rounded-full border border-neutral-800/70 bg-neutral-900/70 px-4 py-2 text-sm text-neutral-300"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.6"
+                d="M12 3v3m0 12v3m6-9h3M3 12H6m10.242-5.657l2.121-2.121M5.636 18.364l2.121-2.121m0-7.071L5.636 6.05M18.364 18.364l-2.121-2.121"
+              />
+            </svg>
+            AI powered Financial Optimization
+          </div>
+          <h1 class="text-4xl font-semibold tracking-tight text-white md:text-7xl md:leading-[1.05]">
+            Precision in finance.
+            <br />
+            Simplicity in execution.
+          </h1>
+          <p class="mt-6 text-lg text-neutral-400 md:text-xl">
+            We design and deliver systems that make reporting faster, analysis sharper, and decisions clearer. Built with the
+            rigor of Wall Street, applied with the practicality of a cafe counter.
+          </p>
+          <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <a
+              href="#contact"
+              class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 font-semibold text-neutral-950 shadow transition hover:opacity-90"
+            >
+              Start the conversation
+              <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 12h14m-6-6 6 6-6 6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
 
-function useReveal() {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!ref.current || typeof IntersectionObserver === 'undefined') return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-  return { ref, visible };
-}
-
-function Reveal({ children, delay = 0 }) {
-  const { ref, visible } = useReveal();
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: easeOutCubic }}
-    >
-      {children}
-    </motion.div>
-  );
-}
+      <section id="tailored" class="section-border bg-neutral-950 text-neutral-100">
+        <div class="mx-auto max-w-6xl px-6 py-24 text-center">
+          <h2 class="text-4xl font-bold tracking-tight md:text-5xl">Systems built around your reality</h2>
+          <p class="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-neutral-400">
+            We design reporting, automation, and decision support systems tailored to the scale and context of your business.
+            Whether a capital intensive firm or a boutique cafe, our work adapts to your environment and ambitions.
+          </p>
+          <div class="mt-16 grid gap-8 text-left sm:grid-cols-3">
+            <article
+              class="relative overflow-hidden rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 shadow-xl transition-transform hover:-translate-y-2 hover:shadow-2xl"
+            >
+              <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity hover:opacity-40"
+                style="background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);"></div>
+              <h3 class="text-xl font-semibold tracking-wide text-neutral-100">Strategy</h3>
+              <p class="mt-3 text-sm leading-relaxed text-neutral-400">
+                We conduct financial analysis and market modeling to uncover clear opportunities and risks, giving leaders the
+                data they need to act decisively.
+              </p>
+            </article>
+            <article
+              class="relative overflow-hidden rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 shadow-xl transition-transform hover:-translate-y-2 hover:shadow-2xl"
+            >
+              <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity hover:opacity-40"
+                style="background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);"></div>
+              <h3 class="text-xl font-semibold tracking-wide text-neutral-100">Engineering</h3>
+              <p class="mt-3 text-sm leading-relaxed text-neutral-400">
+                Our team builds models and automations with precision, ensuring they are resilient, transparent, and practical for
+                day to day operations.
+              </p>
+            </article>
+            <article
+              class="relative overflow-hidden rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 shadow-xl transition-transform hover:-translate-y-2 hover:shadow-2xl"
+            >
+              <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity hover:opacity-40"
+                style="background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent);"></div>
+              <h3 class="text-xl font-semibold tracking-wide text-neutral-100">Delivery</h3>
+              <p class="mt-3 text-sm leading-relaxed text-neutral-400">
+                We integrate systems with care, acknowledging complexity, addressing constraints, and ensuring adoption across teams.
+              </p>
+            </article>
+          </div>
+          <p class="mx-auto mt-14 max-w-2xl text-lg italic text-neutral-300">
+            From strategy to delivery, we bring together financial expertise and engineering precision to build tools that empower your team.
+          </p>
+        </div>
+      </section>
 
 // =============== App ===============
 export default function BlackScholesLanding() {
@@ -81,7 +226,19 @@ export default function BlackScholesLanding() {
                 Start the conversation <ArrowRight className="ml-2 h-5 w-5" />
               </a>
             </div>
-          </Reveal>
+            <div class="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6 shadow-lg transition hover:border-neutral-700 hover:bg-neutral-900/80">
+              <dt class="text-lg font-semibold text-white">Can you integrate with our existing systems?</dt>
+              <dd class="mt-3 text-sm leading-relaxed text-neutral-400">
+                Yes. We work with accounting software, CRM platforms, payment processors, and custom workflows, ensuring seamless integration without disruption.
+              </dd>
+            </div>
+            <div class="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6 shadow-lg transition hover:border-neutral-700 hover:bg-neutral-900/80 md:col-span-2">
+              <dt class="text-lg font-semibold text-white">What if we don’t see results?</dt>
+              <dd class="mt-3 text-sm leading-relaxed text-neutral-400">
+                We stand behind our work. If the first version doesn’t deliver clear improvements, we refine and optimize until it does, whether measured in revenue, time saved, or operational clarity.
+              </dd>
+            </div>
+          </dl>
         </div>
       </section>
 
@@ -127,28 +284,23 @@ function ServicesSection() {
           <p className="mt-6 text-neutral-400 leading-relaxed text-lg max-w-3xl mx-auto">
             We design reporting, automation, and decision support systems tailored to the scale and context of your business. Whether a capital intensive firm or a boutique cafe, our work adapts to your environment and ambitions.
           </p>
-        </Reveal>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-10%' }}
-          transition={{ staggerChildren: 0.18 }}
-          className="mt-16 grid sm:grid-cols-3 gap-8 text-left"
-        >
-          {pillars.map((p, i) => (
-            <motion.div
-              key={i}
-              variants={card}
-              whileHover={{ y: -8, scale: 1.02 }}
-              className="rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 relative overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
-            >
-              <motion.div
-                aria-hidden
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 0.3 }}
-                transition={{ duration: 0.4 }}
-                className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent"
+          <form
+            id="contact-form"
+            action="https://formsubmit.co/contact@blackscholes.ca"
+            method="POST"
+            class="mt-12 space-y-6 text-left"
+          >
+            <input type="hidden" name="_subject" value="New inquiry from Black Scholes site" />
+            <input type="hidden" name="_captcha" value="false" />
+            <label class="block" for="name">
+              <span class="text-sm font-medium text-neutral-300">Name</span>
+              <input
+                class="mt-2 w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-neutral-100 focus:border-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Jane Doe"
+                required
               />
               <h3 className="font-semibold text-xl mb-3 text-neutral-100 tracking-wide">{p.title}</h3>
               <p className="text-neutral-400 text-sm leading-relaxed">{p.copy}</p>
@@ -208,15 +360,19 @@ function ProcessSection() {
               variants={item}
               className="relative rounded-xl border border-neutral-800 bg-gradient-to-r from-neutral-900 to-neutral-950 p-8 shadow-md"
             >
-              <h3 className="font-semibold text-2xl mb-3 text-neutral-100">{s.title}</h3>
-              <p className="text-neutral-400 leading-relaxed">{s.copy}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+              Send message
+            </button>
+            <p id="contact-status" role="status" aria-live="polite" class="hidden text-sm text-neutral-300"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="section-border bg-black">
+      <div class="mx-auto flex max-w-6xl flex-col items-center justify-center px-6 py-10 text-center text-sm text-neutral-500">
+        <span>© <span id="year"></span> Black Scholes. All rights reserved.</span>
       </div>
-    </section>
-  );
-}
+    </footer>
 
 // ===== Who We Help =====
 function WhoWeHelpSection() {
@@ -235,22 +391,16 @@ function WhoWeHelpSection() {
     },
   ];
 
-  const card = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
+      const contactForm = document.getElementById('contact-form');
+      const statusElement = document.getElementById('contact-status');
+      if (contactForm && statusElement) {
+        contactForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
 
-  return (
-    <section id="who-we-help" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-6xl px-6 py-28 text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Who We Help</h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-neutral-400 leading-relaxed text-lg max-w-3xl mx-auto">
-            Our services are crafted for those who move with ambition and demand clarity. From entrepreneurs to boardrooms, we align our systems with your reality.
-          </p>
-        </Reveal>
+          const submitButton = contactForm.querySelector('button[type="submit"]');
+          if (submitButton) {
+            submitButton.disabled = true;
+          }
 
         <motion.div
           initial="hidden"
