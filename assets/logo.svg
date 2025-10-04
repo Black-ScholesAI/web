@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Black Scholes monogram">
+  <defs>
+    <linearGradient id="goldCore" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef4d8" />
+      <stop offset="45%" stop-color="#f1c974" />
+      <stop offset="85%" stop-color="#c17a2f" />
+      <stop offset="100%" stop-color="#8e4f1c" />
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="84" height="84" rx="20" fill="#050505" />
+  <g fill="none" stroke="url(#goldCore)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M34 24h12c9 0 15 5 15 12s-6 12-15 12h-6" />
+    <path d="M40 48h8c9 0 15 5 15 12s-6 12-15 12H34" />
+    <path d="M54 24c-5 3.5-9 8.5-9 14s4 9 9 11c5 2 9 5.5 9 11s-4 10.5-9 14" />
+  </g>
+</svg>
