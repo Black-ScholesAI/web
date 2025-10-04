@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkle, ArrowRight } from 'lucide-react';
 
+const LOGO_SRC = 'assets/logo.svg';
+
 // =============== Utilities ===============
 function easeOutCubic(x) {
   return 1 - Math.pow(1 - x, 3);
@@ -40,6 +42,23 @@ function Reveal({ children, delay = 0 }) {
 
 // =============== App ===============
 export default function BlackScholesLanding() {
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const existing = document.querySelector("link[rel='icon']");
+    const link = existing ?? document.createElement('link');
+    link.rel = 'icon';
+    link.href = LOGO_SRC;
+    link.type = 'image/svg+xml';
+    if (!existing) {
+      document.head.appendChild(link);
+    }
+    return () => {
+      if (!existing && link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
+    };
+  }, []);
+
   return (
     <>
       {/* Global smooth scroll */}
@@ -340,7 +359,10 @@ function NavBar() {
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-auto max-w-7xl px-4">
         <div className="mt-4 flex items-center justify-between rounded-full border border-neutral-800/60 bg-neutral-900/40 backdrop-blur supports-[backdrop-filter]:bg-neutral-900/40 px-4 py-2">
-          <a href="#" className="font-medium tracking-tight">Black Scholes</a>
+          <a href="#" className="flex items-center gap-3 font-medium tracking-tight text-white">
+            <img src={LOGO_SRC} alt="Black Scholes logo" className="h-8 w-8" />
+            <span>Black Scholes</span>
+          </a>
           <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-300">
             <a className="hover:text-white" href="#tailored">Systems</a>
             <a className="hover:text-white" href="#process">Process</a>
