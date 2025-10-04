@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Black Scholes Metallic Fold Logo</title>
+  <desc id="desc">A metallic folded paper mark with overlapping triangular facets.</desc>
+  <defs>
+    <linearGradient id="steel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f5" />
+      <stop offset="35%" stop-color="#b9b9b9" />
+      <stop offset="65%" stop-color="#6f6f6f" />
+      <stop offset="100%" stop-color="#1f1f1f" />
+    </linearGradient>
+    <linearGradient id="steel-reverse" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f0f0f" />
+      <stop offset="40%" stop-color="#7e7e7e" />
+      <stop offset="75%" stop-color="#dedede" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+    <linearGradient id="steel-soft" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d9d9d9" />
+      <stop offset="45%" stop-color="#8d8d8d" />
+      <stop offset="100%" stop-color="#1c1c1c" />
+    </linearGradient>
+    <filter id="soft-glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#040404" />
+  <g transform="translate(16 16)" filter="url(#soft-glow)">
+    <path d="M8 8h88L64 48 8 8z" fill="url(#steel-reverse)" />
+    <path d="M8 8l56 40L24 96 8 8z" fill="url(#steel)" />
+    <path d="M24 96l72-48-32-8-40 56z" fill="url(#steel-soft)" />
+    <path d="M64 48l32-40 0 40-32 0z" fill="#f2f2f2" opacity="0.35" />
+    <path d="M40 72l48-24-20-4-28 28z" fill="#e6e6e6" opacity="0.45" />
+  </g>
+</svg>
