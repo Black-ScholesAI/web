@@ -17,18 +17,19 @@
       }
       body {
         font-family: 'Epilogue', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: #000;
+        background: radial-gradient(220% 160% at 50% 0%, rgba(40, 40, 40, 0.18), transparent 65%), #020202;
         color: #f3f4f6;
       }
       .brand-gradient {
         background:
-          radial-gradient(120% 160% at 12% 20%, rgba(240, 240, 240, 0.14), transparent 62%),
-          radial-gradient(120% 180% at 88% 0%, rgba(148, 148, 148, 0.1), transparent 68%),
-          radial-gradient(160% 200% at 50% 110%, rgba(90, 90, 90, 0.08), transparent 70%),
-          #000;
+          radial-gradient(140% 180% at 16% 12%, rgba(220, 220, 220, 0.14), transparent 60%),
+          radial-gradient(160% 220% at 84% 8%, rgba(160, 160, 160, 0.12), transparent 70%),
+          radial-gradient(200% 240% at 50% 110%, rgba(120, 120, 120, 0.08), transparent 75%),
+          #020202;
       }
       .hero-overlay {
-        background-image: linear-gradient(140deg, rgba(255, 255, 255, 0.08) 0%, rgba(160, 160, 160, 0.02) 55%, rgba(0, 0, 0, 0.9) 100%);
+        background-image: radial-gradient(circle at 20% 20%, rgba(200, 200, 200, 0.2), transparent 55%),
+          linear-gradient(140deg, rgba(255, 255, 255, 0.06) 0%, rgba(160, 160, 160, 0.02) 55%, rgba(0, 0, 0, 0.92) 100%);
       }
       .grain {
         position: absolute;
@@ -71,23 +72,24 @@
         pointer-events: none;
         z-index: 0;
         background:
-          radial-gradient(120% 180% at 10% 15%, rgba(255, 255, 255, 0.16), transparent 62%),
-          radial-gradient(140% 200% at 90% 20%, rgba(180, 180, 180, 0.12), transparent 70%),
-          radial-gradient(200% 220% at 50% 85%, rgba(120, 120, 120, 0.1), transparent 78%),
-          radial-gradient(160% 220% at 40% 30%, rgba(255, 255, 255, 0.05), transparent 80%);
+          radial-gradient(180% 220% at 12% 18%, rgba(255, 255, 255, 0.18), transparent 62%),
+          radial-gradient(200% 260% at 88% 10%, rgba(190, 190, 190, 0.14), transparent 72%),
+          radial-gradient(200% 240% at 50% 80%, rgba(120, 120, 120, 0.12), transparent 80%),
+          radial-gradient(160% 240% at 40% 35%, rgba(235, 235, 235, 0.05), transparent 78%);
         mix-blend-mode: screen;
-        animation: prestige-pan 26s ease-in-out infinite alternate;
-        opacity: 0.38;
+        filter: blur(0.5px) saturate(120%);
+        animation: prestige-pan 32s ease-in-out infinite alternate;
+        opacity: 0.42;
       }
       @keyframes prestige-pan {
         0% {
-          transform: translate3d(-8%, -6%, 0) scale(1.04) rotate(0.5deg);
+          transform: translate3d(-10%, -8%, 0) scale(1.05) rotate(0.6deg);
         }
         50% {
-          transform: translate3d(6%, 8%, 0) scale(1.08) rotate(-0.75deg);
+          transform: translate3d(8%, 9%, 0) scale(1.1) rotate(-0.8deg);
         }
         100% {
-          transform: translate3d(-5%, 12%, 0) scale(1.05) rotate(0.35deg);
+          transform: translate3d(-6%, 14%, 0) scale(1.06) rotate(0.45deg);
         }
       }
     </style>
@@ -155,7 +157,7 @@
                   <h2 class="text-sm font-semibold uppercase tracking-[0.3em] text-white/90">Built for clarity</h2>
                 </div>
                 <p class="mt-6 text-sm text-slate-100/80">
-                  From strategy to delivery, we bring together financial expertise and engineering precision to build tools that empower your team.
+                  Finance strategists and engineers work in lockstep so the systems we ship stay discreet while your leaders stay in command.
                 </p>
                 <div class="mt-8 space-y-5">
                   <div class="rounded-2xl border border-white/5 bg-black/60 px-4 py-4">
@@ -208,55 +210,63 @@
                 </p>
               </div>
               <div class="relative flex-1">
-                <div class="absolute left-[22px] top-6 bottom-6 w-px bg-gradient-to-b from-white/40 via-white/15 to-transparent lg:hidden"></div>
-                <div class="absolute top-20 left-0 right-0 hidden h-px bg-gradient-to-r from-transparent via-white/35 to-transparent lg:block"></div>
-                <ol class="relative flex flex-col gap-12 lg:flex-row lg:gap-0 lg:justify-between">
-                  <li class="relative flex-1 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl backdrop-blur">
-                    <div class="absolute left-[17px] top-8 h-3 w-3 rounded-full border border-white/70 bg-black shadow-[0_0_18px_rgba(255,255,255,0.55)] lg:hidden"></div>
-                    <div class="absolute -top-16 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex">
-                      <span class="text-[0.65rem] uppercase tracking-[0.4em] text-slate-300">Phase I</span>
-                      <span class="h-4 w-4 rounded-full border-2 border-white/80 bg-black shadow-[0_0_28px_rgba(255,255,255,0.55)]"></span>
-                      <span class="text-xs uppercase tracking-[0.35em] text-slate-400">Orientation</span>
+                <div class="pointer-events-none absolute left-[26px] top-6 bottom-6 w-px bg-gradient-to-b from-white/50 via-white/15 to-transparent lg:hidden"></div>
+                <div class="pointer-events-none absolute inset-x-0 top-[52%] hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-white/35 to-transparent lg:block"></div>
+                <div class="pointer-events-none absolute inset-x-0 top-[52%] hidden lg:block">
+                  <div class="mx-auto flex max-w-3xl justify-between text-[0.7rem] uppercase tracking-[0.35em] text-slate-500">
+                    <span>Phase I</span>
+                    <span>Phase II</span>
+                    <span>Phase III</span>
+                  </div>
+                </div>
+                <ol class="relative grid gap-12 lg:grid-cols-3 lg:gap-8">
+                  <li class="group relative rounded-3xl border border-white/12 bg-white/[0.07] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur">
+                    <div class="absolute left-[22px] top-8 h-3 w-3 rounded-full border border-white/80 bg-black shadow-[0_0_18px_rgba(255,255,255,0.6)] lg:hidden"></div>
+                    <div class="pointer-events-none absolute -top-16 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 lg:flex">
+                      <span class="text-[0.65rem] uppercase tracking-[0.4em] text-slate-400">1896 Ledger Studies</span>
+                      <span class="h-5 w-5 rounded-full border-2 border-white/80 bg-black shadow-[0_0_28px_rgba(255,255,255,0.55)]"></span>
+                      <span class="text-xs uppercase tracking-[0.35em] text-slate-500">Diagnosis</span>
                     </div>
-                    <span class="text-xs uppercase tracking-[0.3em] text-slate-300">Diagnosis</span>
+                    <time class="text-xs uppercase tracking-[0.35em] text-slate-300">Week 1–2</time>
                     <h3 class="mt-4 text-xl font-semibold text-white">Survey every ledger and signal.</h3>
-                    <p class="mt-4 text-sm text-slate-300/80">
+                    <p class="mt-4 text-sm text-slate-200/80">
                       We conduct financial analysis and market modelling to expose the opportunities, risks, and constraints that shape decisive action.
                     </p>
-                    <p class="mt-6 text-xs uppercase tracking-[0.35em] text-slate-400">Foundations established • Week 1–2</p>
+                    <p class="mt-8 text-xs uppercase tracking-[0.35em] text-slate-400">Foundations established</p>
+                    <div class="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-r from-white/60 to-transparent lg:block"></div>
                   </li>
-                  <li class="relative flex-1 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl backdrop-blur lg:mx-6">
-                    <div class="absolute left-[17px] top-8 h-3 w-3 rounded-full border border-white/70 bg-black shadow-[0_0_18px_rgba(255,255,255,0.55)] lg:hidden"></div>
-                    <div class="absolute -top-16 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex">
-                      <span class="text-[0.65rem] uppercase tracking-[0.4em] text-slate-300">Phase II</span>
-                      <span class="h-4 w-4 rounded-full border-2 border-white/80 bg-black shadow-[0_0_28px_rgba(255,255,255,0.55)]"></span>
-                      <span class="text-xs uppercase tracking-[0.35em] text-slate-400">Creation</span>
+                  <li class="group relative rounded-3xl border border-white/12 bg-white/[0.07] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur">
+                    <div class="absolute left-[22px] top-8 h-3 w-3 rounded-full border border-white/80 bg-black shadow-[0_0_18px_rgba(255,255,255,0.6)] lg:hidden"></div>
+                    <div class="pointer-events-none absolute -top-16 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 lg:flex">
+                      <span class="text-[0.65rem] uppercase tracking-[0.4em] text-slate-400">1923 Systems Drafting</span>
+                      <span class="h-5 w-5 rounded-full border-2 border-white/80 bg-black shadow-[0_0_28px_rgba(255,255,255,0.55)]"></span>
+                      <span class="text-xs uppercase tracking-[0.35em] text-slate-500">Engineering</span>
                     </div>
-                    <span class="text-xs uppercase tracking-[0.3em] text-slate-300">Engineering</span>
+                    <time class="text-xs uppercase tracking-[0.35em] text-slate-300">Week 3–6</time>
                     <h3 class="mt-4 text-xl font-semibold text-white">Compose the models and automations.</h3>
-                    <p class="mt-4 text-sm text-slate-300/80">
+                    <p class="mt-4 text-sm text-slate-200/80">
                       Automations, forecasts, and decision tools are engineered with resilience and transparency so your team can run them with confidence.
                     </p>
-                    <p class="mt-6 text-xs uppercase tracking-[0.35em] text-slate-400">Workflows constructed • Week 3–6</p>
+                    <p class="mt-8 text-xs uppercase tracking-[0.35em] text-slate-400">Workflows constructed</p>
+                    <div class="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-r from-white/60 to-transparent lg:block"></div>
+                    <div class="pointer-events-none absolute left-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-l from-white/60 to-transparent lg:block"></div>
                   </li>
-                  <li class="relative flex-1 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl backdrop-blur">
-                    <div class="absolute left-[17px] top-8 h-3 w-3 rounded-full border border-white/70 bg-black shadow-[0_0_18px_rgba(255,255,255,0.55)] lg:hidden"></div>
-                    <div class="absolute -top-16 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex">
-                      <span class="text-[0.65rem] uppercase tracking-[0.4em] text-slate-300">Phase III</span>
-                      <span class="h-4 w-4 rounded-full border-2 border-white/80 bg-black shadow-[0_0_28px_rgba(255,255,255,0.55)]"></span>
-                      <span class="text-xs uppercase tracking-[0.35em] text-slate-400">Activation</span>
+                  <li class="group relative rounded-3xl border border-white/12 bg-white/[0.07] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur">
+                    <div class="absolute left-[22px] top-8 h-3 w-3 rounded-full border border-white/80 bg-black shadow-[0_0_18px_rgba(255,255,255,0.6)] lg:hidden"></div>
+                    <div class="pointer-events-none absolute -top-16 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 lg:flex">
+                      <span class="text-[0.65rem] uppercase tracking-[0.4em] text-slate-400">1968 Executive Launch</span>
+                      <span class="h-5 w-5 rounded-full border-2 border-white/80 bg-black shadow-[0_0_28px_rgba(255,255,255,0.55)]"></span>
+                      <span class="text-xs uppercase tracking-[0.35em] text-slate-500">Delivery</span>
                     </div>
-                    <span class="text-xs uppercase tracking-[0.3em] text-slate-300">Delivery</span>
+                    <time class="text-xs uppercase tracking-[0.35em] text-slate-300">Week 7–8</time>
                     <h3 class="mt-4 text-xl font-semibold text-white">Install the tools and steward adoption.</h3>
-                    <p class="mt-4 text-sm text-slate-300/80">
+                    <p class="mt-4 text-sm text-slate-200/80">
                       We integrate systems with care, align stakeholders, and guide adoption so the improvements persist after launch.
                     </p>
-                    <p class="mt-6 text-xs uppercase tracking-[0.35em] text-slate-400">Operational handover • Week 7–8</p>
+                    <p class="mt-8 text-xs uppercase tracking-[0.35em] text-slate-400">Operational handover</p>
+                    <div class="pointer-events-none absolute left-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-l from-white/60 to-transparent lg:block"></div>
                   </li>
                 </ol>
-                <p class="mt-16 rounded-3xl border border-white/10 bg-black/60 p-6 text-sm text-slate-200/80 shadow-xl">
-                  From strategy to delivery, BlackScholes brings financial expertise and engineering precision together to give your operators tools that feel intuitive and indispensable.
-                </p>
               </div>
             </div>
           </div>
