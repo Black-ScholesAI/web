@@ -1,0 +1,39 @@
+<svg width="1600" height="1200" viewBox="0 0 1600 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1200" fill="#040508"/>
+  <g opacity="0.75">
+    <path d="M400 300L800 80L1200 300V700L800 920L400 700V300Z" stroke="url(#gridLine)" stroke-width="2"/>
+    <path d="M400 500L800 280L1200 500" stroke="url(#gridLine)" stroke-width="1.6"/>
+    <path d="M400 700L800 480L1200 700" stroke="url(#gridLine)" stroke-width="1.6"/>
+    <path d="M800 80V480" stroke="url(#gridLine)" stroke-width="1.6"/>
+    <path d="M800 480V920" stroke="url(#gridLine)" stroke-width="1.6"/>
+    <path d="M400 300V700" stroke="url(#gridLine)" stroke-width="1.6"/>
+    <path d="M1200 300V700" stroke="url(#gridLine)" stroke-width="1.6"/>
+  </g>
+  <g filter="url(#spark)">
+    <circle cx="800" cy="280" r="6" fill="#57C2FF"/>
+    <circle cx="400" cy="500" r="5" fill="#57C2FF"/>
+    <circle cx="1200" cy="500" r="5" fill="#57C2FF"/>
+    <circle cx="800" cy="700" r="6" fill="#57C2FF"/>
+    <circle cx="800" cy="480" r="5" fill="#57C2FF"/>
+    <circle cx="400" cy="300" r="4" fill="#57C2FF"/>
+    <circle cx="1200" cy="300" r="4" fill="#57C2FF"/>
+  </g>
+  <rect width="1600" height="1200" fill="url(#vignette)"/>
+  <defs>
+    <linearGradient id="gridLine" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#0F2A3C"/>
+      <stop offset="1" stop-color="#1A4D63"/>
+    </linearGradient>
+    <radialGradient id="vignette" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 600) rotate(90) scale(650 900)">
+      <stop stop-color="#00000000"/>
+      <stop offset="1" stop-color="#040508"/>
+    </radialGradient>
+    <filter id="spark" x="340" y="220" width="920" height="600" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

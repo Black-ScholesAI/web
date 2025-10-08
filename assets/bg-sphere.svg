@@ -1,0 +1,37 @@
+<svg width="1600" height="1200" viewBox="0 0 1600 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1200" fill="#030508"/>
+  <g filter="url(#g1)">
+    <circle cx="800" cy="600" r="360" fill="url(#sphere)"/>
+  </g>
+  <g opacity="0.25" stroke="#2F6C9D" stroke-width="1.5">
+    <circle cx="800" cy="600" r="320"/>
+    <circle cx="800" cy="600" r="260"/>
+    <circle cx="800" cy="600" r="200"/>
+    <circle cx="800" cy="600" r="140"/>
+  </g>
+  <g opacity="0.45" stroke="#22435F" stroke-width="1.5">
+    <path d="M480 600H1120"/>
+    <path d="M800 280V920"/>
+    <path d="M552 400C760 520 840 520 1048 400"/>
+    <path d="M552 800C760 680 840 680 1048 800"/>
+  </g>
+  <rect width="1600" height="1200" fill="url(#fade)"/>
+  <defs>
+    <radialGradient id="sphere" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 600) rotate(90) scale(360)">
+      <stop stop-color="#71BBFF" stop-opacity="0.85"/>
+      <stop offset="0.55" stop-color="#1A3C54" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#06080D" stop-opacity="0.9"/>
+    </radialGradient>
+    <radialGradient id="fade" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 600) rotate(90) scale(650 900)">
+      <stop stop-color="#00000000"/>
+      <stop offset="1" stop-color="#030508"/>
+    </radialGradient>
+    <filter id="g1" x="340" y="140" width="920" height="920" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="24" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

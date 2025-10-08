@@ -171,11 +171,14 @@
     </div>
 
     <main id="top" class="relative">
-      <section class="relative isolate overflow-hidden px-6 pb-32 pt-40">
+      <section
+        class="relative isolate overflow-hidden px-6 pb-32 pt-40"
+      >
+        <div class="absolute inset-0 -z-20 bg-[url('assets/bg-tunnel.svg')] bg-cover bg-center"></div>
         <div class="absolute inset-0 -z-10">
-          <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12),transparent_55%)]"></div>
-          <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.08),transparent_60%)]"></div>
-          <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.14),transparent_55%)]"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.1),transparent_60%)]"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/80 to-black"></div>
         </div>
         <div class="mx-auto grid max-w-6xl gap-16 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:items-center">
           <div class="space-y-8">
@@ -213,7 +216,8 @@
             </div>
           </div>
           <div class="section-shell relative overflow-hidden p-10">
-            <div class="absolute inset-0 bg-gradient-to-br from-white/4 via-transparent to-black/60"></div>
+            <div class="absolute inset-0 bg-[url('assets/bg-network.svg')] bg-cover bg-center opacity-60 mix-blend-screen"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-black/80"></div>
             <div class="accent-ring pointer-events-none absolute inset-0 rounded-[1.9rem]"></div>
             <div class="relative flex flex-col gap-8 text-white/70">
               <div class="flex items-center gap-4">
@@ -252,7 +256,9 @@
         </div>
       </section>
 
-      <section id="how" class="relative px-6 pb-28">
+      <section id="how" class="relative overflow-hidden px-6 pb-28">
+        <div class="absolute inset-0 -z-10 bg-[url('assets/bg-horizon.svg')] bg-cover bg-center opacity-70"></div>
+        <div class="absolute inset-0 -z-5 bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
         <div class="mx-auto flex max-w-6xl flex-col gap-16 md:flex-row md:items-start">
           <div class="w-full md:max-w-sm">
             <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/60">
@@ -265,7 +271,7 @@
             </p>
           </div>
           <ol class="relative flex w-full flex-col gap-8 md:flex-1 md:flex-row md:gap-6">
-            <li class="timeline-line relative flex flex-1 flex-col gap-5 rounded-[1.75rem] border border-white/10 bg-black/40 p-8">
+            <li class="timeline-line relative flex flex-1 flex-col gap-5 rounded-[1.75rem] border border-white/10 bg-black/60 p-8 backdrop-blur">
               <div class="flex items-center gap-4">
                 <span class="flex h-12 w-12 items-center justify-center rounded-full bg-white/5">
                   <img src="assets/logo-network.svg" alt="Diagnosis" class="h-6 w-6" />
@@ -279,7 +285,7 @@
                 Structured conversations surface goals, constraints, and context. We map financial processes, market positions, and data hygiene to uncover clear opportunities and risks before proposing solutions.
               </p>
             </li>
-            <li class="timeline-line relative flex flex-1 flex-col gap-5 rounded-[1.75rem] border border-white/10 bg-black/40 p-8">
+            <li class="timeline-line relative flex flex-1 flex-col gap-5 rounded-[1.75rem] border border-white/10 bg-black/60 p-8 backdrop-blur">
               <div class="flex items-center gap-4">
                 <span class="flex h-12 w-12 items-center justify-center rounded-full bg-white/5">
                   <img src="assets/logo-knot.svg" alt="Engineering" class="h-7 w-7" />
@@ -293,7 +299,7 @@
                 We build models and automations with precision—resilient, transparent, and practical for day-to-day operations. Workflows balance rigor with practicality so teams can integrate them smoothly.
               </p>
             </li>
-            <li class="relative flex flex-1 flex-col gap-5 rounded-[1.75rem] border border-white/10 bg-black/40 p-8">
+            <li class="relative flex flex-1 flex-col gap-5 rounded-[1.75rem] border border-white/10 bg-black/60 p-8 backdrop-blur">
               <div class="flex items-center gap-4">
                 <span class="flex h-12 w-12 items-center justify-center rounded-full bg-white/5">
                   <img src="assets/logo-portal.svg" alt="Delivery" class="h-7 w-5" />
@@ -311,7 +317,9 @@
         </div>
       </section>
 
-      <section id="who" class="px-6 pb-28">
+      <section id="who" class="relative overflow-hidden px-6 pb-28">
+        <div class="absolute inset-0 -z-10 bg-[url('assets/bg-cube.svg')] bg-cover bg-center opacity-60"></div>
+        <div class="absolute inset-0 -z-5 bg-gradient-to-b from-black/80 via-black/70 to-black"></div>
         <div class="mx-auto max-w-6xl">
           <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
@@ -327,27 +335,30 @@
           </div>
           <div class="mt-12 grid gap-6 md:grid-cols-3">
             <article class="section-shell relative overflow-hidden p-8">
-              <div class="absolute -top-12 right-8 h-20 w-20 opacity-60">
+              <div class="pointer-events-none absolute -top-12 right-8 h-20 w-20 opacity-60">
                 <img src="assets/logo-cube.svg" alt="Growing businesses" class="h-full w-full object-contain" />
               </div>
+              <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.06),transparent_65%)]"></div>
               <h3 class="font-semibold text-white">Growing Businesses</h3>
               <p class="mt-4 text-sm leading-relaxed text-white/70">
                 Entrepreneurs and operators seeking to scale without losing control of their numbers. We build systems that simplify growth while preserving discipline.
               </p>
             </article>
             <article class="section-shell relative overflow-hidden p-8">
-              <div class="absolute -top-12 right-8 h-20 w-20 opacity-60">
+              <div class="pointer-events-none absolute -top-12 right-8 h-20 w-20 opacity-60">
                 <img src="assets/logo-network.svg" alt="Established firms" class="h-full w-full object-contain" />
               </div>
+              <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(255,255,255,0.06),transparent_65%)]"></div>
               <h3 class="font-semibold text-white">Established Firms</h3>
               <p class="mt-4 text-sm leading-relaxed text-white/70">
                 Organizations with legacy processes that need modernization. Our solutions integrate with care and elevate efficiency without disruption.
               </p>
             </article>
             <article class="section-shell relative overflow-hidden p-8">
-              <div class="absolute -top-12 right-8 h-20 w-20 opacity-60">
+              <div class="pointer-events-none absolute -top-12 right-8 h-20 w-20 opacity-60">
                 <img src="assets/logo-primary.svg" alt="Financial leaders" class="h-full w-full object-contain" />
               </div>
+              <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.05),transparent_65%)]"></div>
               <h3 class="font-semibold text-white">Financial Leaders</h3>
               <p class="mt-4 text-sm leading-relaxed text-white/70">
                 Executives, CFOs, and investors who require precise dashboards, streamlined reporting, and confidence to act swiftly and strategically.
@@ -357,9 +368,11 @@
         </div>
       </section>
 
-      <section id="mission" class="relative px-6 pb-28">
+      <section id="mission" class="relative overflow-hidden px-6 pb-28">
+        <div class="absolute inset-0 -z-10 bg-[url('assets/bg-wave.svg')] bg-cover bg-center opacity-70"></div>
+        <div class="absolute inset-0 -z-5 bg-gradient-to-b from-black/70 via-black/80 to-black"></div>
         <div class="mx-auto max-w-5xl section-shell overflow-hidden p-12">
-          <div class="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white/10 via-transparent to-transparent opacity-40"></div>
+          <div class="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white/10 via-transparent to-transparent opacity-40"></div>
           <div class="relative flex flex-col gap-8 md:flex-row md:items-center">
             <div class="flex-1 space-y-5">
               <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/60">
@@ -375,7 +388,8 @@
               </p>
             </div>
             <div class="flex-1">
-              <div class="relative flex items-center justify-center rounded-[1.75rem] border border-white/10 bg-black/60 p-10">
+              <div class="relative flex items-center justify-center overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/60 p-10">
+                <div class="absolute inset-0 bg-[url('assets/bg-sphere.svg')] bg-cover bg-center opacity-70"></div>
                 <div class="absolute inset-6 rounded-[1.2rem] border border-white/10"></div>
                 <img src="assets/logo-portal.svg" alt="Mission illustration" class="relative h-48 w-auto" />
               </div>
@@ -384,7 +398,9 @@
         </div>
       </section>
 
-      <section id="faq" class="px-6 pb-28">
+      <section id="faq" class="relative overflow-hidden px-6 pb-28">
+        <div class="absolute inset-0 -z-10 bg-[url('assets/bg-network.svg')] bg-cover bg-center opacity-60"></div>
+        <div class="absolute inset-0 -z-5 bg-gradient-to-b from-black/85 via-black/70 to-black"></div>
         <div class="mx-auto grid max-w-6xl gap-14 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div>
             <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/60">
@@ -456,7 +472,9 @@
         </div>
       </section>
 
-      <section id="contact" class="px-6 pb-32">
+      <section id="contact" class="relative overflow-hidden px-6 pb-32">
+        <div class="absolute inset-0 -z-10 bg-[url('assets/bg-sphere.svg')] bg-cover bg-center opacity-55"></div>
+        <div class="absolute inset-0 -z-5 bg-gradient-to-b from-black/85 via-black/70 to-black"></div>
         <div class="mx-auto grid max-w-6xl gap-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div class="space-y-6">
             <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/60">

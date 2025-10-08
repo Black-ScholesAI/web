@@ -1,0 +1,37 @@
+<svg width="1600" height="1200" viewBox="0 0 1600 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1200" fill="#020406"/>
+  <path d="M0 780H1600" stroke="#0C2235" stroke-width="2" opacity="0.6"/>
+  <path d="M0 840H1600" stroke="#0C2235" stroke-width="1.5" opacity="0.45"/>
+  <path d="M0 900H1600" stroke="#0C2235" stroke-width="1.5" opacity="0.35"/>
+  <path d="M0 960H1600" stroke="#0C2235" stroke-width="1.2" opacity="0.25"/>
+  <path d="M0 1020H1600" stroke="#0C2235" stroke-width="1" opacity="0.18"/>
+  <path d="M0 1080H1600" stroke="#0C2235" stroke-width="1" opacity="0.12"/>
+  <path d="M800 300V1200" stroke="#0C2235" stroke-width="2" opacity="0.6"/>
+  <path d="M640 360V1200" stroke="#0C2235" stroke-width="1.5" opacity="0.4"/>
+  <path d="M960 360V1200" stroke="#0C2235" stroke-width="1.5" opacity="0.4"/>
+  <path d="M480 420V1200" stroke="#0C2235" stroke-width="1.2" opacity="0.3"/>
+  <path d="M1120 420V1200" stroke="#0C2235" stroke-width="1.2" opacity="0.3"/>
+  <path d="M320 480V1200" stroke="#0C2235" stroke-width="1" opacity="0.25"/>
+  <path d="M1280 480V1200" stroke="#0C2235" stroke-width="1" opacity="0.25"/>
+  <g filter="url(#flare)">
+    <ellipse cx="800" cy="720" rx="520" ry="140" fill="url(#beam)"/>
+  </g>
+  <rect width="1600" height="1200" fill="url(#fade)"/>
+  <defs>
+    <linearGradient id="beam" x1="800" y1="580" x2="800" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F6DFF"/>
+      <stop offset="1" stop-color="#06101A" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="fade" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(800 600) rotate(90) scale(650 900)">
+      <stop stop-color="#00000000"/>
+      <stop offset="1" stop-color="#020406"/>
+    </radialGradient>
+    <filter id="flare" x="180" y="520" width="1240" height="400" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="60" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
