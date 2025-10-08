@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Black Scholes — Financial Systems & Automation</title>
     <meta
       name="description"
-      content="Black Scholes designs financial reporting, automation, and decision support systems for ambitious teams."
+      content="Black Scholes designs financial reporting, automation, and decision support systems tailored to ambitious teams."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,18 +19,19 @@
         theme: {
           extend: {
             colors: {
-              night: '#030712',
-              moon: '#101424',
-              silver: '#cdd5f9',
-              glow: '#8a9bff',
+              obsidian: '#050505',
+              graphite: '#0b0b0f',
+              slate: '#151519',
+              steel: '#1f1f24',
+              pearl: '#f5f5f5',
             },
             fontFamily: {
               sans: ['Inter', 'system-ui', 'sans-serif'],
               display: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
             },
             boxShadow: {
-              aurora: '0 30px 70px rgba(0,0,0,0.5)',
-              halo: '0 0 0 1px rgba(255,255,255,0.08)',
+              glow: '0 40px 120px rgba(0,0,0,0.65)',
+              edge: '0 0 0 1px rgba(255,255,255,0.08)',
             },
           },
         },
@@ -41,534 +42,209 @@
       :root {
         color-scheme: dark;
       }
-      html {
-        scroll-behavior: smooth;
-      }
       body {
-        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: radial-gradient(120% 140% at 50% 0%, rgba(113, 105, 255, 0.28), transparent 65%),
-          radial-gradient(90% 110% at 50% 100%, rgba(24, 61, 61, 0.32), rgba(5, 7, 14, 0.98));
-        background-color: #04050c;
+        margin: 0;
         min-height: 100vh;
-        color: #e7e7f2;
-        position: relative;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: radial-gradient(70% 110% at 20% 0%, rgba(60, 60, 70, 0.45), transparent 70%),
+          radial-gradient(60% 90% at 80% 0%, rgba(35, 35, 45, 0.5), transparent 70%),
+          linear-gradient(180deg, #030304 0%, #020202 35%, #050505 100%);
+        color: rgba(240, 240, 244, 0.9);
       }
       body::before {
         content: '';
         position: fixed;
-        inset: -40% -20% auto;
-        height: 90vh;
-        pointer-events: none;
-        background: radial-gradient(circle at 20% 30%, rgba(158, 167, 255, 0.35), transparent 55%),
-          radial-gradient(circle at 80% 25%, rgba(148, 255, 227, 0.2), transparent 60%),
-          radial-gradient(circle at 50% 70%, rgba(255, 198, 114, 0.22), transparent 60%);
-        filter: blur(120px);
-        opacity: 0.75;
-        z-index: -2;
-      }
-      body::after {
-        content: '';
-        position: fixed;
         inset: 0;
         pointer-events: none;
-        background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180"%3E%3Cg fill="none" opacity="0.14"%3E%3Cpath d="M0 179.5H180" stroke="rgba(255,255,255,0.08)"/%3E%3Cpath d="M179.5 0V180" stroke="rgba(255,255,255,0.08)"/%3E%3C/g%3E%3C/svg%3E');
+        background: radial-gradient(60% 120% at 50% -10%, rgba(255, 255, 255, 0.1), transparent 70%),
+          linear-gradient(120deg, rgba(42, 42, 48, 0.55), rgba(12, 12, 16, 0.2));
         mix-blend-mode: screen;
+        opacity: 0.65;
         z-index: -1;
       }
-      .glass-nav {
-        backdrop-filter: blur(22px);
-        background: rgba(7, 9, 20, 0.78);
-        border: 1px solid rgba(142, 149, 255, 0.18);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      .glass {
+        backdrop-filter: blur(28px);
+        background: rgba(10, 10, 12, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.06);
       }
       .nav-link {
         position: relative;
+        color: rgba(255, 255, 255, 0.65);
+        padding: 0.45rem 0.95rem;
         border-radius: 9999px;
-        padding: 0.45rem 0.95rem 0.45rem 0.6rem;
-        transition: all 0.25s ease;
+        transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
       }
       .nav-link::after {
         content: '';
         position: absolute;
         inset: -1px;
-        border-radius: 9999px;
-        border: 1px solid transparent;
-        background: linear-gradient(120deg, rgba(255, 255, 255, 0.18), rgba(125, 146, 255, 0.2)) border-box;
+        border-radius: inherit;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         opacity: 0;
         transition: opacity 0.3s ease;
-        mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
+      }
+      .nav-link:hover,
+      .nav-link:focus-visible {
+        color: rgba(255, 255, 255, 0.88);
       }
       .nav-link:hover::after,
       .nav-link:focus-visible::after {
         opacity: 1;
       }
-      .hero-orbit {
-        position: absolute;
-        inset: 5% 10%;
-        border-radius: 9999px;
-        background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.12), transparent 55%),
-          radial-gradient(circle at 70% 40%, rgba(148, 255, 227, 0.1), transparent 65%);
-        opacity: 0.35;
-        filter: blur(40px);
-      }
-      .hero-visual {
-        position: relative;
-        border-radius: 1.75rem;
-        background: linear-gradient(160deg, rgba(12, 14, 30, 0.9), rgba(4, 5, 15, 0.9));
-        border: 1px solid rgba(142, 149, 255, 0.22);
-        box-shadow: 0 35px 80px rgba(3, 6, 23, 0.8);
-        overflow: hidden;
-      }
-      .hero-visual::before {
-        content: '';
-        position: absolute;
-        inset: 1px;
-        border-radius: 1.65rem;
-        background: radial-gradient(circle at 30% 20%, rgba(137, 187, 255, 0.22), transparent 60%),
-          radial-gradient(circle at 70% 70%, rgba(255, 196, 124, 0.25), transparent 65%),
-          linear-gradient(140deg, rgba(16, 18, 40, 0.7), rgba(4, 5, 14, 0.9));
-        opacity: 0.95;
-      }
-      .hero-visual::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220"%3E%3Cg fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"%3E%3Cpath d="M0 0h220v220H0z"/%3E%3Cpath d="M55 0v220M110 0v220M165 0v220M0 55h220M0 110h220M0 165h220"/%3E%3C/g%3E%3C/svg%3E');
-        mix-blend-mode: overlay;
-        opacity: 0.45;
-      }
-      .hero-visual-inner {
-        position: relative;
-        z-index: 1;
-      }
-      .pulse-ring {
-        position: absolute;
-        inset: auto 20% -30% 20%;
-        height: 200px;
-        border-radius: 9999px;
-        background: radial-gradient(circle, rgba(130, 149, 255, 0.35), transparent 65%);
-        filter: blur(30px);
-        opacity: 0.9;
-      }
-      .badge::after {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        opacity: 0.7;
-        pointer-events: none;
-      }
-      .timeline::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        margin-inline: auto;
-        width: 1px;
-        background: linear-gradient(180deg, rgba(138, 155, 255, 0.35), rgba(138, 155, 255, 0));
-        opacity: 0.9;
-      }
-      .timeline-step {
-        position: relative;
-        padding-left: 4.5rem;
-      }
-      .timeline-step::before {
-        content: attr(data-step);
-        position: absolute;
-        left: 1.4rem;
-        top: 0;
-        width: 3rem;
-        height: 3rem;
-        border-radius: 9999px;
-        display: grid;
-        place-items: center;
-        font-family: 'Space Grotesk', 'Inter', sans-serif;
-        font-size: 1.15rem;
-        font-weight: 600;
-        background: linear-gradient(135deg, #fcecc4, #c58f40, #965f1e);
-        box-shadow: 0 15px 35px rgba(27, 13, 2, 0.45), 0 0 0 1px rgba(255, 225, 168, 0.65);
-        color: #0a0803;
-      }
-      @media (min-width: 1024px) {
-        .timeline {
-          margin-left: 1.5rem;
-        }
-        .timeline::before {
-          left: 1.5rem;
-        }
-        .timeline-step::before {
-          left: -0.1rem;
-        }
-        .timeline-step {
-          padding-left: 5rem;
-        }
-      }
-      details summary::-webkit-details-marker {
-        display: none;
-      }
-      details[open] .chevron {
-        transform: rotate(45deg);
-      }
-      details {
-        transition: border-color 0.3s ease, transform 0.4s ease;
-      }
-      details:hover {
-        border-color: rgba(198, 209, 255, 0.35);
-        transform: translateY(-2px);
+      .section-shell {
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 2rem;
+        background: linear-gradient(160deg, rgba(18, 18, 21, 0.75), rgba(9, 9, 11, 0.55));
+        box-shadow: 0 40px 140px rgba(0, 0, 0, 0.7);
       }
       .accent-ring::before {
         content: '';
         position: absolute;
         inset: -1px;
-        border-radius: 1.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: inherit;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        opacity: 0.5;
         pointer-events: none;
-        opacity: 0.6;
       }
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(24px);
+      .timeline-line::before {
+        content: '';
+        position: absolute;
+        inset: 24px auto 24px calc(1.25rem);
+        width: 2px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+      }
+      @media (min-width: 768px) {
+        .timeline-line::before {
+          top: calc(1.5rem);
+          bottom: auto;
+          left: calc(1.5rem);
+          right: calc(1.5rem);
+          height: 2px;
+          width: auto;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
       }
-      .fade-up {
-        opacity: 0;
-        transform: translateY(24px);
-        animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      .faq-item[open] summary svg {
+        transform: rotate(45deg);
       }
-      .fade-up.delay-1 {
-        animation-delay: 0.15s;
-      }
-      .fade-up.delay-2 {
-        animation-delay: 0.3s;
-      }
-      .fade-up.delay-3 {
-        animation-delay: 0.45s;
-      }
-      .fade-up.delay-4 {
-        animation-delay: 0.6s;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          animation-duration: 0.001ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.001ms !important;
-          scroll-behavior: auto !important;
-        }
-        .fade-up {
-          opacity: 1 !important;
-          transform: none !important;
-        }
+      summary::-webkit-details-marker {
+        display: none;
       }
     </style>
   </head>
-  <body class="bg-night text-neutral-100">
-    <div class="pointer-events-none fixed inset-0 z-[-1] opacity-40">
-      <div class="hero-orbit"></div>
-    </div>
-    <header class="fixed inset-x-0 top-0 z-50">
-      <div class="mx-auto max-w-6xl px-5">
-        <div
-          class="glass-nav mt-4 flex items-center justify-between rounded-full px-5 py-3 text-sm text-neutral-200 transition"
-        >
-          <a href="#" class="flex items-center gap-3 font-semibold tracking-tight text-white">
-            <img
-              src="assets/logo.svg"
-              alt="Black Scholes logo"
-              class="h-9 w-9 flex-shrink-0 rounded-xl bg-black/40 p-1 shadow-[0_0_24px_rgba(255,214,129,0.28)]"
-            />
-            <span class="hidden sm:inline font-display text-base">Black Scholes AI</span>
+  <body class="bg-transparent antialiased">
+    <div class="fixed inset-x-0 top-0 z-50">
+      <div class="mx-auto max-w-6xl px-6 pt-6">
+        <nav class="glass flex items-center justify-between rounded-full px-4 py-2.5">
+          <a href="#top" class="flex items-center gap-3 text-sm font-medium tracking-wide">
+            <span class="inline-flex h-9 w-14 items-center justify-center rounded-full bg-black/60">
+              <img src="assets/logo-primary.svg" alt="Black Scholes" class="h-5 w-auto" />
+            </span>
+            <span class="font-display text-base text-white/90">Black Scholes AI</span>
           </a>
-          <button
-            type="button"
-            class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(3,5,14,0.65)] transition md:hidden"
-            id="nav-toggle"
-            aria-expanded="false"
-            aria-controls="primary-navigation"
-          >
-            <span>Menu</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 7h16M4 12h16M4 17h16" />
-            </svg>
-          </button>
-          <nav
-            id="primary-navigation"
-            class="hidden items-center gap-4 md:flex"
-          >
-            <a
-              class="nav-link flex items-center gap-2 text-neutral-300 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              href="#process"
-            >
-              <img src="assets/logo.svg" alt="" class="h-5 w-5 flex-shrink-0 rounded-lg bg-black/40 p-[2px]" />
-              <span>How we work</span>
+          <div class="hidden items-center gap-1 text-[0.85rem] text-white/70 md:flex">
+            <a href="#how" class="nav-link inline-flex items-center gap-2 rounded-full px-3 py-1.5 transition">
+              <img src="assets/logo-network.svg" alt="Timeline" class="h-4 w-4" />
+              How we work
+            </a>
+            <a href="#who" class="nav-link inline-flex items-center gap-2 rounded-full px-3 py-1.5 transition">
+              <img src="assets/logo-knot.svg" alt="Who we help" class="h-4 w-4" />
+              Who we help
+            </a>
+            <a href="#mission" class="nav-link inline-flex items-center gap-2 rounded-full px-3 py-1.5 transition">
+              <img src="assets/logo-cube.svg" alt="Mission" class="h-4 w-4" />
+              Mission
+            </a>
+            <a href="#faq" class="nav-link inline-flex items-center gap-2 rounded-full px-3 py-1.5 transition">
+              <img src="assets/logo-portal.svg" alt="FAQ" class="h-4 w-4" />
+              FAQ
             </a>
             <a
-              class="nav-link flex items-center gap-2 text-neutral-300 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              href="#who-we-help"
-            >
-              <img src="assets/logo.svg" alt="" class="h-5 w-5 flex-shrink-0 rounded-lg bg-black/40 p-[2px]" />
-              <span>Who we help</span>
-            </a>
-            <a
-              class="nav-link flex items-center gap-2 text-neutral-300 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              href="#mission"
-            >
-              <img src="assets/logo.svg" alt="" class="h-5 w-5 flex-shrink-0 rounded-lg bg-black/40 p-[2px]" />
-              <span>Mission</span>
-            </a>
-            <a
-              class="nav-link flex items-center gap-2 text-neutral-300 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              href="#faq"
-            >
-              <img src="assets/logo.svg" alt="" class="h-5 w-5 flex-shrink-0 rounded-lg bg-black/40 p-[2px]" />
-              <span>FAQ</span>
-            </a>
-            <a
-              class="nav-link flex items-center gap-2 bg-white text-neutral-950 shadow-[0_16px_40px_rgba(255,255,255,0.25)] hover:-translate-y-0.5"
               href="#contact"
+              class="nav-link inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-white transition hover:bg-white/20"
             >
-              <img src="assets/logo.svg" alt="" class="h-5 w-5 flex-shrink-0 rounded-lg bg-neutral-900 p-[2px]" />
-              <span class="font-medium">Contact</span>
+              <img src="assets/logo-primary.svg" alt="Contact" class="h-4 w-4" />
+              Contact
             </a>
-          </nav>
-        </div>
-        <div
-          id="mobile-nav"
-          class="glass-nav mt-3 hidden flex-col gap-2 rounded-3xl px-5 py-5 text-sm text-neutral-200 transition md:hidden"
-        >
-          <a class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3" href="#process">
-            <img src="assets/logo.svg" alt="" class="h-6 w-6 rounded-lg bg-black/50 p-[3px]" />
-            <span>How we work</span>
-          </a>
-          <a class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3" href="#who-we-help">
-            <img src="assets/logo.svg" alt="" class="h-6 w-6 rounded-lg bg-black/50 p-[3px]" />
-            <span>Who we help</span>
-          </a>
-          <a class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3" href="#mission">
-            <img src="assets/logo.svg" alt="" class="h-6 w-6 rounded-lg bg-black/50 p-[3px]" />
-            <span>Mission</span>
-          </a>
-          <a class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3" href="#faq">
-            <img src="assets/logo.svg" alt="" class="h-6 w-6 rounded-lg bg-black/50 p-[3px]" />
-            <span>FAQ</span>
-          </a>
-          <a class="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-neutral-900" href="#contact">
-            <img src="assets/logo.svg" alt="" class="h-6 w-6 rounded-lg bg-neutral-900 p-[3px]" />
-            <span class="font-semibold">Contact</span>
-          </a>
-        </div>
+          </div>
+        </nav>
       </div>
-    </header>
+    </div>
 
-    <main class="relative">
-      <section class="relative flex min-h-screen items-center overflow-hidden pt-28">
-        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5"></div>
-        <div class="relative mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 py-24 lg:flex-row lg:items-center">
-          <div class="relative w-full lg:w-1/2">
-            <div class="badge fade-up inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.18em] text-white/70">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 3v3m0 12v3m6-9h3M3 12H6m10.242-5.657l2.121-2.121M5.636 18.364l2.121-2.121m0-7.071L5.636 6.05M18.364 18.364l-2.121-2.121" />
-              </svg>
-              <span>AI powered Financial Optimization</span>
+    <main id="top" class="relative">
+      <section class="relative isolate overflow-hidden px-6 pb-32 pt-40">
+        <div class="absolute inset-0 -z-10">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12),transparent_55%)]"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.08),transparent_60%)]"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black"></div>
+        </div>
+        <div class="mx-auto grid max-w-6xl gap-16 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:items-center">
+          <div class="space-y-8">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs tracking-[0.25em] uppercase text-white/60">
+              <img src="assets/logo-network.svg" alt="Signal" class="h-3.5 w-3.5" />
+              Precision systems for modern finance
             </div>
-            <h1 class="fade-up delay-1 mt-6 font-display text-4xl font-semibold text-white md:text-7xl md:leading-[1.05]">
-              Precision in finance.
-              <br />
-              Simplicity in execution.
+            <h1 class="font-display text-5xl leading-tight text-white md:text-6xl">
+              Precision in finance. Simplicity in execution.
             </h1>
-            <p class="fade-up delay-2 mt-6 max-w-xl text-lg leading-relaxed text-neutral-300">
-              We design and deliver systems that make reporting faster, analysis sharper, and decisions clearer. Built with the rigor of Wall Street, applied with the practicality of a cafe counter.
+            <p class="max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
+              We design and deliver systems that make reporting faster, analysis sharper, and decisions clearer. Built with the rigor of Wall Street, deployed with the pragmatism of a neighbourhood operator.
             </p>
-            <div class="fade-up delay-3 mt-10 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href="#contact"
-                class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 font-semibold text-neutral-950 shadow-[0_18px_45px_rgba(255,255,255,0.25)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_26px_60px_rgba(255,255,255,0.3)] hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                class="group inline-flex items-center justify-center gap-3 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/20"
               >
                 Start the conversation
-                <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 12h14m-6-6 6 6-6 6" />
+                <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
               </a>
-              <div class="fade-up delay-4 flex items-center gap-3 text-sm text-neutral-400">
-                <div class="h-2 w-2 rounded-full bg-emerald-400"></div>
-                <span>Deploying clarity for finance leaders worldwide</span>
+              <div class="flex items-center gap-4 rounded-full border border-white/10 bg-black/40 px-4 py-3 text-xs text-white/60">
+                <div class="flex flex-col">
+                  <span class="font-medium text-white/80">72h</span>
+                  <span class="uppercase tracking-[0.25em]">to prototype</span>
+                </div>
+                <div class="h-8 w-px bg-white/10"></div>
+                <div class="flex flex-col">
+                  <span class="font-medium text-white/80">40%</span>
+                  <span class="uppercase tracking-[0.25em]">avg time saved</span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="fade-up delay-2 w-full lg:w-1/2">
-            <div class="hero-visual">
-              <div class="hero-visual-inner relative flex h-full flex-col justify-between gap-10 px-8 py-10">
-                <div class="rounded-2xl border border-white/10 bg-black/40 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.45)]">
-                  <p class="text-xs uppercase tracking-[0.3em] text-white/50">Forecast Snapshot</p>
-                  <div class="mt-5 grid grid-cols-2 gap-6 text-sm text-neutral-300">
-                    <div>
-                      <p class="text-white/70">Runway coverage</p>
-                      <p class="mt-2 text-2xl font-semibold text-white">18.4<span class="text-base font-normal text-neutral-300"> months</span></p>
-                    </div>
-                    <div>
-                      <p class="text-white/70">Automations live</p>
-                      <p class="mt-2 text-2xl font-semibold text-white">37</p>
-                    </div>
-                    <div>
-                      <p class="text-white/70">Reporting latency</p>
-                      <p class="mt-2 text-2xl font-semibold text-white">↓ 63%</p>
-                    </div>
-                    <div>
-                      <p class="text-white/70">Confidence index</p>
-                      <p class="mt-2 text-2xl font-semibold text-white">9.4 / 10</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_18px_45px_rgba(0,0,0,0.5)]">
-                  <p class="text-xs uppercase tracking-[0.3em] text-white/50">Workflow</p>
-                  <div class="mt-5 space-y-4 text-sm">
-                    <div class="flex items-center justify-between">
-                      <span class="text-neutral-300">Ingest ledgers</span>
-                      <span class="rounded-full bg-emerald-400/20 px-3 py-1 text-xs font-medium text-emerald-300">Automated</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <span class="text-neutral-300">Variance scan</span>
-                      <span class="rounded-full bg-amber-400/20 px-3 py-1 text-xs font-medium text-amber-200">Review</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <span class="text-neutral-300">Executive dashboards</span>
-                      <span class="rounded-full bg-blue-400/20 px-3 py-1 text-xs font-medium text-blue-200">Live</span>
-                    </div>
-                  </div>
+          <div class="section-shell relative overflow-hidden p-10">
+            <div class="absolute inset-0 bg-gradient-to-br from-white/4 via-transparent to-black/60"></div>
+            <div class="accent-ring pointer-events-none absolute inset-0 rounded-[1.9rem]"></div>
+            <div class="relative flex flex-col gap-8 text-white/70">
+              <div class="flex items-center gap-4">
+                <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-black/80 shadow-edge">
+                  <img src="assets/logo-primary.svg" alt="Signal" class="h-5 w-auto" />
+                </span>
+                <div>
+                  <p class="text-xs uppercase tracking-[0.3em] text-white/50">Live overview</p>
+                  <p class="text-sm text-white/80">Financial command surface</p>
                 </div>
               </div>
-              <div class="pulse-ring"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="process" class="relative overflow-hidden border-t border-white/10 bg-black/60">
-        <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-60"></div>
-        <div class="relative mx-auto flex w-full max-w-5xl flex-col gap-14 px-6 py-24">
-          <div class="text-center">
-            <h2 class="fade-up text-4xl font-bold tracking-tight md:text-5xl">How we work</h2>
-            <p class="fade-up delay-1 mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-neutral-300">
-              We design reporting, automation, and decision support systems tailored to the scale and context of your business. Whether a capital intensive firm or a boutique cafe, our work adapts to your environment and ambitions.
-            </p>
-          </div>
-          <div class="fade-up delay-2 relative">
-            <ol class="timeline relative space-y-14">
-              <li class="timeline-step" data-step="1">
-                <div class="rounded-3xl border border-white/10 bg-gradient-to-r from-white/8 via-white/2 to-transparent p-8 shadow-[0_18px_50px_rgba(0,0,0,0.45)] backdrop-blur">
-                  <h3 class="font-display text-2xl font-semibold text-white">Diagnosis</h3>
-                  <p class="mt-4 text-neutral-300">
-                    We conduct financial analysis and market modeling to uncover clear opportunities and risks, giving leaders the data they need to act decisively. We start with structured conversations to diagnose your company, surface problems, and understand your goals, constraints, and context, building a clear baseline before solutions are proposed.
-                  </p>
+              <dl class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div class="rounded-2xl border border-white/10 bg-black/50 p-5">
+                  <dt class="text-xs uppercase tracking-[0.25em] text-white/50">Forecast accuracy</dt>
+                  <dd class="mt-3 text-2xl font-semibold text-white">+18%</dd>
+                  <p class="mt-2 text-xs leading-relaxed text-white/50">Multi-scenario models recalculated nightly with audited assumptions.</p>
                 </div>
-              </li>
-              <li class="timeline-step" data-step="2">
-                <div class="rounded-3xl border border-white/10 bg-gradient-to-r from-white/8 via-white/2 to-transparent p-8 shadow-[0_18px_50px_rgba(0,0,0,0.45)] backdrop-blur">
-                  <h3 class="font-display text-2xl font-semibold text-white">Engineering</h3>
-                  <p class="mt-4 text-neutral-300">
-                    Our team builds models and automations with precision, ensuring they are resilient, transparent, and practical for day to day operations. We develop models and workflows with a balance of rigor and practicality, ensuring they address real needs and can be integrated smoothly.
-                  </p>
+                <div class="rounded-2xl border border-white/10 bg-black/50 p-5">
+                  <dt class="text-xs uppercase tracking-[0.25em] text-white/50">Automations shipped</dt>
+                  <dd class="mt-3 text-2xl font-semibold text-white">37</dd>
+                  <p class="mt-2 text-xs leading-relaxed text-white/50">Workflows streamline reporting, billing, and executive decision reviews.</p>
                 </div>
-              </li>
-              <li class="timeline-step" data-step="3">
-                <div class="rounded-3xl border border-white/10 bg-gradient-to-r from-white/8 via-white/2 to-transparent p-8 shadow-[0_18px_50px_rgba(0,0,0,0.45)] backdrop-blur">
-                  <h3 class="font-display text-2xl font-semibold text-white">Delivery</h3>
-                  <p class="mt-4 text-neutral-300">
-                    We integrate systems with care, acknowledging complexity, addressing constraints, and ensuring adoption across teams. Delivery may take several forms: a solutions and reporting package, full implementation by our team, or an on site workshop to implement and train your staff.
-                  </p>
+                <div class="rounded-2xl border border-white/10 bg-black/50 p-5">
+                  <dt class="text-xs uppercase tracking-[0.25em] text-white/50">Average rollout</dt>
+                  <dd class="mt-3 text-2xl font-semibold text-white">6 weeks</dd>
+                  <p class="mt-2 text-xs leading-relaxed text-white/50">From diagnostic sprint to staff enablement across teams and locations.</p>
                 </div>
-              </li>
-            </ol>
-          </div>
-          <p class="fade-up delay-3 mx-auto max-w-2xl text-center text-lg italic text-neutral-200">
-            From strategy to delivery, we bring together financial expertise and engineering precision to build tools that empower your team.
-          </p>
-        </div>
-      </section>
-
-      <section id="who-we-help" class="relative overflow-hidden border-t border-white/10 bg-night/80">
-        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-emerald-400/10 via-transparent to-white/10 opacity-50"></div>
-        <div class="relative mx-auto max-w-6xl px-6 py-24 text-center">
-          <h2 class="fade-up text-4xl font-bold tracking-tight md:text-5xl">Who We Help</h2>
-          <p class="fade-up delay-1 mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-neutral-300">
-            Our services are crafted for those who move with ambition and demand clarity. From entrepreneurs to boardrooms, we align our systems with your reality.
-          </p>
-          <div class="fade-up delay-2 mt-16 grid gap-8 text-left sm:grid-cols-3">
-            <article class="accent-ring relative rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 via-white/5 to-transparent p-8 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5l9-4.5 9 4.5-9 4.5-9-4.5z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9 4.5 9-4.5" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5l9 4.5 9-4.5" />
-                </svg>
-              </div>
-              <h3 class="mt-6 text-xl font-semibold tracking-wide text-white">Growing Businesses</h3>
-              <p class="mt-3 text-sm leading-relaxed text-neutral-300">
-                Entrepreneurs and operators seeking to scale without losing control of their numbers. We build systems that simplify growth while preserving discipline.
-              </p>
-            </article>
-            <article class="accent-ring relative rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 via-white/5 to-transparent p-8 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h10M4 18h10" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 14l2 2-2 2" />
-                </svg>
-              </div>
-              <h3 class="mt-6 text-xl font-semibold tracking-wide text-white">Established Firms</h3>
-              <p class="mt-3 text-sm leading-relaxed text-neutral-300">
-                Organizations with legacy processes that need modernization, our solutions integrate with care and elevate efficiency without disruption.
-              </p>
-            </article>
-            <article class="accent-ring relative rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 via-white/5 to-transparent p-8 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-6-6h12" />
-                  <circle cx="12" cy="12" r="9" />
-                </svg>
-              </div>
-              <h3 class="mt-6 text-xl font-semibold tracking-wide text-white">Financial Leaders</h3>
-              <p class="mt-3 text-sm leading-relaxed text-neutral-300">
-                Executives, CFOs, and investors who require precise dashboards, streamlined reporting, and confidence to act swiftly and strategically.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="mission" class="relative overflow-hidden border-t border-white/10 bg-black/70">
-        <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-amber-300/10 opacity-60"></div>
-        <div class="relative mx-auto max-w-5xl px-6 py-24 text-center lg:text-left">
-          <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div>
-              <h2 class="fade-up text-4xl font-bold tracking-tight md:text-5xl">Our Mission</h2>
-              <p class="fade-up delay-1 mt-6 text-lg leading-relaxed text-neutral-300">
-                The value of time has risen sharply over the last decades. What was once considered as fast is now ordinary. In 1980, the Ferrari 308 would reach 100 km/h in 7.9 seconds; today, the same brand has reduced its models' times to under three seconds. In the same spirit, our AI engineers focus on compressing hours into minutes and minutes into automatic workflows, so leaders can act sooner, with clarity and confidence.
-              </p>
-              <p class="fade-up delay-2 mt-6 text-lg text-neutral-200">
-                We believe the best systems feel intuitive and disappear into the background. Our role is to design tools that stand quietly behind strong leaders, supporting decisions, not overshadowing them.
-              </p>
-            </div>
-            <div class="fade-up delay-2 rounded-3xl border border-white/10 bg-gradient-to-b from-white/10 via-white/5 to-transparent p-8 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-              <p class="text-xs uppercase tracking-[0.3em] text-white/50">Impact profile</p>
-              <dl class="mt-6 space-y-5 text-left text-sm text-neutral-200">
-                <div class="flex items-center justify-between gap-6">
-                  <dt>Decision velocity</dt>
-                  <dd class="rounded-full bg-emerald-400/10 px-3 py-1 text-emerald-300">Minutes, not weeks</dd>
-                </div>
-                <div class="flex items-center justify-between gap-6">
-                  <dt>Executive satisfaction</dt>
-                  <dd class="rounded-full bg-indigo-400/10 px-3 py-1 text-indigo-200">Consistently above 9/10</dd>
-                </div>
-                <div class="flex items-center justify-between gap-6">
-                  <dt>Adoption rate</dt>
-                  <dd class="rounded-full bg-amber-400/10 px-3 py-1 text-amber-200">99% after week two</dd>
+                <div class="rounded-2xl border border-white/10 bg-black/50 p-5">
+                  <dt class="text-xs uppercase tracking-[0.25em] text-white/50">Visibility</dt>
+                  <dd class="mt-3 text-2xl font-semibold text-white">Portfolio-wide</dd>
+                  <p class="mt-2 text-xs leading-relaxed text-white/50">Unified dashboards link capital, operations, and customer intelligence.</p>
                 </div>
               </dl>
             </div>
@@ -576,242 +252,343 @@
         </div>
       </section>
 
-      <section id="faq" class="relative overflow-hidden border-t border-white/10 bg-night/80">
-        <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-60"></div>
-        <div class="relative mx-auto max-w-4xl px-6 py-24">
-          <div class="text-center">
-            <h2 class="fade-up text-4xl font-bold tracking-tight md:text-5xl">Frequently Asked Questions</h2>
-            <p class="fade-up delay-1 mt-6 text-lg leading-relaxed text-neutral-300">
-              Straight answers to the most common questions leaders ask when exploring automation and financial systems with us.
+      <section id="how" class="relative px-6 pb-28">
+        <div class="mx-auto flex max-w-6xl flex-col gap-16 md:flex-row md:items-start">
+          <div class="w-full md:max-w-sm">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/60">
+              <img src="assets/logo-primary.svg" alt="How we work" class="h-3.5 w-3.5" />
+              How we work
+            </div>
+            <h2 class="mt-6 font-display text-4xl text-white md:text-[2.75rem]">Systems built around your reality.</h2>
+            <p class="mt-4 text-sm leading-relaxed text-white/70">
+              We design reporting, automation, and decision support systems tailored to the scale and context of your business. Every engagement begins with listening and concludes with systems that deliver clarity and durability.
             </p>
           </div>
-          <div class="fade-up delay-2 mt-16 space-y-4">
-            <details class="group rounded-3xl border border-white/15 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-              <summary class="flex cursor-pointer items-center justify-between gap-4 text-left text-lg font-medium text-white">
+          <ol class="relative flex w-full flex-col gap-8 md:flex-1 md:flex-row md:gap-6">
+            <li class="timeline-line relative flex flex-1 flex-col gap-5 rounded-[1.75rem] border border-white/10 bg-black/40 p-8">
+              <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-white/5">
+                  <img src="assets/logo-network.svg" alt="Diagnosis" class="h-6 w-6" />
+                </span>
+                <div>
+                  <p class="text-xs uppercase tracking-[0.3em] text-white/40">Phase 01</p>
+                  <h3 class="text-xl font-semibold text-white">Diagnosis</h3>
+                </div>
+              </div>
+              <p class="text-sm leading-relaxed text-white/70">
+                Structured conversations surface goals, constraints, and context. We map financial processes, market positions, and data hygiene to uncover clear opportunities and risks before proposing solutions.
+              </p>
+            </li>
+            <li class="timeline-line relative flex flex-1 flex-col gap-5 rounded-[1.75rem] border border-white/10 bg-black/40 p-8">
+              <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-white/5">
+                  <img src="assets/logo-knot.svg" alt="Engineering" class="h-7 w-7" />
+                </span>
+                <div>
+                  <p class="text-xs uppercase tracking-[0.3em] text-white/40">Phase 02</p>
+                  <h3 class="text-xl font-semibold text-white">Engineering</h3>
+                </div>
+              </div>
+              <p class="text-sm leading-relaxed text-white/70">
+                We build models and automations with precision—resilient, transparent, and practical for day-to-day operations. Workflows balance rigor with practicality so teams can integrate them smoothly.
+              </p>
+            </li>
+            <li class="relative flex flex-1 flex-col gap-5 rounded-[1.75rem] border border-white/10 bg-black/40 p-8">
+              <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-white/5">
+                  <img src="assets/logo-portal.svg" alt="Delivery" class="h-7 w-5" />
+                </span>
+                <div>
+                  <p class="text-xs uppercase tracking-[0.3em] text-white/40">Phase 03</p>
+                  <h3 class="text-xl font-semibold text-white">Delivery</h3>
+                </div>
+              </div>
+              <p class="text-sm leading-relaxed text-white/70">
+                Implementations blend automation, reporting, and enablement. Whether we deliver as a packaged solution or on-site rollout, teams are trained and supported until adoption feels effortless.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="who" class="px-6 pb-28">
+        <div class="mx-auto max-w-6xl">
+          <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/60">
+                <img src="assets/logo-knot.svg" alt="Who we help" class="h-3.5 w-3.5" />
+                Who we help
+              </div>
+              <h2 class="mt-6 font-display text-4xl text-white">For leaders who demand clarity.</h2>
+            </div>
+            <p class="max-w-xl text-sm leading-relaxed text-white/70">
+              Our services are crafted for those who move with ambition and demand clarity. From entrepreneurs to boardrooms, we align our systems with your reality.
+            </p>
+          </div>
+          <div class="mt-12 grid gap-6 md:grid-cols-3">
+            <article class="section-shell relative overflow-hidden p-8">
+              <div class="absolute -top-12 right-8 h-20 w-20 opacity-60">
+                <img src="assets/logo-cube.svg" alt="Growing businesses" class="h-full w-full object-contain" />
+              </div>
+              <h3 class="font-semibold text-white">Growing Businesses</h3>
+              <p class="mt-4 text-sm leading-relaxed text-white/70">
+                Entrepreneurs and operators seeking to scale without losing control of their numbers. We build systems that simplify growth while preserving discipline.
+              </p>
+            </article>
+            <article class="section-shell relative overflow-hidden p-8">
+              <div class="absolute -top-12 right-8 h-20 w-20 opacity-60">
+                <img src="assets/logo-network.svg" alt="Established firms" class="h-full w-full object-contain" />
+              </div>
+              <h3 class="font-semibold text-white">Established Firms</h3>
+              <p class="mt-4 text-sm leading-relaxed text-white/70">
+                Organizations with legacy processes that need modernization. Our solutions integrate with care and elevate efficiency without disruption.
+              </p>
+            </article>
+            <article class="section-shell relative overflow-hidden p-8">
+              <div class="absolute -top-12 right-8 h-20 w-20 opacity-60">
+                <img src="assets/logo-primary.svg" alt="Financial leaders" class="h-full w-full object-contain" />
+              </div>
+              <h3 class="font-semibold text-white">Financial Leaders</h3>
+              <p class="mt-4 text-sm leading-relaxed text-white/70">
+                Executives, CFOs, and investors who require precise dashboards, streamlined reporting, and confidence to act swiftly and strategically.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="mission" class="relative px-6 pb-28">
+        <div class="mx-auto max-w-5xl section-shell overflow-hidden p-12">
+          <div class="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white/10 via-transparent to-transparent opacity-40"></div>
+          <div class="relative flex flex-col gap-8 md:flex-row md:items-center">
+            <div class="flex-1 space-y-5">
+              <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/60">
+                <img src="assets/logo-cube.svg" alt="Mission" class="h-3.5 w-3.5" />
+                Mission
+              </div>
+              <h2 class="font-display text-4xl text-white">Our mission</h2>
+              <p class="text-sm leading-relaxed text-white/70">
+                The value of time has risen sharply over the decades. What was once considered fast is now ordinary. In 1980, the Ferrari 308 needed about 8.1 seconds to reach 100 km/h; today, Ferraris do it in under 2.9.
+              </p>
+              <p class="text-sm leading-relaxed text-white/70">
+                In the same spirit, our AI engineers compress hours into minutes and minutes into automated workflows, so leaders can act sooner with clarity and confidence. Our tools stand quietly behind strong teams—supporting decisions without overshadowing them.
+              </p>
+            </div>
+            <div class="flex-1">
+              <div class="relative flex items-center justify-center rounded-[1.75rem] border border-white/10 bg-black/60 p-10">
+                <div class="absolute inset-6 rounded-[1.2rem] border border-white/10"></div>
+                <img src="assets/logo-portal.svg" alt="Mission illustration" class="relative h-48 w-auto" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="px-6 pb-28">
+        <div class="mx-auto grid max-w-6xl gap-14 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/60">
+              <img src="assets/logo-network.svg" alt="FAQ" class="h-3.5 w-3.5" />
+              FAQ
+            </div>
+            <h2 class="mt-6 font-display text-4xl text-white">Clarity before commitment.</h2>
+            <p class="mt-4 text-sm leading-relaxed text-white/70">
+              Explore common questions or schedule a conversation to understand how Black Scholes adapts to your environment.
+            </p>
+          </div>
+          <div class="space-y-4">
+            <details class="faq-item section-shell overflow-hidden p-6">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-sm font-medium text-white/80">
                 How quickly can we see results?
-                <span class="chevron grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-white/10 text-white transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 5v14m-7-7h14" />
-                  </svg>
-                </span>
+                <svg class="h-4 w-4 transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                </svg>
               </summary>
-              <div class="mt-4 text-base leading-relaxed text-neutral-200">
+              <p class="mt-4 text-sm leading-relaxed text-white/70">
                 Most clients begin noticing measurable improvements within weeks. Dashboards, automations, and AI workflows are designed for immediate impact.
-              </div>
+              </p>
             </details>
-            <details class="group rounded-3xl border border-white/15 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-              <summary class="flex cursor-pointer items-center justify-between gap-4 text-left text-lg font-medium text-white">
+            <details class="faq-item section-shell overflow-hidden p-6">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-sm font-medium text-white/80">
                 What about data security and confidentiality?
-                <span class="chevron grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-white/10 text-white transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 5v14m-7-7h14" />
-                  </svg>
-                </span>
+                <svg class="h-4 w-4 transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                </svg>
               </summary>
-              <div class="mt-4 text-base leading-relaxed text-neutral-200">
+              <p class="mt-4 text-sm leading-relaxed text-white/70">
                 Confidentiality is absolute. All projects include strict data-handling protocols and non-disclosure agreements. Your information never leaves secure environments.
-              </div>
+              </p>
             </details>
-            <details class="group rounded-3xl border border-white/15 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-              <summary class="flex cursor-pointer items-center justify-between gap-4 text-left text-lg font-medium text-white">
+            <details class="faq-item section-shell overflow-hidden p-6">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-sm font-medium text-white/80">
                 Do you replace human staff?
-                <span class="chevron grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-white/10 text-white transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 5v14m-7-7h14" />
-                  </svg>
-                </span>
+                <svg class="h-4 w-4 transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                </svg>
               </summary>
-              <div class="mt-4 text-base leading-relaxed text-neutral-200">
+              <p class="mt-4 text-sm leading-relaxed text-white/70">
                 No. We augment teams. Our systems free up your staff from repetitive tasks, letting them focus on higher-value work that drives growth.
-              </div>
+              </p>
             </details>
-            <details class="group rounded-3xl border border-white/15 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-              <summary class="flex cursor-pointer items-center justify-between gap-4 text-left text-lg font-medium text-white">
+            <details class="faq-item section-shell overflow-hidden p-6">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-sm font-medium text-white/80">
                 Can you integrate with our existing systems?
-                <span class="chevron grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-white/10 text-white transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 5v14m-7-7h14" />
-                  </svg>
-                </span>
+                <svg class="h-4 w-4 transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                </svg>
               </summary>
-              <div class="mt-4 text-base leading-relaxed text-neutral-200">
+              <p class="mt-4 text-sm leading-relaxed text-white/70">
                 Yes. We work with accounting software, CRM platforms, payment processors, and custom workflows, ensuring seamless integration without disruption.
-              </div>
+              </p>
             </details>
-            <details class="group rounded-3xl border border-white/15 bg-white/5 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-              <summary class="flex cursor-pointer items-center justify-between gap-4 text-left text-lg font-medium text-white">
+            <details class="faq-item section-shell overflow-hidden p-6">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-sm font-medium text-white/80">
                 What if we don’t see results?
-                <span class="chevron grid h-8 w-8 flex-shrink-0 place-items-center rounded-full bg-white/10 text-white transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 5v14m-7-7h14" />
-                  </svg>
-                </span>
+                <svg class="h-4 w-4 transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                </svg>
               </summary>
-              <div class="mt-4 text-base leading-relaxed text-neutral-200">
-                We stand behind our work. If the first version doesn’t deliver clear improvements, we refine and optimize until it does, whether measured in revenue, time saved, or operational clarity.
-              </div>
+              <p class="mt-4 text-sm leading-relaxed text-white/70">
+                We stand behind our work. If the first version doesn’t deliver clear improvements, we refine and optimize until it does—whether measured in revenue, time saved, or operational clarity.
+              </p>
             </details>
           </div>
         </div>
       </section>
 
-      <section id="contact" class="relative overflow-hidden border-t border-white/10 bg-black/70">
-        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-emerald-300/15 opacity-60"></div>
-        <div class="relative mx-auto max-w-5xl px-6 py-24">
-          <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div class="fade-up space-y-6 text-left">
-              <h2 class="text-4xl font-bold tracking-tight md:text-5xl">Get in Touch</h2>
-              <p class="text-lg leading-relaxed text-neutral-300">
-                Tell us about your company and we will show you how tailored systems can save time and sharpen decisions.
-              </p>
-              <div class="rounded-3xl border border-white/10 bg-white/5 p-6 text-sm text-neutral-200 shadow-[0_18px_45px_rgba(0,0,0,0.45)]">
-                <p class="font-medium text-white">What happens next?</p>
-                <ul class="mt-4 space-y-3">
-                  <li class="flex gap-3">
-                    <span class="mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-emerald-400"></span>
-                    <span>We schedule a 30-minute discovery to understand your objectives.</span>
-                  </li>
-                  <li class="flex gap-3">
-                    <span class="mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-amber-300"></span>
-                    <span>You receive a systems roadmap with recommendations and timelines.</span>
-                  </li>
-                  <li class="flex gap-3">
-                    <span class="mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-sky-300"></span>
-                    <span>We coordinate with your team for implementation and training.</span>
-                  </li>
-                </ul>
-              </div>
+      <section id="contact" class="px-6 pb-32">
+        <div class="mx-auto grid max-w-6xl gap-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+          <div class="space-y-6">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/60">
+              <img src="assets/logo-primary.svg" alt="Contact" class="h-3.5 w-3.5" />
+              Start a project
             </div>
-            <form
-              id="contact-form"
-              action="https://formsubmit.co/contact@blackscholes.ca"
-              method="POST"
-              class="fade-up delay-1 space-y-6 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-[0_18px_55px_rgba(0,0,0,0.5)]"
-            >
-              <input type="hidden" name="_subject" value="New inquiry from Black Scholes site" />
-              <input type="hidden" name="_captcha" value="false" />
+            <h2 class="font-display text-4xl text-white">Tell us what clarity looks like.</h2>
+            <p class="text-sm leading-relaxed text-white/70">
+              Share the challenges, systems, and outcomes you care about. We will assemble a diagnostic sprint and return with a clear roadmap, timelines, and investment outline.
+            </p>
+            <div class="section-shell p-6">
+              <h3 class="text-sm font-semibold text-white">What happens next</h3>
+              <ul class="mt-4 space-y-3 text-sm text-white/60">
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full border border-white/15 text-xs text-white/60">1</span>
+                  <span>We schedule a 45-minute session to understand your teams, processes, and current tooling.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full border border-white/15 text-xs text-white/60">2</span>
+                  <span>Within 72 hours you receive a diagnostic summary, proposed automations, and a data security outline.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full border border-white/15 text-xs text-white/60">3</span>
+                  <span>Launch begins once milestones are approved—our team handles implementation and enablement.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="section-shell p-8">
+            <form id="contact-form" class="space-y-6">
               <div>
-                <label class="block text-sm font-medium text-neutral-200" for="name">Name</label>
+                <label for="name" class="block text-xs uppercase tracking-[0.3em] text-white/50">Name</label>
                 <input
-                  class="mt-2 w-full rounded-xl border border-white/15 bg-black/60 px-4 py-3 text-neutral-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                   id="name"
                   name="name"
                   type="text"
-                  placeholder="Jane Doe"
                   required
+                  class="mt-2 w-full rounded-xl border border-white/12 bg-black/70 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-white/30 focus:outline-none"
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-200" for="email">Email</label>
+                <label for="email" class="block text-xs uppercase tracking-[0.3em] text-white/50">Email</label>
                 <input
-                  class="mt-2 w-full rounded-xl border border-white/15 bg-black/60 px-4 py-3 text-neutral-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="jane@company.com"
                   required
+                  class="mt-2 w-full rounded-xl border border-white/12 bg-black/70 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-white/30 focus:outline-none"
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-neutral-200" for="message">Message</label>
+                <label for="company" class="block text-xs uppercase tracking-[0.3em] text-white/50">Company</label>
+                <input
+                  id="company"
+                  name="company"
+                  type="text"
+                  class="mt-2 w-full rounded-xl border border-white/12 bg-black/70 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-white/30 focus:outline-none"
+                />
+              </div>
+              <div>
+                <label for="message" class="block text-xs uppercase tracking-[0.3em] text-white/50">What should we know?</label>
                 <textarea
-                  class="mt-2 w-full rounded-xl border border-white/15 bg-black/60 px-4 py-3 text-neutral-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
                   id="message"
                   name="message"
                   rows="4"
-                  placeholder="Tell us about your goals..."
                   required
+                  class="mt-2 w-full rounded-xl border border-white/12 bg-black/70 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-white/30 focus:outline-none"
                 ></textarea>
               </div>
+              <input type="hidden" name="_subject" value="New inquiry via blackscholes.ca" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_next" value="https://blackscholes.ca/thanks" />
               <button
                 type="submit"
-                class="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 font-semibold text-neutral-950 shadow-[0_18px_45px_rgba(255,255,255,0.25)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_26px_60px_rgba(255,255,255,0.3)] hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70"
+                class="group inline-flex w-full items-center justify-center gap-3 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/20"
               >
-                Send message
+                Submit request
+                <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
               </button>
-              <p id="contact-status" role="status" aria-live="polite" class="hidden text-sm text-neutral-200"></p>
+              <p id="form-status" class="text-xs text-white/50"></p>
             </form>
           </div>
         </div>
       </section>
     </main>
 
-    <footer class="border-t border-white/10 bg-black/70">
-      <div class="mx-auto flex max-w-6xl flex-col items-center justify-center px-6 py-10 text-center text-sm text-neutral-400">
-        <span>© <span id="year"></span> Black Scholes. All rights reserved.</span>
+    <footer class="border-t border-white/10 bg-black/80 py-10">
+      <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 text-center text-xs text-white/50">
+        <div class="inline-flex items-center gap-3 text-white/70">
+          <img src="assets/logo-primary.svg" alt="Black Scholes" class="h-5 w-auto" />
+          <span class="font-medium tracking-[0.4em] uppercase">Black Scholes AI</span>
+        </div>
+        <p>© <span id="year"></span> Black Scholes. All rights reserved.</p>
       </div>
     </footer>
 
     <script>
-      const yearElement = document.getElementById('year');
-      if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-      }
-
-      const contactForm = document.getElementById('contact-form');
-      const statusElement = document.getElementById('contact-status');
-      if (contactForm && statusElement) {
-        contactForm.addEventListener('submit', async (event) => {
+      const form = document.getElementById('contact-form');
+      const statusEl = document.getElementById('form-status');
+      if (form && statusEl) {
+        form.addEventListener('submit', async (event) => {
           event.preventDefault();
-
-          const submitButton = contactForm.querySelector('button[type="submit"]');
-          if (submitButton) {
-            submitButton.disabled = true;
-          }
-
-          statusElement.classList.remove('hidden', 'text-emerald-400', 'text-red-400');
-          statusElement.classList.add('text-neutral-300');
-          statusElement.textContent = 'Sending…';
-
+          statusEl.textContent = 'Sending…';
+          const data = new FormData(form);
           try {
-            const formData = new FormData(contactForm);
             const response = await fetch('https://formsubmit.co/ajax/contact@blackscholes.ca', {
               method: 'POST',
+              body: data,
               headers: {
                 Accept: 'application/json',
               },
-              body: formData,
             });
-
-            if (response.ok) {
-              statusElement.classList.remove('text-neutral-300');
-              statusElement.classList.add('text-emerald-400');
-              statusElement.textContent = 'Thanks for reaching out! We will get back to you shortly.';
-              contactForm.reset();
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const result = await response.json();
+            if (result.success === 'true') {
+              statusEl.textContent = 'Message sent. We will reply within one business day.';
+              form.reset();
             } else {
-              const data = await response.json().catch(() => null);
-              statusElement.classList.remove('text-neutral-300');
-              statusElement.classList.add('text-red-400');
-              statusElement.textContent =
-                (data && (data.error || data.message)) || 'Something went wrong. Please try again in a moment.';
+              statusEl.textContent = 'Something went wrong. Please email contact@blackscholes.ca.';
             }
           } catch (error) {
-            statusElement.classList.remove('text-neutral-300');
-            statusElement.classList.add('text-red-400');
-            statusElement.textContent = 'Network error. Please check your connection and try again.';
-          } finally {
-            if (submitButton) {
-              submitButton.disabled = false;
-            }
+            statusEl.textContent = 'Unable to send right now. Please email contact@blackscholes.ca.';
           }
         });
       }
-
-      const navToggle = document.getElementById('nav-toggle');
-      const mobileNav = document.getElementById('mobile-nav');
-      if (navToggle && mobileNav) {
-        navToggle.addEventListener('click', () => {
-          const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-          navToggle.setAttribute('aria-expanded', String(!expanded));
-          mobileNav.classList.toggle('hidden');
-        });
-
-        mobileNav.querySelectorAll('a').forEach((link) => {
-          link.addEventListener('click', () => {
-            navToggle.setAttribute('aria-expanded', 'false');
-            mobileNav.classList.add('hidden');
-          });
-        });
+      const yearEl = document.getElementById('year');
+      if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
       }
     </script>
   </body>
