@@ -104,10 +104,14 @@
       <header class="relative z-20">
         <div class="mx-auto max-w-7xl px-6 py-6">
           <div class="flex items-center justify-between rounded-full border border-slate-700/60 bg-black/40 px-5 py-3 backdrop-blur">
-            <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="flex items-center gap-2 rounded-full bg-transparent text-left text-slate-300 transition hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+              data-hero-scroll
+            >
               <div class="h-10 w-10 rounded-full border border-slate-600/50 bg-black/70"></div>
-              <span class="text-sm uppercase tracking-[0.35em] text-slate-300">BlackScholes AI</span>
-            </div>
+              <span class="text-sm uppercase tracking-[0.35em]">BlackScholes AI</span>
+            </button>
             <nav class="hidden items-center gap-8 text-sm text-slate-300 lg:flex">
               <a class="transition hover:text-white" href="/#work">How we work</a>
               <a class="transition hover:text-white" href="/#clients">Who we help</a>
@@ -127,7 +131,7 @@
       </header>
 
       <main>
-        <section class="relative z-10 brand-gradient">
+        <section id="hero" class="relative z-10 brand-gradient">
           <div class="absolute inset-0 hero-overlay mix-blend-screen"></div>
           <div class="mx-auto flex min-h-[90vh] max-w-6xl flex-col gap-12 px-6 pb-24 pt-32 lg:flex-row lg:items-center">
             <div class="w-full space-y-10 lg:w-7/12">
@@ -262,7 +266,6 @@
                       <span class="h-5 w-5 rounded-full border-2 border-white/80 bg-black shadow-[0_0_28px_rgba(255,255,255,0.55)]"></span>
                       <span class="text-xs uppercase tracking-[0.35em] text-slate-500">Diagnosis</span>
                     </div>
-                    <time class="text-xs uppercase tracking-[0.35em] text-slate-300">Week 1–2</time>
                     <h3 class="mt-4 text-xl font-semibold text-white">Survey every ledger and signal.</h3>
                     <p class="mt-4 text-sm text-slate-200/80">
                       We conduct financial analysis and market modelling to expose the opportunities, risks, and constraints that shape decisive action.
@@ -277,7 +280,6 @@
                       <span class="h-5 w-5 rounded-full border-2 border-white/80 bg-black shadow-[0_0_28px_rgba(255,255,255,0.55)]"></span>
                       <span class="text-xs uppercase tracking-[0.35em] text-slate-500">Engineering</span>
                     </div>
-                    <time class="text-xs uppercase tracking-[0.35em] text-slate-300">Week 3–6</time>
                     <h3 class="mt-4 text-xl font-semibold text-white">Compose the models and automations.</h3>
                     <p class="mt-4 text-sm text-slate-200/80">
                       Automations, forecasts, and decision tools are engineered with resilience and transparency so your team can run them with confidence.
@@ -293,7 +295,6 @@
                       <span class="h-5 w-5 rounded-full border-2 border-white/80 bg-black shadow-[0_0_28px_rgba(255,255,255,0.55)]"></span>
                       <span class="text-xs uppercase tracking-[0.35em] text-slate-500">Delivery</span>
                     </div>
-                    <time class="text-xs uppercase tracking-[0.35em] text-slate-300">Week 7–8</time>
                     <h3 class="mt-4 text-xl font-semibold text-white">Install the tools and steward adoption.</h3>
                     <p class="mt-4 text-sm text-slate-200/80">
                       We integrate systems with care, align stakeholders, and guide adoption so the improvements persist after launch.
@@ -503,6 +504,20 @@
                 <input class="rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none transition focus:border-white/60 focus:bg-black/60" name="company" type="text" placeholder="Organisation, title" required />
               </label>
               <label class="flex flex-col gap-2 text-sm text-slate-200/80 sm:col-span-2">
+                Budget
+                <select
+                  class="rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none transition focus:border-white/60 focus:bg-black/60"
+                  name="budget"
+                  required
+                >
+                  <option value="" disabled selected hidden>Select budget range</option>
+                  <option value="under-50k">Under $50K</option>
+                  <option value="50k-150k">$50K – $150K</option>
+                  <option value="150k-500k">$150K – $500K</option>
+                  <option value="500k-plus">$500K+</option>
+                </select>
+              </label>
+              <label class="flex flex-col gap-2 text-sm text-slate-200/80 sm:col-span-2">
                 Message
                 <textarea class="min-h-[140px] rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none transition focus:border-white/60 focus:bg-black/60" name="message" required></textarea>
               </label>
@@ -535,6 +550,15 @@
           button.setAttribute('aria-expanded', String(!expanded));
           panel.classList.toggle('hidden', expanded);
           icon.classList.toggle('rotate-45', !expanded);
+        });
+      });
+
+      document.querySelectorAll('[data-hero-scroll]').forEach((button) => {
+        const targetId = button.getAttribute('data-hero-scroll-target') || 'hero';
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        button.addEventListener('click', () => {
+          target.scrollIntoView({ behavior: 'smooth' });
         });
       });
     </script>
