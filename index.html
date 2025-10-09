@@ -369,32 +369,112 @@
         <section id="faq" class="relative z-10 border-b border-white/10 bg-black/80 py-24 backdrop-blur">
           <div class="mx-auto max-w-6xl px-6">
             <div class="mx-auto max-w-3xl">
-              <p class="text-xs uppercase tracking-[0.4em] text-slate-400 text-center">Frequently Asked Questions</p>
+              <p class="text-center text-xs uppercase tracking-[0.4em] text-slate-400">Frequently Asked Questions</p>
               <h2 class="mt-4 text-center text-3xl font-semibold text-white sm:text-4xl">Straight answers to the questions leaders ask.</h2>
-              <div class="mt-12 space-y-8">
+              <div class="mt-12 space-y-6">
                 <div class="rounded-3xl border border-white/10 bg-black/70 p-6 shadow-lg">
-                  <h3 class="text-lg font-semibold text-white">How quickly can we see results?</h3>
-                  <p class="mt-3 text-sm text-slate-300/80">
+                  <button
+                    type="button"
+                    class="flex w-full items-center justify-between gap-6 text-left"
+                    aria-expanded="false"
+                    data-faq-toggle
+                  >
+                    <span class="text-lg font-semibold text-white">How quickly can we see results?</span>
+                    <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="h-4 w-4 text-white transition-transform"
+                        data-faq-icon
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="mt-4 hidden text-sm text-slate-300/80" data-faq-panel>
                     Most clients begin noticing measurable improvements within weeks. Dashboards, automations, and AI workflows are designed for immediate impact.
-                  </p>
+                  </div>
                 </div>
                 <div class="rounded-3xl border border-white/10 bg-black/70 p-6 shadow-lg">
-                  <h3 class="text-lg font-semibold text-white">What about data security and confidentiality?</h3>
-                  <p class="mt-3 text-sm text-slate-300/80">
+                  <button
+                    type="button"
+                    class="flex w-full items-center justify-between gap-6 text-left"
+                    aria-expanded="false"
+                    data-faq-toggle
+                  >
+                    <span class="text-lg font-semibold text-white">What about data security and confidentiality?</span>
+                    <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="h-4 w-4 text-white transition-transform"
+                        data-faq-icon
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="mt-4 hidden text-sm text-slate-300/80" data-faq-panel>
                     Confidentiality is absolute. All projects include strict data-handling protocols and non-disclosure agreements. Your information never leaves secure environments.
-                  </p>
+                  </div>
                 </div>
                 <div class="rounded-3xl border border-white/10 bg-black/70 p-6 shadow-lg">
-                  <h3 class="text-lg font-semibold text-white">Do you replace human staff?</h3>
-                  <p class="mt-3 text-sm text-slate-300/80">
+                  <button
+                    type="button"
+                    class="flex w-full items-center justify-between gap-6 text-left"
+                    aria-expanded="false"
+                    data-faq-toggle
+                  >
+                    <span class="text-lg font-semibold text-white">Do you replace human staff?</span>
+                    <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="h-4 w-4 text-white transition-transform"
+                        data-faq-icon
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="mt-4 hidden text-sm text-slate-300/80" data-faq-panel>
                     No. We augment teams. Our systems free up your staff from repetitive tasks, letting them focus on higher-value work that drives growth.
-                  </p>
+                  </div>
                 </div>
-              <div class="rounded-3xl border border-white/10 bg-black/70 p-6 shadow-lg">
-                <h3 class="text-lg font-semibold text-white">What if we don’t see results?</h3>
-                <p class="mt-3 text-sm text-slate-300/80">
+                <div class="rounded-3xl border border-white/10 bg-black/70 p-6 shadow-lg">
+                  <button
+                    type="button"
+                    class="flex w-full items-center justify-between gap-6 text-left"
+                    aria-expanded="false"
+                    data-faq-toggle
+                  >
+                    <span class="text-lg font-semibold text-white">What if we don’t see results?</span>
+                    <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="h-4 w-4 text-white transition-transform"
+                        data-faq-icon
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="mt-4 hidden text-sm text-slate-300/80" data-faq-panel>
                     We stand behind our work. If the first version doesn’t deliver clear improvements, we refine and optimize until it does, whether measured in revenue, time saved, or operational clarity.
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -439,25 +519,23 @@
       </main>
 
       <footer class="relative z-10 border-t border-white/10 bg-black py-12">
-        <div class="mx-auto flex max-w-6xl flex-col gap-8 px-6 sm:flex-row sm:items-center sm:justify-between">
-          <div class="flex items-center gap-3">
-            <div class="h-10 w-10 rounded-full border border-slate-600/50 bg-black/70"></div>
-            <span class="text-xs uppercase tracking-[0.35em] text-slate-300">BlackScholes AI</span>
-          </div>
-          <div class="text-xs uppercase tracking-[0.35em] text-slate-500">
-            © <span id="year"></span> BlackScholes AI. All rights reserved.
-          </div>
-          <div class="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-slate-400">
-            <a class="transition hover:text-white" href="#work">How we work</a>
-            <a class="transition hover:text-white" href="#faq">FAQ</a>
-            <a class="transition hover:text-white" href="#contact">Contact</a>
-          </div>
+        <div class="mx-auto max-w-6xl px-6 text-center text-xs uppercase tracking-[0.35em] text-slate-400">
+          © 2025 BLACKSCHOLES AI. ALL RIGHTS RESERVED.
         </div>
       </footer>
     </div>
 
     <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
+      document.querySelectorAll('[data-faq-toggle]').forEach((button) => {
+        const panel = button.nextElementSibling;
+        const icon = button.querySelector('[data-faq-icon]');
+        button.addEventListener('click', () => {
+          const expanded = button.getAttribute('aria-expanded') === 'true';
+          button.setAttribute('aria-expanded', String(!expanded));
+          panel.classList.toggle('hidden', expanded);
+          icon.classList.toggle('rotate-45', !expanded);
+        });
+      });
     </script>
   </body>
 </html>
