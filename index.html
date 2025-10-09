@@ -113,8 +113,6 @@
               <span class="text-sm uppercase tracking-[0.35em]">BlackScholes AI</span>
             </button>
             <nav class="hidden items-center gap-8 text-sm text-slate-300 lg:flex">
-              <a class="transition hover:text-white" href="/#work">How we work</a>
-              <a class="transition hover:text-white" href="/#clients">Who we help</a>
               <a class="transition hover:text-white" href="/#mission">Mission</a>
               <a class="transition hover:text-white" href="/#faq">FAQ</a>
               <a class="transition hover:text-white" href="/#contact">Contact</a>
@@ -554,9 +552,18 @@
       });
 
       document.querySelectorAll('[data-hero-scroll]').forEach((button) => {
+        const href = button.getAttribute('data-hero-scroll-href');
+        if (href) {
+          button.addEventListener('click', () => {
+            window.location.href = href;
+          });
+          return;
+        }
+
         const targetId = button.getAttribute('data-hero-scroll-target') || 'hero';
         const target = document.getElementById(targetId);
         if (!target) return;
+
         button.addEventListener('click', () => {
           target.scrollIntoView({ behavior: 'smooth' });
         });
