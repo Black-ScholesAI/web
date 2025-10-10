@@ -119,9 +119,6 @@
               <span class="text-sm uppercase tracking-[0.35em]">BlackScholes AI</span>
             </button>
             <nav class="hidden items-center gap-8 text-sm text-slate-300 lg:flex">
-              <a class="transition hover:text-white" href="/#mission">Mission</a>
-              <a class="transition hover:text-white" href="/#faq">FAQ</a>
-              <a class="transition hover:text-white" href="/#contact">Contact</a>
               <a class="transition hover:text-white" href="/careers.html">Careers</a>
               <a
                 class="rounded-full border border-slate-200/60 bg-white/90 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-slate-900 shadow-lg"
@@ -447,17 +444,6 @@
     </div>
 
     <script>
-      document.querySelectorAll('[data-faq-toggle]').forEach((button) => {
-        const panel = button.nextElementSibling;
-        const icon = button.querySelector('[data-faq-icon]');
-        button.addEventListener('click', () => {
-          const expanded = button.getAttribute('aria-expanded') === 'true';
-          button.setAttribute('aria-expanded', String(!expanded));
-          panel.classList.toggle('hidden', expanded);
-          icon.classList.toggle('rotate-45', !expanded);
-        });
-      });
-
       document.querySelectorAll('[data-role-toggle]').forEach((button) => {
         const panel = button.nextElementSibling;
         const icon = button.querySelector('[data-role-icon]');
