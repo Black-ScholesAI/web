@@ -12,6 +12,9 @@
     />
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <style>
+      html {
+        scroll-behavior: smooth;
+      }
       :root {
         color-scheme: dark;
       }
@@ -33,6 +36,7 @@
           radial-gradient(circle at 78% 22%, rgba(160, 160, 160, 0.14), transparent 62%),
           radial-gradient(circle at 46% 78%, rgba(120, 120, 120, 0.12), transparent 70%);
         opacity: 0.35;
+        pointer-events: none;
       }
       .grain {
         position: absolute;
