@@ -144,6 +144,7 @@
                   class="flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-900 shadow-xl transition hover:bg-neutral-200"
                   href="#contact"
                   data-scroll
+                  data-scroll-target="#contact"
                 >
                   Start the conversation
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
@@ -414,13 +415,15 @@
     </div>
 
     <script>
-      document.querySelectorAll('a[data-scroll]').forEach((anchor) => {
-        const href = anchor.getAttribute('href');
-        if (!href || !href.startsWith('#')) return;
-        const target = document.querySelector(href);
+      document.querySelectorAll('[data-scroll]').forEach((trigger) => {
+        const explicitTarget = trigger.getAttribute('data-scroll-target');
+        const href = trigger.getAttribute('href');
+        const targetSelector = explicitTarget || href;
+        if (!targetSelector || !targetSelector.startsWith('#')) return;
+        const target = document.querySelector(targetSelector);
         if (!target) return;
 
-        anchor.addEventListener('click', (event) => {
+        trigger.addEventListener('click', (event) => {
           event.preventDefault();
           target.scrollIntoView({ behavior: 'smooth' });
         });
