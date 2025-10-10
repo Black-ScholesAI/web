@@ -154,6 +154,7 @@
                 <a
                   class="flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-900 shadow-xl transition hover:bg-neutral-200"
                   href="#careers"
+                  data-scroll
                 >
                   View open roles
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
@@ -444,6 +445,18 @@
     </div>
 
     <script>
+      document.querySelectorAll('a[data-scroll]').forEach((anchor) => {
+        const href = anchor.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+        const target = document.querySelector(href);
+        if (!target) return;
+
+        anchor.addEventListener('click', (event) => {
+          event.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
       document.querySelectorAll('[data-role-toggle]').forEach((button) => {
         const panel = button.nextElementSibling;
         const icon = button.querySelector('[data-role-icon]');
