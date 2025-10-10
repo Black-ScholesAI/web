@@ -74,36 +74,9 @@
       .split-card:hover::before {
         opacity: 1;
       }
-      .prestige-field {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 0;
-        background:
-          radial-gradient(180% 220% at 12% 18%, rgba(255, 255, 255, 0.18), transparent 62%),
-          radial-gradient(200% 260% at 88% 10%, rgba(190, 190, 190, 0.14), transparent 72%),
-          radial-gradient(200% 240% at 50% 80%, rgba(120, 120, 120, 0.12), transparent 80%),
-          radial-gradient(160% 240% at 40% 35%, rgba(235, 235, 235, 0.05), transparent 78%);
-        mix-blend-mode: screen;
-        filter: blur(0.5px) saturate(120%);
-        animation: prestige-pan 32s ease-in-out infinite alternate;
-        opacity: 0.42;
-      }
-      @keyframes prestige-pan {
-        0% {
-          transform: translate3d(-10%, -8%, 0) scale(1.05) rotate(0.6deg);
-        }
-        50% {
-          transform: translate3d(8%, 9%, 0) scale(1.1) rotate(-0.8deg);
-        }
-        100% {
-          transform: translate3d(-6%, 14%, 0) scale(1.06) rotate(0.45deg);
-        }
-      }
     </style>
   </head>
   <body class="antialiased">
-    <div class="prestige-field"></div>
     <div class="relative overflow-hidden">
       <div class="grain"></div>
       <header class="relative z-20">
