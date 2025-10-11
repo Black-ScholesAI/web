@@ -143,10 +143,10 @@
           transform: none !important;
         }
       }
-      #expertiseScroller::-webkit-scrollbar {
+      .horizontal-scroller::-webkit-scrollbar {
         display: none;
       }
-      #expertiseScroller {
+      .horizontal-scroller {
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
@@ -329,7 +329,8 @@
 
             <div
               id="expertiseScroller"
-              class="md:hidden overflow-x-auto snap-x snap-mandatory flex space-x-6 px-4 py-8"
+              data-horizontal-scroller
+              class="horizontal-scroller md:hidden overflow-x-auto snap-x snap-mandatory flex space-x-6 px-4 py-8"
               style="-webkit-overflow-scrolling: touch; scroll-behavior: smooth; overscroll-behavior-x: contain;"
             >
               <div class="snap-center min-w-[280px] bg-neutral-900 rounded-xl p-5 ring-1 ring-neutral-800 shadow-sm reveal">
@@ -420,25 +421,53 @@
                   Our services are crafted for those who move with ambition and demand clarity. From entrepreneurs to boardrooms, we align our systems with your reality.
                 </p>
               </div>
-              <div class="flex-1 space-y-6">
-                <article data-reveal class="rounded-3xl border border-white/10 bg-black/70 p-10 shadow-xl backdrop-blur">
-                  <h3 class="text-2xl font-semibold text-white">Growing Businesses</h3>
-                  <p class="mt-4 text-base text-slate-200/80">
-                    Entrepreneurs and operators scaling quickly without losing control of their numbers. We design systems that simplify momentum while preserving control.
-                  </p>
-                </article>
-                <article data-reveal class="rounded-3xl border border-white/10 bg-black/60 p-10 shadow-xl backdrop-blur">
-                  <h3 class="text-2xl font-semibold text-white">Established Firms</h3>
-                  <p class="mt-4 text-base text-slate-200/80">
-                    Organisations with legacy processes ready for modernization. Our solutions integrate with care and elevate efficiency without disruption.
-                  </p>
-                </article>
-                <article data-reveal class="rounded-3xl border border-white/10 bg-black/50 p-10 shadow-xl backdrop-blur">
-                  <h3 class="text-2xl font-semibold text-white">Financial Leaders</h3>
-                  <p class="mt-4 text-base text-slate-200/80">
-                    Executives, CFOs, and investors who demand precise dashboards, streamlined reporting, and the confidence to act swiftly and strategically.
-                  </p>
-                </article>
+              <div class="flex-1">
+                <div
+                  id="clientsScroller"
+                  data-horizontal-scroller
+                  class="horizontal-scroller md:hidden overflow-x-auto snap-x snap-mandatory flex space-x-6 px-4 py-8"
+                  style="-webkit-overflow-scrolling: touch; scroll-behavior: smooth; overscroll-behavior-x: contain;"
+                >
+                  <article class="snap-center min-w-[280px] rounded-3xl border border-white/10 bg-black/70 p-8 shadow-xl backdrop-blur reveal">
+                    <h3 class="text-lg font-semibold text-white">Growing Businesses</h3>
+                    <p class="mt-3 text-sm text-slate-200/80">
+                      Entrepreneurs and operators scaling quickly without losing control of their numbers. We design systems that simplify momentum while preserving control.
+                    </p>
+                  </article>
+                  <article class="snap-center min-w-[280px] rounded-3xl border border-white/10 bg-black/60 p-8 shadow-xl backdrop-blur reveal">
+                    <h3 class="text-lg font-semibold text-white">Established Firms</h3>
+                    <p class="mt-3 text-sm text-slate-200/80">
+                      Organisations with legacy processes ready for modernization. Our solutions integrate with care and elevate efficiency without disruption.
+                    </p>
+                  </article>
+                  <article class="snap-center min-w-[280px] rounded-3xl border border-white/10 bg-black/50 p-8 shadow-xl backdrop-blur reveal">
+                    <h3 class="text-lg font-semibold text-white">Financial Leaders</h3>
+                    <p class="mt-3 text-sm text-slate-200/80">
+                      Executives, CFOs, and investors who demand precise dashboards, streamlined reporting, and the confidence to act swiftly and strategically.
+                    </p>
+                  </article>
+                </div>
+
+                <div class="hidden space-y-6 md:flex md:flex-col">
+                  <article data-reveal class="rounded-3xl border border-white/10 bg-black/70 p-10 shadow-xl backdrop-blur">
+                    <h3 class="text-2xl font-semibold text-white">Growing Businesses</h3>
+                    <p class="mt-4 text-base text-slate-200/80">
+                      Entrepreneurs and operators scaling quickly without losing control of their numbers. We design systems that simplify momentum while preserving control.
+                    </p>
+                  </article>
+                  <article data-reveal class="rounded-3xl border border-white/10 bg-black/60 p-10 shadow-xl backdrop-blur">
+                    <h3 class="text-2xl font-semibold text-white">Established Firms</h3>
+                    <p class="mt-4 text-base text-slate-200/80">
+                      Organisations with legacy processes ready for modernization. Our solutions integrate with care and elevate efficiency without disruption.
+                    </p>
+                  </article>
+                  <article data-reveal class="rounded-3xl border border-white/10 bg-black/50 p-10 shadow-xl backdrop-blur">
+                    <h3 class="text-2xl font-semibold text-white">Financial Leaders</h3>
+                    <p class="mt-4 text-base text-slate-200/80">
+                      Executives, CFOs, and investors who demand precise dashboards, streamlined reporting, and the confidence to act swiftly and strategically.
+                    </p>
+                  </article>
+                </div>
               </div>
             </div>
           </div>
@@ -660,28 +689,33 @@
       });
 
       (function () {
-        const container = document.getElementById('expertiseScroller');
-        if (!container) return;
+        const containers = document.querySelectorAll('[data-horizontal-scroller]');
+        if (!containers.length) return;
 
-        const cards = container.querySelectorAll('.reveal');
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) {
-          cards.forEach((card) => card.classList.add('show'));
-          return;
-        }
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('show');
-              }
-            });
-          },
-          { root: container, threshold: 0.35 }
-        );
+        containers.forEach((container) => {
+          const cards = container.querySelectorAll('.reveal');
+          if (!cards.length) return;
 
-        cards.forEach((card) => observer.observe(card));
+          if (prefersReducedMotion) {
+            cards.forEach((card) => card.classList.add('show'));
+            return;
+          }
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('show');
+                }
+              });
+            },
+            { root: container, threshold: 0.35 }
+          );
+
+          cards.forEach((card) => observer.observe(card));
+        });
       })();
 
       document.querySelectorAll('[data-hero-scroll]').forEach((button) => {
