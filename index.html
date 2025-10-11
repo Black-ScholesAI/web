@@ -66,12 +66,18 @@
       }
       .hero-headline-line {
         display: block;
+        white-space: nowrap;
       }
       .js .hero-headline-line {
         opacity: 0;
         transform: translateY(14px);
         animation: heroFadeUp 520ms ease forwards;
         animation-delay: 0s;
+      }
+      @media (max-width: 520px) {
+        .hero-headline-line {
+          font-size: clamp(1.875rem, 7vw, 2.35rem);
+        }
       }
       .card {
         transition: filter 0.5s ease, opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
@@ -210,7 +216,7 @@
                 <span class="h-2 w-2 rounded-full bg-slate-200"></span>
                 AI-Powered Financial Optimization
               </span>
-              <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              <h1 class="font-semibold tracking-tight text-white text-[clamp(2.3rem,5vw,3.8rem)] lg:text-[4.25rem]">
                 <span class="hero-headline-line">Precision in finance.</span>
                 <span class="hero-headline-line">Simplicity in execution.</span>
               </h1>
@@ -375,35 +381,35 @@
                 <div class="pointer-events-none absolute inset-x-0 top-[52%] hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-white/35 to-transparent lg:block"></div>
                 <ol id="phases" class="relative grid gap-12 lg:grid-cols-3 lg:gap-10 xl:gap-12">
                   <li
-                    class="phase card reveal group relative rounded-3xl border border-white/12 bg-white/[0.07] p-10 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur"
+                    class="phase card reveal group relative rounded-3xl border border-slate-500/40 bg-[linear-gradient(155deg,rgba(37,99,235,0.32),rgba(15,23,42,0.92))] p-10 shadow-[0_24px_70px_rgba(2,6,23,0.6)] backdrop-blur"
                   >
                     <div class="absolute left-[22px] top-8 h-3 w-3 rounded-full border border-white/80 bg-black shadow-[0_0_18px_rgba(255,255,255,0.6)] lg:hidden"></div>
-                    <h3 class="mt-2 text-xl font-semibold text-white">Phase 1 — Diagnosis</h3>
+                    <h3 class="mt-2 text-xl font-semibold text-white">Phase I — Diagnosis</h3>
                     <p class="mt-4 text-sm text-slate-200/80">
                       We map operations, constraints, risks, and ROI paths through structured interviews and data intake.
                     </p>
-                    <div class="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-r from-white/60 to-transparent lg:block"></div>
+                    <div class="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-r from-blue-200/50 to-transparent lg:block"></div>
                   </li>
                   <li
-                    class="phase card reveal group relative rounded-3xl border border-white/12 bg-white/[0.07] p-10 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur"
+                    class="phase card reveal group relative rounded-3xl border border-slate-500/40 bg-[linear-gradient(155deg,rgba(37,99,235,0.32),rgba(15,23,42,0.92))] p-10 shadow-[0_24px_70px_rgba(2,6,23,0.6)] backdrop-blur"
                   >
                     <div class="absolute left-[22px] top-8 h-3 w-3 rounded-full border border-white/80 bg-black shadow-[0_0_18px_rgba(255,255,255,0.6)] lg:hidden"></div>
-                    <h3 class="mt-2 text-xl font-semibold text-white">Phase 2 — Engineering</h3>
+                    <h3 class="mt-2 text-xl font-semibold text-white">Phase II — Engineering</h3>
                     <p class="mt-4 text-sm text-slate-200/80">
                       We build financial models, automations, systems, and tools tailored to your operations.
                     </p>
-                    <div class="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-r from-white/60 to-transparent lg:block"></div>
-                    <div class="pointer-events-none absolute left-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-l from-white/60 to-transparent lg:block"></div>
+                    <div class="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-r from-blue-200/50 to-transparent lg:block"></div>
+                    <div class="pointer-events-none absolute left-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-l from-blue-200/50 to-transparent lg:block"></div>
                   </li>
                   <li
-                    class="phase card reveal group relative rounded-3xl border border-white/12 bg-white/[0.07] p-10 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur"
+                    class="phase card reveal group relative rounded-3xl border border-slate-500/40 bg-[linear-gradient(155deg,rgba(37,99,235,0.32),rgba(15,23,42,0.92))] p-10 shadow-[0_24px_70px_rgba(2,6,23,0.6)] backdrop-blur"
                   >
                     <div class="absolute left-[22px] top-8 h-3 w-3 rounded-full border border-white/80 bg-black shadow-[0_0_18px_rgba(255,255,255,0.6)] lg:hidden"></div>
-                    <h3 class="mt-2 text-xl font-semibold text-white">Phase 3 — Deployment</h3>
+                    <h3 class="mt-2 text-xl font-semibold text-white">Phase III — Deployment</h3>
                     <p class="mt-4 text-sm text-slate-200/80">
                       We ship, train, measure impact, and iterate with real-time telemetry.
                     </p>
-                    <div class="pointer-events-none absolute left-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-l from-white/60 to-transparent lg:block"></div>
+                    <div class="pointer-events-none absolute left-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-l from-blue-200/50 to-transparent lg:block"></div>
                   </li>
                 </ol>
               </div>
@@ -565,8 +571,8 @@
 
       </main>
 
-      <footer class="relative z-10 border-t border-white/10 bg-black py-12">
-        <div class="mx-auto max-w-6xl px-6 text-center text-xs uppercase tracking-[0.35em] text-slate-400">
+      <footer class="relative z-10 border-t border-white/10 bg-black py-8 sm:py-12">
+        <div class="mx-auto max-w-6xl px-6 text-center text-[0.6rem] uppercase tracking-[0.2em] text-slate-400 sm:text-xs sm:tracking-[0.35em]">
           © 2025 BLACKSCHOLES AI. ALL RIGHTS RESERVED.
         </div>
       </footer>
