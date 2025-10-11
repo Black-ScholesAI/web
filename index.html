@@ -1,408 +1,688 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Sparkle, ArrowRight } from 'lucide-react';
-
-// =============== Utilities ===============
-function easeOutCubic(x) {
-  return 1 - Math.pow(1 - x, 3);
-}
-
-function useReveal() {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!ref.current || typeof IntersectionObserver === 'undefined') return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-  return { ref, visible };
-}
-
-function Reveal({ children, delay = 0 }) {
-  const { ref, visible } = useReveal();
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={visible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: easeOutCubic }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// =============== App ===============
-export default function BlackScholesLanding() {
-  return (
-    <>
-      {/* Global smooth scroll */}
-      <style>{`html{scroll-behavior:smooth}`}</style>
-      <NavBar />
-
-      {/* Hero */}
-      <section className="relative min-h-screen bg-black text-neutral-100 overflow-hidden flex items-center">
-        {/* Background: prestige grid + aurora */}
-        <BackgroundGrid />
-
-        <div className="relative mx-auto max-w-6xl px-6 py-28 text-center">
-          <Reveal>
-            <div className="inline-flex items-center gap-2 rounded-full border border-neutral-800/70 bg-neutral-900/60 backdrop-blur px-4 py-2 text-sm text-neutral-300 mb-8">
-              <Sparkle className="h-4 w-4" /> AI powered Financial Optimization
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.2}>
-            <h1 className="text-[40px] leading-tight md:text-7xl md:leading-[1.05] font-semibold tracking-tight">
-              Precision in finance.
-              <br />
-              Simplicity in execution.
-            </h1>
-          </Reveal>
-
-          <Reveal delay={0.35}>
-            <p className="mt-6 text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto">
-              We design and deliver systems that make reporting faster, analysis sharper, and decisions clearer. Built with the rigor of Wall Street, applied with the practicality of a cafe counter.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.5}>
-            <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BlackScholes AI — AI powered Financial Optimization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+      document.documentElement.classList.add('js');
+    </script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        font-family: 'Epilogue', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: radial-gradient(220% 160% at 50% 0%, rgba(60, 60, 60, 0.14), transparent 65%), #000000;
+        color: #f3f4f6;
+      }
+      .brand-gradient {
+        background:
+          radial-gradient(160% 200% at 18% 18%, rgba(160, 160, 160, 0.16), transparent 58%),
+          radial-gradient(200% 260% at 82% 10%, rgba(120, 120, 120, 0.12), transparent 70%),
+          radial-gradient(180% 220% at 46% 90%, rgba(90, 90, 90, 0.1), transparent 72%),
+          #000000;
+      }
+      .hero-overlay {
+        background-image:
+          radial-gradient(circle at 24% 24%, rgba(200, 200, 200, 0.18), transparent 60%),
+          radial-gradient(circle at 78% 22%, rgba(160, 160, 160, 0.14), transparent 62%),
+          radial-gradient(circle at 46% 78%, rgba(120, 120, 120, 0.12), transparent 70%);
+        opacity: 0.35;
+        pointer-events: none;
+      }
+      .grain {
+        position: absolute;
+        inset: 0;
+        opacity: 0.28;
+        pointer-events: none;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsdGVyPSJ1cmwoI2EpIj48cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgcng9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvZz48ZGVmcz48ZmlsdGVyIGlkPSJhIiB4PSItMTIiIHk9Ii0xMiIgd2lkdGg9IjE1MiIgaGVpZ2h0PSIxNTIiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY29sb3ItbWF0cml4PSJzUkdCIj48ZmVUdXJiIGJhc2lGcmVxdWVuY3k9IjEuNSIgc3RkRGV2aWF0aW9uPSIxLjUiLz48ZmVGdW4gdHlwZT0ibGlua2VhckNvbG9yIiByZXN1bHQ9InIiIGluPSJTb3VyY2VHcmFwaGljIiBzdGQtb3BhY2l0eT0iMSIvPjxmZUZ1biB0eXBlPSJ0YWJsZVRvcCIgcmVzdWx0PSJkIiBpbj0icCIvPjxmZUZ1biB0eXBlPSJibGVuZENvbG9yIiBpbj0iZCIgcmVzdWx0PSJnIiBmbG9vZD0iMTMiIGtlcm5lbD0iMTMiLz48ZmVDb21wb3NpdGUgaW49InIiIGluMj0iZyIgcmVzdWx0PSJmIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIi8+PC9maWx0ZXI+PC9kZWZzPjwvc3ZnPg==');
+        mix-blend-mode: soft-light;
+      }
+      .serif {
+        font-family: 'DM Serif Display', 'Times New Roman', serif;
+        letter-spacing: 0.02em;
+      }
+      .brand-mark {
+        font-family: 'DM Serif Display', 'Times New Roman', serif;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+      }
+      .logo-slot {
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 9999px;
+        padding: 0.75rem 2.25rem;
+        color: rgba(226, 232, 240, 0.75);
+        backdrop-filter: blur(8px);
+        background: linear-gradient(135deg, rgba(148, 163, 184, 0.16), rgba(31, 31, 31, 0.6));
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+      }
+      .hero-headline-line {
+        display: block;
+        white-space: nowrap;
+      }
+      .hero-headline-line + .hero-headline-line {
+        margin-top: 0.12em;
+      }
+      .js .hero-headline-line {
+        opacity: 0;
+        transform: translateY(14px);
+        animation: heroFadeUp 520ms ease forwards;
+        animation-delay: 0s;
+      }
+      @media (max-width: 520px) {
+        .hero-headline-line {
+          font-size: clamp(1.875rem, 7vw, 2.35rem);
+        }
+      }
+      .split-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(148, 163, 184, 0.12), rgba(71, 85, 105, 0.08), rgba(17, 24, 39, 0.65));
+        opacity: 0;
+        transition: opacity 300ms ease;
+        border-radius: inherit;
+      }
+      .split-card:hover::before {
+        opacity: 1;
+      }
+      @keyframes heroFadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .js .hero-fade {
+        opacity: 0;
+        transform: translateY(16px);
+        animation: heroFadeUp 520ms ease forwards;
+        animation-delay: 0.8s;
+      }
+      .js .reveal,
+      .js [data-reveal] {
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 420ms ease, transform 420ms ease;
+      }
+      .js .reveal.show,
+      .js [data-reveal].show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-fade {
+          animation: none !important;
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        .reveal {
+          transition: none;
+        }
+        .card {
+          transition: none !important;
+        }
+        .hero-headline-line {
+          animation: none !important;
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      }
+      .horizontal-scroller::-webkit-scrollbar {
+        display: none;
+      }
+      .horizontal-scroller {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <div class="relative overflow-hidden">
+      <div class="grain"></div>
+      <header class="relative z-20">
+        <div class="mx-auto max-w-7xl px-6 py-6">
+          <div class="flex items-center justify-between rounded-full border border-slate-700/60 bg-black/40 px-5 py-3 backdrop-blur">
+            <button
+              type="button"
+              class="flex items-center gap-2 rounded-full bg-transparent text-left text-slate-300 transition hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+              data-hero-scroll
+            >
+              <div class="relative h-10 w-10 overflow-hidden rounded-full border border-slate-600/50 bg-black/70">
+                <img src="logo.webp" alt="BlackScholes AI logo" class="h-full w-full object-contain" />
+              </div>
+              <span class="hidden whitespace-nowrap text-slate-100/80 lg:inline-block brand-mark">BLACKSCHOLES&nbsp;AI</span>
+            </button>
+            <nav class="hidden items-center gap-8 text-sm text-slate-300 lg:flex">
+              <a class="transition hover:text-white" href="careers/">Careers</a>
               <a
+                class="rounded-full border border-slate-200/60 bg-white/90 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-slate-900 shadow-lg"
                 href="#contact"
-                className="inline-flex items-center justify-center rounded-full px-6 py-3 bg-white text-neutral-950 font-semibold shadow-sm hover:opacity-90 transition"
+                data-scroll
               >
-                Start the conversation <ArrowRight className="ml-2 h-5 w-5" />
+                Start the conversation
               </a>
+            </nav>
+            <nav
+              class="flex flex-wrap items-center justify-end gap-2 text-[0.7rem] uppercase tracking-[0.3em] text-slate-200 lg:hidden"
+            >
+              <a
+                class="inline-flex items-center justify-center rounded-full border border-slate-500/60 px-3 py-1 transition hover:border-white/80 hover:text-white"
+                href="careers/"
+              >
+                Careers
+              </a>
+              <a
+                class="inline-flex items-center justify-center rounded-full border border-white/80 bg-white/90 px-3 py-1 font-semibold tracking-[0.35em] text-slate-900 shadow"
+                href="#contact"
+                data-scroll
+              >
+                Contact
+              </a>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section id="hero" class="relative z-10 brand-gradient">
+          <div class="absolute inset-0 hero-overlay mix-blend-screen"></div>
+          <div class="mx-auto flex min-h-[90vh] max-w-6xl flex-col gap-12 px-6 pb-24 pt-32 lg:flex-row lg:items-center">
+            <div class="w-full space-y-10 lg:w-3/5 xl:w-7/12">
+              <span
+                class="inline-flex items-center gap-2 rounded-full border border-slate-200/30 bg-white/10 px-4 py-2 text-xs tracking-[0.25em] text-slate-200 hero-fade"
+              >
+                <span class="h-2 w-2 rounded-full bg-slate-200"></span>
+                AI-Powered Financial Optimization
+              </span>
+              <h1 class="font-semibold tracking-tight text-white leading-[1.05] text-[clamp(2.15rem,4.6vw,3.6rem)] lg:text-[4.05rem] lg:max-w-4xl">
+                <span class="hero-headline-line">Precision in finance.</span>
+                <span class="hero-headline-line">Simplicity in execution.</span>
+              </h1>
+              <p class="max-w-xl text-lg text-slate-200/80 hero-fade">
+                BlackScholes AI develops tools that bring financial data to life by predicting outcomes, surfacing insights instantly, and automating what slow teams down. Everything we deliver is designed to save hours, cut manual effort, and help leaders make confident decisions based on live data.
+              </p>
+              <div class="flex flex-col gap-4 sm:flex-row hero-fade">
+                <a
+                  class="flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-900 shadow-xl transition hover:bg-neutral-200"
+                  href="#contact"
+                  data-scroll
+                  data-scroll-target="#contact"
+                >
+                  Start the conversation
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L21 10.5m0 0l-3.75 3.75M21 10.5H3" />
+                  </svg>
+                </a>
+              </div>
             </div>
-          </Reveal>
+            <div class="relative w-full lg:w-2/5 xl:w-5/12 hero-fade">
+              <div class="rounded-3xl border border-white/10 bg-white/10 p-7 shadow-2xl backdrop-blur-xl lg:ml-auto lg:max-w-sm">
+                <div class="flex items-start justify-between">
+                  <h2 class="text-sm font-semibold uppercase tracking-[0.3em] text-white/90">Built for clarity</h2>
+                </div>
+                <p class="mt-6 text-sm text-slate-100/80">
+                  Our finance specialists and engineers work together so every solution fits your existing process.
+                </p>
+                <div class="mt-8 space-y-5">
+                  <div class="rounded-2xl border border-white/5 bg-black/60 px-4 py-4">
+                    <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Automation</p>
+                    <p class="mt-2 text-sm text-slate-100/80">Close cycles faster and eliminate repetitive tasks.</p>
+                  </div>
+                  <div class="rounded-2xl border border-white/5 bg-black/60 px-4 py-4">
+                    <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Analysis</p>
+                    <p class="mt-2 text-sm text-slate-100/80">Turn raw data into clear, predictive intelligence.</p>
+                  </div>
+                  <div class="rounded-2xl border border-white/5 bg-black/60 px-4 py-4">
+                    <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Decisions</p>
+                    <p class="mt-2 text-sm text-slate-100/80">Equip your leadership with the insight to move first and act decisively.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="expertise" class="bg-neutral-950 text-gray-200 py-24 px-6">
+          <div class="max-w-5xl mx-auto space-y-16">
+            <div data-reveal>
+              <p class="text-xs uppercase tracking-[0.4em] text-slate-400">Expertise in these areas</p>
+            </div>
+
+            <div class="space-y-16">
+              <div
+                data-reveal
+                  class="grid grid-cols-1 md:grid-cols-[280px_1fr] items-start gap-8 border-b border-neutral-800 pb-12"
+              >
+                <img
+                  src="predictive-analytics.webp"
+                  alt="Predictive Analytics"
+                  class="w-full max-w-[280px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  loading="lazy"
+                />
+                <div class="space-y-3">
+                  <h3 class="text-xl text-white">Predictive Analytics</h3>
+                  <p class="text-gray-300">The application of statistical modeling and machine learning to interpret historical data and forecast future outcomes with greater accuracy.</p>
+                </div>
+              </div>
+
+              <div
+                data-reveal
+                  class="grid grid-cols-1 md:grid-cols-[280px_1fr] items-start gap-8 border-b border-neutral-800 pb-12"
+              >
+                <img
+                  src="supply-chain-forecasting.webp"
+                  alt="Supply-Chain Forecasting"
+                  class="w-full max-w-[280px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  loading="lazy"
+                />
+                <div class="space-y-3">
+                  <h3 class="text-xl text-white">Supply-Chain Forecasting</h3>
+                  <p class="text-gray-300">The use of models to anticipate demand, optimize inventory levels, and improve delivery timelines across complex supply networks.</p>
+                </div>
+              </div>
+
+              <div
+                data-reveal
+                  class="grid grid-cols-1 md:grid-cols-[280px_1fr] items-start gap-8 border-b border-neutral-800 pb-12"
+              >
+                <img
+                  src="administrative-automation.webp"
+                  alt="Administrative Automation"
+                  class="w-full max-w-[280px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  loading="lazy"
+                />
+                <div class="space-y-3">
+                  <h3 class="text-xl text-white">Administrative Automation</h3>
+                  <p class="text-gray-300">The integration of AI systems that execute recurring tasks and decision-making with little to no human intervention.</p>
+                </div>
+              </div>
+
+                <div data-reveal class="grid grid-cols-1 md:grid-cols-[280px_1fr] items-start gap-8">
+                <img
+                  src="ai-monitoring-facial-recognition.webp"
+                  alt="AI Monitoring and Facial Recognition"
+                  class="w-full max-w-[280px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  loading="lazy"
+                />
+                <div class="space-y-3">
+                  <h3 class="text-xl text-white">AI Monitoring and Facial Recognition</h3>
+                  <p class="text-gray-300">Computer-vision systems that detect, track, and identify individuals or objects in real time through image and surveillance video analysis.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <section id="how-we-work" class="relative z-10 border-b border-white/10 bg-black py-24">
+          <div class="mx-auto max-w-5xl px-6">
+            <div class="space-y-12">
+              <div class="space-y-6" data-reveal>
+                <p class="text-xs uppercase tracking-[0.4em] text-slate-400">How we work</p>
+                <h2 class="text-3xl font-semibold text-white sm:text-4xl">Systems built around your reality</h2>
+                <p class="text-base text-slate-300/80">
+                  Our process is designed to uncover what matters, engineer solutions that fit, and deliver results that last.
+                </p>
+              </div>
+              <div id="phases" class="flex flex-col space-y-6">
+                <div
+                  data-reveal
+                  class="phase card rounded-3xl bg-neutral-900 p-8 ring-1 ring-neutral-800 shadow-[0_24px_60px_rgba(26,23,0.45)]"
+                >
+                  <h3 class="text-xl font-semibold text-white">Phase 1 — Diagnosis</h3>
+                  <p class="mt-4 text-sm text-gray-300">
+                    We map operations, constraints, risks, and ROI paths through structured interviews and data intake.
+                  </p>
+                </div>
+                <div
+                  data-reveal
+                  class="phase card rounded-3xl bg-neutral-900 p-8 ring-1 ring-neutral-800 shadow-[0_24px_60px_rgba(26,23,0.45)]"
+                >
+                  <h3 class="text-xl font-semibold text-white">Phase 2 — Engineering</h3>
+                  <p class="mt-4 text-sm text-gray-300">
+                    We build financial models, automations, systems, and tools tailored to your operations.
+                  </p>
+                </div>
+                <div
+                  data-reveal
+                  class="phase card rounded-3xl bg-neutral-900 p-8 ring-1 ring-neutral-800 shadow-[0_24px_60px_rgba(26,23,0.45)]"
+                >
+                  <h3 class="text-xl font-semibold text-white">Phase 3 — Deployment</h3>
+                  <p class="mt-4 text-sm text-gray-300">
+                    We ship, train, measure impact, and iterate with real-time telemetry.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="clients" class="relative z-10 border-b border-white/10 bg-black/80 py-24 backdrop-blur">
+          <div class="mx-auto max-w-6xl px-6">
+            <div class="flex flex-col gap-12 lg:flex-row lg:items-start">
+              <div class="lg:w-5/12 space-y-6" data-reveal>
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Who we help</p>
+                <h2 class="text-3xl font-semibold text-white sm:text-4xl">Clarity for teams that move quickly.</h2>
+                <p class="text-base text-slate-300/80">
+                  Our services are crafted for those who move with ambition and demand clarity. From entrepreneurs to boardrooms, we align our systems with your reality.
+                </p>
+              </div>
+              <div class="flex-1">
+                <div
+                  id="clientsScroller"
+                  data-horizontal-scroller
+                  class="horizontal-scroller md:hidden overflow-x-auto snap-x snap-mandatory flex space-x-6 px-4 py-8"
+                  style="-webkit-overflow-scrolling: touch; scroll-behavior: smooth; overscroll-behavior-x: contain;"
+                >
+                  <article class="snap-center min-w-[280px] rounded-3xl border border-white/10 bg-black/70 p-8 shadow-xl backdrop-blur reveal">
+                    <h3 class="text-lg font-semibold text-white">Growing Businesses</h3>
+                    <p class="mt-3 text-sm text-slate-200/80">
+                      Entrepreneurs and operators scaling quickly without losing control of their numbers. We design systems that simplify momentum while preserving control.
+                    </p>
+                  </article>
+                  <article class="snap-center min-w-[280px] rounded-3xl border border-white/10 bg-black/60 p-8 shadow-xl backdrop-blur reveal">
+                    <h3 class="text-lg font-semibold text-white">Established Firms</h3>
+                    <p class="mt-3 text-sm text-slate-200/80">
+                      Organisations with legacy processes ready for modernization. Our solutions integrate with care and elevate efficiency without disruption.
+                    </p>
+                  </article>
+                  <article class="snap-center min-w-[280px] rounded-3xl border border-white/10 bg-black/50 p-8 shadow-xl backdrop-blur reveal">
+                    <h3 class="text-lg font-semibold text-white">Financial Leaders</h3>
+                    <p class="mt-3 text-sm text-slate-200/80">
+                      Executives, CFOs, and investors who demand precise dashboards, streamlined reporting, and the confidence to act swiftly and strategically.
+                    </p>
+                  </article>
+                </div>
+
+                <div class="hidden space-y-6 md:flex md:flex-col">
+                  <article data-reveal class="rounded-3xl border border-white/10 bg-black/70 p-10 shadow-xl backdrop-blur">
+                    <h3 class="text-2xl font-semibold text-white">Growing Businesses</h3>
+                    <p class="mt-4 text-base text-slate-200/80">
+                      Entrepreneurs and operators scaling quickly without losing control of their numbers. We design systems that simplify momentum while preserving control.
+                    </p>
+                  </article>
+                  <article data-reveal class="rounded-3xl border border-white/10 bg-black/60 p-10 shadow-xl backdrop-blur">
+                    <h3 class="text-2xl font-semibold text-white">Established Firms</h3>
+                    <p class="mt-4 text-base text-slate-200/80">
+                      Organisations with legacy processes ready for modernization. Our solutions integrate with care and elevate efficiency without disruption.
+                    </p>
+                  </article>
+                  <article data-reveal class="rounded-3xl border border-white/10 bg-black/50 p-10 shadow-xl backdrop-blur">
+                    <h3 class="text-2xl font-semibold text-white">Financial Leaders</h3>
+                    <p class="mt-4 text-base text-slate-200/80">
+                      Executives, CFOs, and investors who demand precise dashboards, streamlined reporting, and the confidence to act swiftly and strategically.
+                    </p>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="mission" class="relative z-10 border-b border-white/10 bg-black py-24">
+          <div class="mx-auto max-w-6xl px-6">
+            <div class="grid gap-12 lg:grid-cols-[2fr,1fr]">
+              <div data-reveal>
+                <p class="text-xs uppercase tracking-[0.4em] text-slate-400">Our mission</p>
+                <h2 class="mt-4 text-3xl font-semibold text-white sm:text-4xl">Smarter systems. Stronger Canada.</h2>
+                <p class="mt-6 text-slate-300/80">
+                  BlackScholes AI exists to make Canadian businesses more efficient, profitable, and future-proof. Our work strengthens decision quality, reduces operational waste, and helps companies reclaim time and capital that can be reinvested into growth.
+                </p>
+                <p class="mt-6 text-slate-300/80">
+                  Every system we deploy contributes to a stronger economic foundation: more productive businesses, higher margins, and a healthier long-term outlook for Canada’s economy.
+                </p>
+                <p class="mt-6 text-slate-300/80">
+                  We believe national progress begins with local precision. We’re making the level of intelligence thought to be reserved for global corporations accessible to every Canadian business that dares to grow. By helping one company operate better, we help the country move faster.
+                </p>
+              </div>
+              <div class="space-y-6">
+                <div data-reveal class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg">
+                  <p class="text-xs uppercase tracking-[0.35em] text-slate-300">Alliances</p>
+                  <p class="mt-3 text-sm text-white/90">We collaborate with—and have delivered work for—the top AI labs in San Francisco alongside Canadian finance partners so every solution respects local realities.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" class="relative z-10 bg-black/80 py-24 backdrop-blur">
+          <div class="mx-auto max-w-4xl px-6 text-center">
+            <p class="text-xs uppercase tracking-[0.4em] text-slate-400" data-reveal>Contact</p>
+            <h2
+              class="mt-4 text-3xl font-semibold text-white sm:text-4xl"
+              data-reveal
+            >
+              Design the next era of your financial operations.
+            </h2>
+            <p class="mt-6 text-slate-300/80" data-reveal>
+              Tell us about your company and we will show you how tailored systems can save time and sharpen decisions.
+            </p>
+            <form
+              id="contact-form"
+              action="https://formsubmit.co/contact@blackscholes.ca"
+              data-endpoint="https://formsubmit.co/ajax/contact@blackscholes.ca"
+              method="POST"
+              class="mx-auto mt-12 grid gap-6 text-left sm:grid-cols-2"
+              data-reveal
+            >
+              <label class="flex flex-col gap-2 text-sm text-slate-200/80">
+                Name
+                <input class="rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none transition focus:border-white/60 focus:bg-black/60" name="name" type="text" placeholder="Jane Doe" required />
+              </label>
+              <label class="flex flex-col gap-2 text-sm text-slate-200/80">
+                Email
+                <input class="rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none transition focus:border-white/60 focus:bg-black/60" name="email" type="email" placeholder="jane@company.com" required />
+              </label>
+              <label class="flex flex-col gap-2 text-sm text-slate-200/80 sm:col-span-2">
+                Company &amp; Role
+                <input class="rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none transition focus:border-white/60 focus:bg-black/60" name="company" type="text" placeholder="Organisation, title" required />
+              </label>
+              <label class="flex flex-col gap-2 text-sm text-slate-200/80 sm:col-span-2">
+                Budget
+                <select
+                  class="rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none transition focus:border-white/60 focus:bg-black/60"
+                  name="budget"
+                  required
+                >
+                  <option value="" disabled selected hidden>Select budget range</option>
+                  <option value="1k-10k">$1K – $10K</option>
+                  <option value="10k-30k">$10K – $30K</option>
+                  <option value="30k-100k">$30K – $100K</option>
+                  <option value="100k-plus">$100K and up</option>
+                  <option value="inquiry-only">Only inquiring</option>
+                </select>
+              </label>
+              <label class="flex flex-col gap-2 text-sm text-slate-200/80 sm:col-span-2">
+                Message
+                <textarea class="min-h-[140px] rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none transition focus:border-white/60 focus:bg-black/60" name="message" required></textarea>
+              </label>
+              <div class="sm:col-span-2">
+                <button class="flex w-full items-center justify-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-slate-900 shadow-xl transition hover:bg-neutral-200" type="submit">
+                  Submit message
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75 6.75M19.5 12l-6.75-6.75" />
+                  </svg>
+                </button>
+              </div>
+              <p id="contact-status-message" class="sm:col-span-2 hidden text-sm mt-4" aria-live="polite"></p>
+            </form>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="relative z-10 border-t border-white/10 bg-black py-8 sm:py-12">
+        <div class="mx-auto max-w-6xl px-6 text-center text-[0.6rem] uppercase tracking-[0.2em] text-slate-400 sm:text-xs sm:tracking-[0.35em]">
+          © 2025 BLACKSCHOLES AI. ALL RIGHTS RESERVED.
         </div>
-      </section>
-
-      <ServicesSection />
-      <ProcessSection />
-      <WhoWeHelpSection />
-      <MissionSection />
-      <ContactSection />
-      {/* <Footer /> Uncomment to render footer */}
-    </>
-  );
-}
-
-// ===== Services (Tailored Systems) =====
-function ServicesSection() {
-  const pillars = [
-    {
-      title: 'Strategy',
-      copy: 'We conduct financial analysis and market modeling to uncover clear opportunities and risks, giving leaders the data they need to act decisively.',
-    },
-    {
-      title: 'Engineering',
-      copy: 'Our team builds models and automations with precision, ensuring they are resilient, transparent, and practical for day to day operations.',
-    },
-    {
-      title: 'Delivery',
-      copy: 'From implementation to training, we integrate systems with care, acknowledging complexity, addressing constraints, and ensuring adoption across teams.',
-    },
-  ];
-
-  const card = {
-    hidden: { opacity: 0, y: 40, scale: 0.95 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: 'easeOut' } },
-  };
-
-  return (
-    <section id="tailored" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-6xl px-6 py-28 text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Systems built around your reality</h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-neutral-400 leading-relaxed text-lg max-w-3xl mx-auto">
-            We design reporting, automation, and decision support systems tailored to the scale and context of your business. Whether a capital intensive firm or a boutique cafe, our work adapts to your environment and ambitions.
-          </p>
-        </Reveal>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-10%' }}
-          transition={{ staggerChildren: 0.18 }}
-          className="mt-16 grid sm:grid-cols-3 gap-8 text-left"
-        >
-          {pillars.map((p, i) => (
-            <motion.div
-              key={i}
-              variants={card}
-              whileHover={{ y: -8, scale: 1.02 }}
-              className="rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 relative overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
-            >
-              <motion.div
-                aria-hidden
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 0.3 }}
-                transition={{ duration: 0.4 }}
-                className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent"
-              />
-              <h3 className="font-semibold text-xl mb-3 text-neutral-100 tracking-wide">{p.title}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">{p.copy}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <Reveal delay={0.5}>
-          <p className="mt-14 text-neutral-300 max-w-2xl mx-auto text-lg italic">
-            Every engagement begins with listening and concludes with systems that deliver clarity and durability.
-          </p>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-// ===== Process =====
-function ProcessSection() {
-  const steps = [
-    {
-      title: 'Discovery',
-      copy: 'We start with structured conversations to understand your goals, constraints, and context, building a clear baseline before solutions are proposed.',
-    },
-    {
-      title: 'Design',
-      copy: 'We develop models and workflows with a balance of rigor and practicality, ensuring they address real needs and can be integrated smoothly.',
-    },
-    {
-      title: 'Deployment',
-      copy: 'Delivery may take several forms: a solutions and reporting package, full implementation by our team, or an on site workshop to implement and train your staff.',
-    },
-  ];
-
-  const item = {
-    hidden: { opacity: 0, x: -40 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: 'easeOut' } },
-  };
-
-  return (
-    <section id="process" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-5xl px-6 py-28">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-center">How we work</h2>
-        </Reveal>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-10%' }}
-          transition={{ staggerChildren: 0.2 }}
-          className="mt-16 space-y-12"
-        >
-          {steps.map((s, i) => (
-            <motion.div
-              key={i}
-              variants={item}
-              className="relative rounded-xl border border-neutral-800 bg-gradient-to-r from-neutral-900 to-neutral-950 p-8 shadow-md"
-            >
-              <h3 className="font-semibold text-2xl mb-3 text-neutral-100">{s.title}</h3>
-              <p className="text-neutral-400 leading-relaxed">{s.copy}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-// ===== Who We Help =====
-function WhoWeHelpSection() {
-  const groups = [
-    {
-      title: 'Growing Businesses',
-      copy: 'Entrepreneurs and operators seeking to scale without losing control of their numbers. We build systems that simplify growth while preserving discipline.',
-    },
-    {
-      title: 'Established Firms',
-      copy: 'Organizations with legacy processes that need modernization, our solutions integrate with care and elevate efficiency without disruption.',
-    },
-    {
-      title: 'Financial Leaders',
-      copy: 'Executives, CFOs, and investors who require precise dashboards, streamlined reporting, and confidence to act swiftly and strategically.',
-    },
-  ];
-
-  const card = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
-  return (
-    <section id="who-we-help" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-6xl px-6 py-28 text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Who We Help</h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-neutral-400 leading-relaxed text-lg max-w-3xl mx-auto">
-            Our services are crafted for those who move with ambition and demand clarity. From entrepreneurs to boardrooms, we align our systems with your reality.
-          </p>
-        </Reveal>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-10%' }}
-          transition={{ staggerChildren: 0.15 }}
-          className="mt-16 grid sm:grid-cols-3 gap-8 text-left"
-        >
-          {groups.map((g, i) => (
-            <motion.div
-              key={i}
-              variants={card}
-              whileHover={{ y: -6 }}
-              className="rounded-2xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-8 shadow-lg hover:shadow-xl transition-shadow"
-            >
-              <h3 className="font-semibold text-xl mb-3 text-neutral-100 tracking-wide">{g.title}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">{g.copy}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-// ===== Mission =====
-function MissionSection() {
-  return (
-    <section id="mission" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-4xl px-6 py-28 text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Our Mission</h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-neutral-400 leading-relaxed text-lg">
-            The value of time has risen sharply over the last decades. What was once considered as fast is now ordinary. In 1980, the Ferrari 308 needed about 8.1 seconds to reach 100 km/h; today, Ferraris do it in under 2.9. In the same spirit, our AI engineers focus on compressing hours into minutes and minutes into automatic workflows, so leaders can act sooner, with clarity and confidence.
-          </p>
-        </Reveal>
-        <Reveal delay={0.3}>
-          <p className="mt-4 text-neutral-300 max-w-2xl mx-auto">
-            Our role is to design tools that stand quietly behind strong leaders, supporting decisions, not overshadowing them.
-          </p>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-// ===== Contact =====
-function ContactSection() {
-  return (
-    <section id="contact" className="relative bg-neutral-950 text-neutral-100 border-t border-neutral-900">
-      <div className="mx-auto max-w-3xl px-6 py-28 text-center">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Get in Touch</h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mt-6 text-neutral-400 leading-relaxed text-lg">
-            Tell us about your company and we will show you how tailored systems can save time and sharpen decisions.
-          </p>
-        </Reveal>
-        <form className="mt-12 space-y-6 text-left">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-neutral-300">Name</label>
-            <input id="name" name="name" type="text" required className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500" />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-neutral-300">Email</label>
-            <input id="email" name="email" type="email" required className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500" />
-          </div>
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-neutral-300">Message</label>
-            <textarea id="message" name="message" rows={4} required className="mt-1 w-full rounded-md bg-neutral-900 border border-neutral-700 text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-500"></textarea>
-          </div>
-          <a href="mailto:contact@blackscholes.ca?subject=Inquiry%20from%20website" className="w-full inline-flex items-center justify-center rounded-md bg-white text-neutral-950 font-semibold px-6 py-3 shadow hover:opacity-90 transition">
-            Email contact@blackscholes.ca
-          </a>
-        </form>
-      </div>
-    </section>
-  );
-}
-
-// ===== Nav (Vercel style) =====
-function NavBar() {
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="mt-4 flex items-center justify-between rounded-full border border-neutral-800/60 bg-neutral-900/40 backdrop-blur supports-[backdrop-filter]:bg-neutral-900/40 px-4 py-2">
-          <a href="#" className="font-medium tracking-tight">Black Scholes</a>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-300">
-            <a className="hover:text-white" href="#tailored">Systems</a>
-            <a className="hover:text-white" href="#process">Process</a>
-            <a className="hover:text-white" href="#who-we-help">Who we help</a>
-            <a className="hover:text-white" href="#mission">Mission</a>
-            <a className="inline-flex items-center justify-center rounded-full px-3 py-1.5 bg-white text-neutral-950 font-medium" href="#contact">Contact</a>
-          </nav>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-// ===== Prestige Background with Aurora =====
-function BackgroundGrid() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0">
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-neutral-900 via-black to-neutral-950" />
-
-      {/* Animated aurora shimmer */}
-      <motion.div
-        aria-hidden
-        className="absolute inset-0 opacity-20"
-        animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        style={{
-          backgroundImage: 'linear-gradient(120deg, rgba(180,180,255,0.15), rgba(255,180,255,0.1), rgba(180,255,220,0.15))',
-          backgroundSize: '200% 200%'
-        }}
-      />
-
-      {/* Fine grid overlay */}
-      <div className="absolute inset-0 opacity-[0.05] [background:repeating-linear-gradient(90deg,rgba(255,255,255,0.05)_0,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_80px)], [background:repeating-linear-gradient(0deg,rgba(255,255,255,0.05)_0,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_80px)]" />
-
-      {/* Vignette mask */}
-      <div className="absolute inset-0 [mask-image:radial-gradient(65%_50%_at_50%_40%,black,transparent)]" />
+      </footer>
     </div>
-  );
-}
 
-// ===== Footer (optional) =====
-function Footer() {
-  return (
-    <footer className="border-t border-neutral-900 bg-black">
-      <div className="mx-auto max-w-7xl px-6 py-10 text-sm text-neutral-400 flex items-center justify-between">
-        <span>© {new Date().getFullYear()} Black Scholes</span>
-        <a className="hover:text-white" href="mailto:contact@blackscholes.ca">contact@blackscholes.ca</a>
-      </div>
-    </footer>
-  );
-}
+    <script>
+      (function () {
+        const revealElements = document.querySelectorAll('[data-reveal]');
+        if (!revealElements.length) return;
 
-// =============== Dev sanity checks (non-breaking) ===============
-if (typeof window !== 'undefined' && typeof console !== 'undefined') {
-  const approx = (a, b, eps = 1e-9) => Math.abs(a - b) < eps;
-  console.assert(typeof easeOutCubic === 'function', 'easeOutCubic defined');
-  console.assert(approx(easeOutCubic(0), 0), 'easeOutCubic(0) == 0');
-  console.assert(approx(easeOutCubic(1), 1), 'easeOutCubic(1) == 1');
-  console.assert(easeOutCubic(0.5) > 0.5, 'easeOutCubic ease out midpoint');
-  const s0 = easeOutCubic(0.25);
-  const s1 = easeOutCubic(0.5);
-  const s2 = easeOutCubic(0.75);
-  console.assert(s0 < s1 && s1 < s2, 'easeOutCubic increases on sample points');
-}
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+          revealElements.forEach((element) => element.classList.add('show'));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.35 }
+        );
+
+        revealElements.forEach((element) => observer.observe(element));
+      })();
+
+      document.querySelectorAll('[data-scroll]').forEach((trigger) => {
+        const explicitTarget = trigger.getAttribute('data-scroll-target');
+        const href = trigger.getAttribute('href');
+        const targetSelector = explicitTarget || href;
+        if (!targetSelector || !targetSelector.startsWith('#')) return;
+        const target = document.querySelector(targetSelector);
+        if (!target) return;
+
+        trigger.addEventListener('click', (event) => {
+          event.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      (function () {
+        const containers = document.querySelectorAll('[data-horizontal-scroller]');
+        if (!containers.length) return;
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        containers.forEach((container) => {
+          const cards = container.querySelectorAll('.reveal');
+          if (!cards.length) return;
+
+          if (prefersReducedMotion) {
+            cards.forEach((card) => card.classList.add('show'));
+            return;
+          }
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('show');
+                }
+              });
+            },
+            { root: container, threshold: 0.35 }
+          );
+
+          cards.forEach((card) => observer.observe(card));
+        });
+      })();
+
+      document.querySelectorAll('[data-hero-scroll]').forEach((button) => {
+        const href = button.getAttribute('data-hero-scroll-href');
+        if (href) {
+          button.addEventListener('click', () => {
+            window.location.href = href;
+          });
+          return;
+        }
+
+        const targetId = button.getAttribute('data-hero-scroll-target') || 'hero';
+        const target = document.getElementById(targetId);
+        if (!target) return;
+
+        button.addEventListener('click', () => {
+          target.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      const contactForm = document.getElementById('contact-form');
+      if (contactForm) {
+        const endpoint = contactForm.dataset.endpoint || contactForm.action;
+        const statusMessage = document.getElementById('contact-status-message');
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+
+        contactForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          if (typeof contactForm.reportValidity === 'function' && !contactForm.reportValidity()) {
+            return;
+          }
+
+          const formData = new FormData(contactForm);
+
+          if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.classList.add('opacity-70', 'cursor-not-allowed');
+          }
+
+          if (statusMessage) {
+            statusMessage.textContent = '';
+            statusMessage.classList.add('hidden');
+            statusMessage.classList.remove('text-emerald-400', 'text-rose-400');
+          }
+
+          try {
+            const response = await fetch(endpoint, {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+              },
+              body: formData,
+            });
+
+            if (!response.ok) {
+              throw new Error('Request failed');
+            }
+
+            contactForm.reset();
+
+            if (statusMessage) {
+              statusMessage.textContent = 'Thank you for your message! We will review your request and get back to you in the next 24h.';
+              statusMessage.classList.remove('hidden');
+              statusMessage.classList.add('text-emerald-400');
+            }
+          } catch (error) {
+            if (statusMessage) {
+              statusMessage.textContent = 'We were unable to send your message. Please try again or email contact@blackscholes.ca directly.';
+              statusMessage.classList.remove('hidden');
+              statusMessage.classList.add('text-rose-400');
+            }
+          } finally {
+            if (submitButton) {
+              submitButton.disabled = false;
+              submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
