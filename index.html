@@ -73,6 +73,27 @@
       .split-card:hover::before {
         opacity: 1;
       }
+      .reveal {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 420ms ease, transform 420ms ease;
+      }
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal {
+          transition: none;
+        }
+      }
+      #expertiseScroller::-webkit-scrollbar {
+        display: none;
+      }
+      #expertiseScroller {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
     </style>
   </head>
   <body class="antialiased">
@@ -177,55 +198,87 @@
               <p class="text-xs uppercase tracking-[0.4em] text-slate-400">Expertise in these areas</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-[380px_1fr] items-start gap-8 border-b border-neutral-800 pb-12">
-              <img
-                src="predictive-analytics.webp"
-                alt="Predictive Analytics"
-                class="w-full max-w-[380px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
-                loading="lazy"
-              />
-              <div class="space-y-3">
-                <h3 class="text-xl text-white">Predictive Analytics</h3>
-                <p class="text-gray-300">The application of statistical modeling and machine learning to interpret historical data and forecast future outcomes with greater accuracy.</p>
+            <div class="hidden md:block space-y-16">
+              <div class="grid grid-cols-1 md:grid-cols-[380px_1fr] items-start gap-8 border-b border-neutral-800 pb-12">
+                <img
+                  src="predictive-analytics.webp"
+                  alt="Predictive Analytics"
+                  class="w-full max-w-[380px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  loading="lazy"
+                />
+                <div class="space-y-3">
+                  <h3 class="text-xl text-white">Predictive Analytics</h3>
+                  <p class="text-gray-300">The application of statistical modeling and machine learning to interpret historical data and forecast future outcomes with greater accuracy.</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-[380px_1fr] items-start gap-8 border-b border-neutral-800 pb-12">
+                <img
+                  src="supply-chain-forecasting.webp"
+                  alt="Supply-Chain Forecasting"
+                  class="w-full max-w-[380px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  loading="lazy"
+                />
+                <div class="space-y-3">
+                  <h3 class="text-xl text-white">Supply-Chain Forecasting</h3>
+                  <p class="text-gray-300">The use of models to anticipate demand, optimize inventory levels, and improve delivery timelines across complex supply networks.</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-[380px_1fr] items-start gap-8 border-b border-neutral-800 pb-12">
+                <img
+                  src="administrative-automation.webp"
+                  alt="Administrative Automation"
+                  class="w-full max-w-[380px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  loading="lazy"
+                />
+                <div class="space-y-3">
+                  <h3 class="text-xl text-white">Administrative Automation</h3>
+                  <p class="text-gray-300">The integration of AI systems that execute recurring tasks and decision-making with little to no human intervention.</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-[380px_1fr] items-start gap-8">
+                <img
+                  src="ai-monitoring-facial-recognition.webp"
+                  alt="AI Monitoring and Facial Recognition"
+                  class="w-full max-w-[380px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  loading="lazy"
+                />
+                <div class="space-y-3">
+                  <h3 class="text-xl text-white">AI Monitoring and Facial Recognition</h3>
+                  <p class="text-gray-300">Computer-vision systems that detect, track, and identify individuals or objects in real time through image and surveillance video analysis.</p>
+                </div>
               </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-[380px_1fr] items-start gap-8 border-b border-neutral-800 pb-12">
-              <img
-                src="supply-chain-forecasting.webp"
-                alt="Supply-Chain Forecasting"
-                class="w-full max-w-[380px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
-                loading="lazy"
-              />
-              <div class="space-y-3">
-                <h3 class="text-xl text-white">Supply-Chain Forecasting</h3>
-                <p class="text-gray-300">The use of models to anticipate demand, optimize inventory levels, and improve delivery timelines across complex supply networks.</p>
+            <div
+              id="expertiseScroller"
+              class="md:hidden overflow-x-auto snap-x snap-mandatory flex space-x-6 px-4 py-8"
+              style="-webkit-overflow-scrolling: touch; scroll-behavior: smooth; overscroll-behavior-x: contain;"
+            >
+              <div class="snap-center min-w-[280px] bg-neutral-900 rounded-xl p-5 ring-1 ring-neutral-800 shadow-sm reveal">
+                <img src="predictive-analytics.webp" alt="Predictive Analytics" class="rounded-lg mb-4" loading="lazy" />
+                <h3 class="text-lg text-white">Predictive Analytics</h3>
+                <p class="text-gray-300 text-sm">The application of statistical modeling and machine learning to interpret historical data and forecast future outcomes with greater accuracy.</p>
               </div>
-            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-[380px_1fr] items-start gap-8 border-b border-neutral-800 pb-12">
-              <img
-                src="administrative-automation.webp"
-                alt="Administrative Automation"
-                class="w-full max-w-[380px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
-                loading="lazy"
-              />
-              <div class="space-y-3">
-                <h3 class="text-xl text-white">Administrative Automation</h3>
-                <p class="text-gray-300">The integration of AI systems that execute recurring tasks and decision-making with little to no human intervention.</p>
+              <div class="snap-center min-w-[280px] bg-neutral-900 rounded-xl p-5 ring-1 ring-neutral-800 shadow-sm reveal">
+                <img src="supply-chain-forecasting.webp" alt="Supply-Chain Forecasting" class="rounded-lg mb-4" loading="lazy" />
+                <h3 class="text-lg text-white">Supply-Chain Forecasting</h3>
+                <p class="text-gray-300 text-sm">The use of models to anticipate demand, optimize inventory levels, and improve delivery timelines across complex supply networks.</p>
               </div>
-            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-[380px_1fr] items-start gap-8">
-              <img
-                src="ai-monitoring-facial-recognition.webp"
-                alt="AI Monitoring and Facial Recognition"
-                class="w-full max-w-[380px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
-                loading="lazy"
-              />
-              <div class="space-y-3">
-                <h3 class="text-xl text-white">AI Monitoring and Facial Recognition</h3>
-                <p class="text-gray-300">Computer-vision systems that detect, track, and identify individuals or objects in real time through image and surveillance video analysis.</p>
+              <div class="snap-center min-w-[280px] bg-neutral-900 rounded-xl p-5 ring-1 ring-neutral-800 shadow-sm reveal">
+                <img src="administrative-automation.webp" alt="Administrative Automation" class="rounded-lg mb-4" loading="lazy" />
+                <h3 class="text-lg text-white">Administrative Automation</h3>
+                <p class="text-gray-300 text-sm">The integration of AI systems that execute recurring tasks and decision-making with little to no human intervention.</p>
+              </div>
+
+              <div class="snap-center min-w-[280px] bg-neutral-900 rounded-xl p-5 ring-1 ring-neutral-800 shadow-sm reveal">
+                <img src="ai-monitoring-facial-recognition.webp" alt="AI Monitoring and Facial Recognition" class="rounded-lg mb-4" loading="lazy" />
+                <h3 class="text-lg text-white">AI Monitoring and Facial Recognition</h3>
+                <p class="text-gray-300 text-sm">Computer-vision systems that detect, track, and identify individuals or objects in real time through image and surveillance video analysis.</p>
               </div>
             </div>
           </div>
@@ -419,6 +472,31 @@
           target.scrollIntoView({ behavior: 'smooth' });
         });
       });
+
+      (function () {
+        const container = document.getElementById('expertiseScroller');
+        if (!container) return;
+
+        const cards = container.querySelectorAll('.reveal');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+          cards.forEach((card) => card.classList.add('show'));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+              }
+            });
+          },
+          { root: container, threshold: 0.2 }
+        );
+
+        cards.forEach((card) => observer.observe(card));
+      })();
 
       document.querySelectorAll('[data-hero-scroll]').forEach((button) => {
         const href = button.getAttribute('data-hero-scroll-href');
