@@ -73,6 +73,9 @@
         display: block;
         white-space: nowrap;
       }
+      .hero-headline-line + .hero-headline-line {
+        margin-top: 0.12em;
+      }
       .js .hero-headline-line {
         opacity: 0;
         transform: translateY(14px);
@@ -83,19 +86,6 @@
         .hero-headline-line {
           font-size: clamp(1.875rem, 7vw, 2.35rem);
         }
-      }
-      .card {
-        transition: filter 0.5s ease, opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
-      }
-      .card.dim {
-        filter: grayscale(100%);
-        opacity: 0.55;
-      }
-      .card.active {
-        filter: grayscale(0%);
-        opacity: 1;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
       }
       .split-card::before {
         content: '';
@@ -221,7 +211,7 @@
                 <span class="h-2 w-2 rounded-full bg-slate-200"></span>
                 AI-Powered Financial Optimization
               </span>
-              <h1 class="font-semibold tracking-tight text-white text-[clamp(2.3rem,5vw,3.8rem)] lg:text-[4.25rem] lg:max-w-4xl">
+              <h1 class="font-semibold tracking-tight text-white leading-[1.05] text-[clamp(2.15rem,4.6vw,3.6rem)] lg:text-[4.05rem] lg:max-w-4xl">
                 <span class="hero-headline-line">Precision in finance.</span>
                 <span class="hero-headline-line">Simplicity in execution.</span>
               </h1>
@@ -342,53 +332,44 @@
         </section>
 
         <section id="how-we-work" class="relative z-10 border-b border-white/10 bg-black py-24">
-          <div class="mx-auto max-w-7xl px-6 lg:px-10 xl:px-12">
-            <div class="flex flex-col gap-12 lg:flex-row lg:items-start">
-              <div class="lg:w-5/12" data-reveal>
+          <div class="mx-auto max-w-6xl px-6">
+            <div class="grid gap-12 lg:grid-cols-[1fr,1.2fr] lg:items-start">
+              <div class="space-y-6" data-reveal>
                 <p class="text-xs uppercase tracking-[0.4em] text-slate-400">How we work</p>
-                <h2 class="mt-4 text-3xl font-semibold text-white sm:text-4xl">Systems built around your reality</h2>
-                <p class="mt-6 text-slate-300/80">
+                <h2 class="text-3xl font-semibold text-white sm:text-4xl">Systems built around your reality</h2>
+                <p class="text-base text-slate-300/80">
                   Our process is designed to uncover what matters, engineer solutions that fit, and deliver results that last.
                 </p>
               </div>
-              <div class="relative flex-1">
-                <div class="pointer-events-none absolute inset-x-0 top-[52%] hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-white/35 to-transparent lg:block"></div>
-                <ol
-                  id="phases"
-                  data-horizontal-scroller
-                  class="relative flex snap-x snap-mandatory overflow-x-auto horizontal-scroller gap-6 px-4 md:grid md:overflow-visible md:snap-none md:px-0 md:gap-10 xl:gap-12"
-                  style="-webkit-overflow-scrolling: touch; scroll-behavior: smooth; overscroll-behavior-x: contain;"
+              <ol class="space-y-8">
+                <li
+                  data-reveal
+                  class="relative overflow-hidden rounded-3xl border border-white/12 bg-black/70 p-8 shadow-[0_24px_60px_rgba(2,6,23,0.55)]"
                 >
-                  <li
-                    class="phase card reveal group relative min-w-[280px] flex-none snap-center rounded-3xl border border-slate-500/40 bg-[linear-gradient(155deg,rgba(37,99,235,0.32),rgba(15,23,42,0.92))] p-10 shadow-[0_24px_70px_rgba(2,6,23,0.6)] backdrop-blur"
-                  >
-                    <h3 class="mt-2 text-xl font-semibold text-white">Phase I — Diagnosis</h3>
-                    <p class="mt-4 text-sm text-slate-200/80">
-                      We map operations, constraints, risks, and ROI paths through structured interviews and data intake.
-                    </p>
-                    <div class="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-r from-blue-200/50 to-transparent lg:block"></div>
-                  </li>
-                  <li
-                    class="phase card reveal group relative min-w-[280px] flex-none snap-center rounded-3xl border border-slate-500/40 bg-[linear-gradient(155deg,rgba(37,99,235,0.32),rgba(15,23,42,0.92))] p-10 shadow-[0_24px_70px_rgba(2,6,23,0.6)] backdrop-blur"
-                  >
-                    <h3 class="mt-2 text-xl font-semibold text-white">Phase II — Engineering</h3>
-                    <p class="mt-4 text-sm text-slate-200/80">
-                      We build financial models, automations, systems, and tools tailored to your operations.
-                    </p>
-                    <div class="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-r from-blue-200/50 to-transparent lg:block"></div>
-                    <div class="pointer-events-none absolute left-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-l from-blue-200/50 to-transparent lg:block"></div>
-                  </li>
-                  <li
-                    class="phase card reveal group relative min-w-[280px] flex-none snap-center rounded-3xl border border-slate-500/40 bg-[linear-gradient(155deg,rgba(37,99,235,0.32),rgba(15,23,42,0.92))] p-10 shadow-[0_24px_70px_rgba(2,6,23,0.6)] backdrop-blur"
-                  >
-                    <h3 class="mt-2 text-xl font-semibold text-white">Phase III — Deployment</h3>
-                    <p class="mt-4 text-sm text-slate-200/80">
-                      We ship, train, measure impact, and iterate with real-time telemetry.
-                    </p>
-                    <div class="pointer-events-none absolute left-[-18px] top-1/2 hidden h-px w-9 -translate-y-1/2 bg-gradient-to-l from-blue-200/50 to-transparent lg:block"></div>
-                  </li>
-                </ol>
-              </div>
+                  <h3 class="mt-2 text-xl font-semibold text-white">Phase I — Diagnosis</h3>
+                  <p class="mt-4 text-sm text-slate-200/80">
+                    We map operations, constraints, risks, and ROI paths through structured interviews and data intake.
+                  </p>
+                </li>
+                <li
+                  data-reveal
+                  class="relative overflow-hidden rounded-3xl border border-white/12 bg-black/70 p-8 shadow-[0_24px_60px_rgba(2,6,23,0.55)]"
+                >
+                  <h3 class="mt-2 text-xl font-semibold text-white">Phase II — Engineering</h3>
+                  <p class="mt-4 text-sm text-slate-200/80">
+                    We build financial models, automations, systems, and tools tailored to your operations.
+                  </p>
+                </li>
+                <li
+                  data-reveal
+                  class="relative overflow-hidden rounded-3xl border border-white/12 bg-black/70 p-8 shadow-[0_24px_60px_rgba(2,6,23,0.55)]"
+                >
+                  <h3 class="mt-2 text-xl font-semibold text-white">Phase III — Deployment</h3>
+                  <p class="mt-4 text-sm text-slate-200/80">
+                    We ship, train, measure impact, and iterate with real-time telemetry.
+                  </p>
+                </li>
+              </ol>
             </div>
           </div>
         </section>
@@ -578,82 +559,6 @@
         );
 
         revealElements.forEach((element) => observer.observe(element));
-      })();
-
-      (function () {
-        const section = document.getElementById('how-we-work');
-        const phasesWrap = document.getElementById('phases');
-        if (!section || !phasesWrap) return;
-
-        const phases = Array.from(phasesWrap.querySelectorAll('.phase'));
-        if (!phases.length) return;
-
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const staggerMs = 160;
-        const focusHoldMs = 900;
-        const betweenFocusMs = 180;
-        const runOnce = true;
-        let started = false;
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return;
-              if (started && runOnce) return;
-              started = true;
-
-              if (prefersReducedMotion) {
-                phases.forEach((phase) => phase.classList.add('show'));
-                observer.unobserve(section);
-                return;
-              }
-
-              phases.forEach((phase, index) => {
-                setTimeout(() => {
-                  phase.classList.add('show');
-                }, index * staggerMs);
-              });
-
-              const totalStaggerTime = (phases.length - 1) * staggerMs + 400;
-              setTimeout(runHighlightSequence, totalStaggerTime);
-              if (runOnce) {
-                observer.unobserve(section);
-              }
-            });
-          },
-          { threshold: 0.6 }
-        );
-
-        observer.observe(section);
-
-        function runHighlightSequence() {
-          phases.forEach((phase) => {
-            phase.classList.add('dim');
-            phase.classList.remove('active');
-          });
-
-          let index = 0;
-
-          function focusNext() {
-            if (index > 0) {
-              phases[index - 1].classList.remove('active');
-            }
-
-            if (index < phases.length) {
-              phases[index].classList.add('active');
-              setTimeout(() => {
-                index += 1;
-                setTimeout(focusNext, betweenFocusMs);
-              }, focusHoldMs);
-            } else {
-              setTimeout(() => {
-                phases.forEach((phase) => phase.classList.remove('dim', 'active'));
-              }, 200);
-            }
-          }
-
-          setTimeout(focusNext, betweenFocusMs);
-        }
       })();
 
       document.querySelectorAll('[data-scroll]').forEach((trigger) => {
