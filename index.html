@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BlackScholes AI — AI powered Financial Optimization</title>
+    <meta
+      name="description"
+      content="Black-Scholes AI is a Montreal-based quantitative intelligence firm that empowers organizations with predictive analytics, AI-driven optimization, and automated financial systems that refine performance and accelerate smarter business decisions."
+    />
+    <title>Black-Scholes AI | Quantitative Intelligence & Predictive Optimization</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -411,6 +416,12 @@
                   </article>
                 </div>
 
+                <div class="md:hidden mt-2 flex items-center justify-center gap-2" aria-hidden="true">
+                  <span class="h-1.5 w-1.5 rounded-full bg-slate-500/70"></span>
+                  <span class="h-1.5 w-1.5 rounded-full bg-slate-600/60"></span>
+                  <span class="h-1.5 w-1.5 rounded-full bg-slate-700/50"></span>
+                </div>
+
                 <div class="hidden space-y-6 md:flex md:flex-col">
                   <article data-reveal class="rounded-3xl border border-white/10 bg-black/70 p-10 shadow-xl backdrop-blur">
                     <h3 class="text-2xl font-semibold text-white">Growing Businesses</h3>
@@ -571,6 +582,15 @@
 
         trigger.addEventListener('click', (event) => {
           event.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      window.addEventListener('load', () => {
+        if (!window.location.hash) return;
+        const target = document.querySelector(window.location.hash);
+        if (!target) return;
+        requestAnimationFrame(() => {
           target.scrollIntoView({ behavior: 'smooth' });
         });
       });
