@@ -165,7 +165,7 @@
         .hero-background {
           background-image: url('/hero-background-mobile.webp');
           background-position: 50% 30%;
-          background-size: 150%;
+          background-size: 130%;
         }
 
         .hero__scrim {
@@ -177,6 +177,22 @@
         .hero__content {
           transform: translateY(-3vh);
         }
+@media (max-width: 768px) {
+  .hero__eyebrow {
+    position: relative;
+    top: -3rem;
+  }
+
+  .hero__title {
+    position: relative;
+    top: -2rem;
+  }
+
+  .hero__content {
+    transform: translateY(-4vh);
+  }
+}
+
 
         .hero__lead {
           margin: 0 auto;
