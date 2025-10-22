@@ -18,11 +18,11 @@
     />
     <title>BlackScholes AI | Quantitative Intelligence & Predictive Optimization</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="preload" as="image" href="/images/hero-background.webp" />
+    <link rel="preload" as="image" href="/hero-background.webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=DM+Serif+Display&family=IBM+Plex+Serif:wght@400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
@@ -37,7 +37,7 @@
         color-scheme: dark;
       }
       body {
-        font-family: 'Epilogue', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family: 'IBM Plex Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         background: radial-gradient(220% 160% at 50% 0%, rgba(60, 60, 60, 0.14), transparent 65%), #000000;
         color: #f3f4f6;
       }
@@ -55,44 +55,61 @@
         display: grid;
         place-items: center;
         color: #fff;
-        text-align: center;
         isolation: isolate;
-        background:
-          linear-gradient(to bottom, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.76)),
-          radial-gradient(80% 65% at 50% 38%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.72) 70%),
-          url('/images/hero-background.webp') center/cover no-repeat #000;
-        background-position: 50% 36%;
+        background-color: #000;
+      }
+
+      .hero-background {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        background: url('/hero-background.webp') center/cover no-repeat;
+        transition: opacity 220ms ease;
       }
 
       .hero__scrim {
         position: absolute;
         inset: 0;
         z-index: -1;
-        background: radial-gradient(65% 55% at 50% 42%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.55) 100%);
+        background:
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.78)),
+          radial-gradient(68% 58% at 52% 40%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.58) 100%);
       }
 
       /* ===== Content block ===== */
       .hero__content {
-        max-width: 78ch;
-        padding: clamp(20px, 5vw, 72px);
-        transform: translateY(-6vh);
+        width: min(680px, 100%);
+        padding: clamp(24px, 5vw, 72px);
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+        transform: translateY(-5vh);
+        text-align: center;
       }
 
       /* ===== Typography ===== */
       .hero__eyebrow {
-        display: block;
-        font-size: clamp(14px, 1.6vw, 16px);
-        letter-spacing: 0.14em;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.6rem 1.4rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        background: rgba(12, 18, 30, 0.72);
+        font-size: clamp(12px, 1.3vw, 14px);
+        letter-spacing: 0.18em;
         text-transform: uppercase;
-        opacity: 0.9;
-        margin-bottom: 0.75rem;
-        text-shadow: 0 0 0.6rem rgba(255, 160, 0, 0.1);
+        opacity: 0.92;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
       }
 
       .hero__title {
-        font-size: clamp(32px, 6.4vw, 74px);
-        line-height: 1.04;
-        margin: 0 0 0.6rem;
+        font-family: 'IBM Plex Serif', 'Times New Roman', serif;
+        font-size: clamp(30px, 5.2vw, 60px);
+        line-height: 1.06;
+        margin: 0 0 0.5rem;
         text-wrap: balance;
       }
 
@@ -105,11 +122,11 @@
       }
 
       .hero__lead {
-        max-width: 70ch;
-        margin: 0 auto 1.1rem;
-        font-size: clamp(16px, 2.1vw, 20px);
-        line-height: 1.45;
-        opacity: 0.92;
+        max-width: 54ch;
+        margin: 0;
+        font-size: clamp(15px, 1.9vw, 18px);
+        line-height: 1.5;
+        opacity: 0.9;
       }
 
       /* ===== CTA ===== */
@@ -138,22 +155,23 @@
 
       /* ===== Responsive art-direction ===== */
       @media (max-width: 900px) {
-        .hero {
-          background-position: 50% 40%;
-        }
-
         .hero__content {
-          transform: translateY(-3vh);
+          transform: translateY(-2vh);
         }
       }
 
       /* If you export a dedicated mobile image, swap it here */
       @media (max-width: 768px) {
-        .hero {
-          background:
-            linear-gradient(to bottom, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.82)),
-            radial-gradient(80% 65% at 50% 35%, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.78) 70%);
-          background-position: 50% 38%;
+        .hero-background {
+          display: none;
+        }
+
+        .hero__content {
+          transform: none;
+        }
+
+        .hero__lead {
+          margin: 0 auto;
         }
       }
 
@@ -171,12 +189,8 @@
         background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsdGVyPSJ1cmwoI2EpIj48cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgcng9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvZz48ZGVmcz48ZmlsdGVyIGlkPSJhIiB4PSItMTIiIHk9Ii0xMiIgd2lkdGg9IjE1MiIgaGVpZ2h0PSIxNTIiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY29sb3ItbWF0cml4PSJzUkdCIj48ZmVUdXJiIGJhc2lGcmVxdWVuY3k9IjEuNSIgc3RkRGV2aWF0aW9uPSIxLjUiLz48ZmVGdW4gdHlwZT0ibGlua2VhckNvbG9yIiByZXN1bHQ9InIiIGluPSJTb3VyY2VHcmFwaGljIiBzdGQtb3BhY2l0eT0iMSIvPjxmZUZ1biB0eXBlPSJ0YWJsZVRvcCIgcmVzdWx0PSJkIiBpbj0icCIvPjxmZUZ1biB0eXBlPSJibGVuZENvbG9yIiBpbj0iZCIgcmVzdWx0PSJnIiBmbG9vZD0iMTMiIGtlcm5lbD0iMTMiLz48ZmVDb21wb3NpdGUgaW49InIiIGluMj0iZyIgcmVzdWx0PSJmIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIi8+PC9maWx0ZXI+PC9kZWZzPjwvc3ZnPg==');
         mix-blend-mode: soft-light;
       }
-      .serif {
-        font-family: 'DM Serif Display', 'Times New Roman', serif;
-        letter-spacing: 0.02em;
-      }
       .brand-mark {
-        font-family: 'IBM Plex Serif', 'DM Serif Display', 'Times New Roman', serif;
+        font-family: 'IBM Plex Serif', 'Times New Roman', serif;
         font-weight: 400;
         letter-spacing: 0.12em;
         color: #d4af37 !important;
@@ -281,7 +295,8 @@
 
       <main>
         <section id="hero" class="hero" aria-labelledby="hero-title">
-          <div class="hero__scrim"></div>
+          <div class="hero-background" aria-hidden="true"></div>
+          <div class="hero__scrim" aria-hidden="true"></div>
           <div class="hero__content">
             <h1 id="hero-title" class="hero__title">
               <span class="hero__eyebrow">AI-Powered Financial Optimization</span>
