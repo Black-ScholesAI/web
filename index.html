@@ -47,6 +47,16 @@
           radial-gradient(180% 220% at 46% 90%, rgba(90, 90, 90, 0.1), transparent 72%),
           #000000;
       }
+      .hero-background {
+        position: absolute;
+        inset: 0;
+        background-image: url('hero-background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 0;
+        pointer-events: none;
+      }
       .hero-overlay {
         background-image:
           radial-gradient(circle at 24% 24%, rgba(200, 200, 200, 0.18), transparent 60%),
@@ -54,6 +64,9 @@
           radial-gradient(circle at 46% 78%, rgba(120, 120, 120, 0.12), transparent 70%);
         opacity: 0.35;
         pointer-events: none;
+        position: absolute;
+        inset: 0;
+        z-index: 1;
       }
       .grain {
         position: absolute;
@@ -220,7 +233,8 @@
 
       <main>
         <section id="hero" class="relative z-10 brand-gradient">
-          <div class="absolute inset-0 hero-overlay mix-blend-screen"></div>
+          <div class="hero-background" aria-hidden="true"></div>
+          <div class="absolute inset-0 hero-overlay mix-blend-screen" aria-hidden="true"></div>
           <div class="mx-auto flex min-h-[90vh] max-w-6xl flex-col gap-12 px-6 pb-24 pt-32 lg:flex-row lg:items-center">
             <div class="w-full space-y-10 lg:w-3/5 xl:w-7/12">
               <span
