@@ -14,14 +14,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Black-Scholes AI is a Montreal-based quantitative intelligence firm that empowers organizations with predictive analytics, AI-driven optimization, and automated financial systems that refine performance and accelerate smarter business decisions."
+      content="BlackScholes AI is a Montreal-based quantitative intelligence firm that empowers organizations with predictive analytics, AI-driven optimization, and automated financial systems that refine performance and accelerate smarter business decisions."
     />
-    <title>Black-Scholes AI | Quantitative Intelligence & Predictive Optimization</title>
+    <title>BlackScholes AI | Quantitative Intelligence & Predictive Optimization</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="preload" as="image" href="/images/hero-background.webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=DM+Serif+Display&family=IBM+Plex+Serif:wght@400&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
@@ -47,13 +48,120 @@
           radial-gradient(180% 220% at 46% 90%, rgba(90, 90, 90, 0.1), transparent 72%),
           #000000;
       }
-      .hero-overlay {
-        background-image:
-          radial-gradient(circle at 24% 24%, rgba(200, 200, 200, 0.18), transparent 60%),
-          radial-gradient(circle at 78% 22%, rgba(160, 160, 160, 0.14), transparent 62%),
-          radial-gradient(circle at 46% 78%, rgba(120, 120, 120, 0.12), transparent 70%);
-        opacity: 0.35;
-        pointer-events: none;
+      /* ===== Hero background ===== */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        text-align: center;
+        isolation: isolate;
+        background:
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.76)),
+          radial-gradient(80% 65% at 50% 38%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.72) 70%),
+          url('/images/hero-background.webp') center/cover no-repeat #000;
+        background-position: 50% 36%;
+      }
+
+      .hero__scrim {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: radial-gradient(65% 55% at 50% 42%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.55) 100%);
+      }
+
+      /* ===== Content block ===== */
+      .hero__content {
+        max-width: 78ch;
+        padding: clamp(20px, 5vw, 72px);
+        transform: translateY(-6vh);
+      }
+
+      /* ===== Typography ===== */
+      .hero__eyebrow {
+        display: block;
+        font-size: clamp(14px, 1.6vw, 16px);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        opacity: 0.9;
+        margin-bottom: 0.75rem;
+        text-shadow: 0 0 0.6rem rgba(255, 160, 0, 0.1);
+      }
+
+      .hero__title {
+        font-size: clamp(32px, 6.4vw, 74px);
+        line-height: 1.04;
+        margin: 0 0 0.6rem;
+        text-wrap: balance;
+      }
+
+      .hero__line {
+        display: block;
+      }
+
+      .hero__highlight {
+        color: #d4af37;
+      }
+
+      .hero__lead {
+        max-width: 70ch;
+        margin: 0 auto 1.1rem;
+        font-size: clamp(16px, 2.1vw, 20px);
+        line-height: 1.45;
+        opacity: 0.92;
+      }
+
+      /* ===== CTA ===== */
+      .cta {
+        display: inline-block;
+        margin-top: 0.4rem;
+        padding: 0.9rem 1.15rem;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        text-decoration: none;
+        backdrop-filter: blur(3px) saturate(120%);
+        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      }
+
+      .cta:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.28);
+      }
+
+      .cta:active {
+        transform: translateY(0);
+      }
+
+      /* ===== Responsive art-direction ===== */
+      @media (max-width: 900px) {
+        .hero {
+          background-position: 50% 40%;
+        }
+
+        .hero__content {
+          transform: translateY(-3vh);
+        }
+      }
+
+      /* If you export a dedicated mobile image, swap it here */
+      @media (max-width: 768px) {
+        .hero {
+          background:
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.82)),
+            radial-gradient(80% 65% at 50% 35%, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.78) 70%);
+          background-position: 50% 38%;
+        }
+      }
+
+      /* ===== Motion/accessibility niceties ===== */
+      @media (prefers-reduced-motion: reduce) {
+        .cta {
+          transition: none;
+        }
       }
       .grain {
         position: absolute;
@@ -68,9 +176,10 @@
         letter-spacing: 0.02em;
       }
       .brand-mark {
-        font-family: 'DM Serif Display', 'Times New Roman', serif;
-        letter-spacing: 0.35em;
-        text-transform: uppercase;
+        font-family: 'IBM Plex Serif', 'DM Serif Display', 'Times New Roman', serif;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        color: #d4af37 !important;
       }
       .logo-slot {
         border: 1px solid rgba(148, 163, 184, 0.35);
@@ -82,24 +191,6 @@
         text-transform: uppercase;
         font-size: 0.75rem;
         letter-spacing: 0.2em;
-      }
-      .hero-headline-line {
-        display: block;
-        white-space: nowrap;
-      }
-      .hero-headline-line + .hero-headline-line {
-        margin-top: 0.12em;
-      }
-      .js .hero-headline-line {
-        opacity: 0;
-        transform: translateY(14px);
-        animation: heroFadeUp 520ms ease forwards;
-        animation-delay: 0s;
-      }
-      @media (max-width: 520px) {
-        .hero-headline-line {
-          font-size: clamp(1.875rem, 7vw, 2.35rem);
-        }
       }
       .split-card::before {
         content: '';
@@ -113,22 +204,6 @@
       .split-card:hover::before {
         opacity: 1;
       }
-      @keyframes heroFadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(16px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .js .hero-fade {
-        opacity: 0;
-        transform: translateY(16px);
-        animation: heroFadeUp 520ms ease forwards;
-        animation-delay: 0.8s;
-      }
       .js .reveal,
       .js [data-reveal] {
         opacity: 0;
@@ -141,21 +216,11 @@
         transform: translateY(0);
       }
       @media (prefers-reduced-motion: reduce) {
-        .hero-fade {
-          animation: none !important;
-          opacity: 1 !important;
-          transform: none !important;
-        }
         .reveal {
           transition: none;
         }
         .card {
           transition: none !important;
-        }
-        .hero-headline-line {
-          animation: none !important;
-          opacity: 1 !important;
-          transform: none !important;
         }
       }
       .horizontal-scroller::-webkit-scrollbar {
@@ -181,7 +246,7 @@
               <div class="relative h-10 w-10 overflow-hidden rounded-full border border-slate-600/50 bg-black/70">
                 <img src="logo.webp" alt="BlackScholes AI logo" class="h-full w-full object-contain" />
               </div>
-              <span class="hidden whitespace-nowrap text-slate-100/80 lg:inline-block brand-mark">BLACKSCHOLES&nbsp;AI</span>
+              <span class="hidden whitespace-nowrap lg:inline-block brand-mark">BlackScholes&nbsp;AI</span>
             </button>
             <nav class="hidden items-center gap-8 text-sm text-slate-300 lg:flex">
               <a class="transition hover:text-white" href="careers/">Careers</a>
@@ -215,61 +280,18 @@
       </header>
 
       <main>
-        <section id="hero" class="relative z-10 brand-gradient">
-          <div class="absolute inset-0 hero-overlay mix-blend-screen"></div>
-          <div class="mx-auto flex min-h-[90vh] max-w-6xl flex-col gap-12 px-6 pb-24 pt-32 lg:flex-row lg:items-center">
-            <div class="w-full space-y-10 lg:w-3/5 xl:w-7/12">
-              <span
-                class="inline-flex items-center gap-2 rounded-full border border-slate-200/30 bg-white/10 px-4 py-2 text-xs tracking-[0.25em] text-slate-200 hero-fade"
-              >
-                <span class="h-2 w-2 rounded-full bg-slate-200"></span>
-                AI-Powered Financial Optimization
-              </span>
-              <h1 class="font-semibold tracking-tight text-white leading-[1.05] text-[clamp(2.15rem,4.6vw,3.6rem)] lg:text-[4.05rem] lg:max-w-4xl">
-                <span class="hero-headline-line">Precision in finance.</span>
-                <span class="hero-headline-line">Simplicity in execution.</span>
-              </h1>
-              <p class="max-w-xl text-lg text-slate-200/80 hero-fade">
-                BlackScholes AI develops tools that bring financial data to life by predicting outcomes, surfacing insights instantly, and automating what slow teams down. Everything we deliver is designed to save hours, cut manual effort, and help leaders make confident decisions based on live data.
-              </p>
-              <div class="flex flex-col gap-4 sm:flex-row hero-fade">
-                <a
-                  class="flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-900 shadow-xl transition hover:bg-neutral-200"
-                  href="#contact"
-                  data-scroll
-                  data-scroll-target="#contact"
-                >
-                  Start the conversation
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L21 10.5m0 0l-3.75 3.75M21 10.5H3" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-            <div class="relative w-full lg:w-2/5 xl:w-5/12 hero-fade">
-              <div class="rounded-3xl border border-white/10 bg-white/10 p-7 shadow-2xl backdrop-blur-xl lg:ml-auto lg:max-w-sm">
-                <div class="flex items-start justify-between">
-                  <h2 class="text-sm font-semibold uppercase tracking-[0.3em] text-white/90">Built for clarity</h2>
-                </div>
-                <p class="mt-6 text-sm text-slate-100/80">
-                  Our finance specialists and engineers work together so every solution fits your existing process.
-                </p>
-                <div class="mt-8 space-y-5">
-                  <div class="rounded-2xl border border-white/5 bg-black/60 px-4 py-4">
-                    <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Automation</p>
-                    <p class="mt-2 text-sm text-slate-100/80">Close cycles faster and eliminate repetitive tasks.</p>
-                  </div>
-                  <div class="rounded-2xl border border-white/5 bg-black/60 px-4 py-4">
-                    <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Analysis</p>
-                    <p class="mt-2 text-sm text-slate-100/80">Turn raw data into clear, predictive intelligence.</p>
-                  </div>
-                  <div class="rounded-2xl border border-white/5 bg-black/60 px-4 py-4">
-                    <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Decisions</p>
-                    <p class="mt-2 text-sm text-slate-100/80">Equip your leadership with the insight to move first and act decisively.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <section id="hero" class="hero" aria-labelledby="hero-title">
+          <div class="hero__scrim"></div>
+          <div class="hero__content">
+            <h1 id="hero-title" class="hero__title">
+              <span class="hero__eyebrow">AI-Powered Financial Optimization</span>
+              <span class="hero__line">The future of your business</span>
+              <span class="hero__line">starts <span class="hero__highlight">here.</span></span>
+            </h1>
+            <p class="hero__lead">
+              BlackScholes AI develops tools that bring financial data to life by predicting outcomes, surfacing insights instantly, and automating what slow teams down. Everything we deliver is designed to save hours, cut manual effort, and help leaders make confident decisions based on live data.
+            </p>
+            <a class="cta" href="#contact" data-scroll>Start the conversation</a>
           </div>
         </section>
 
@@ -342,49 +364,6 @@
               </div>
             </div>
 
-          </div>
-        </section>
-
-        <section id="how-we-work" class="relative z-10 border-b border-white/10 bg-black py-24">
-          <div class="mx-auto max-w-5xl px-6">
-            <div class="space-y-12">
-              <div class="space-y-6" data-reveal>
-                <p class="text-xs uppercase tracking-[0.4em] text-slate-400">How we work</p>
-                <h2 class="text-3xl font-semibold text-white sm:text-4xl">Systems built around your reality</h2>
-                <p class="text-base text-slate-300/80">
-                  Our process is designed to uncover what matters, engineer solutions that fit, and deliver results that last.
-                </p>
-              </div>
-              <div id="phases" class="flex flex-col space-y-6">
-                <div
-                  data-reveal
-                  class="phase card rounded-3xl bg-neutral-900 p-8 ring-1 ring-neutral-800 shadow-[0_24px_60px_rgba(26,23,0.45)]"
-                >
-                  <h3 class="text-xl font-semibold text-white">Phase 1 — Diagnosis</h3>
-                  <p class="mt-4 text-sm text-gray-300">
-                    We map operations, constraints, risks, and ROI paths through structured interviews and data intake.
-                  </p>
-                </div>
-                <div
-                  data-reveal
-                  class="phase card rounded-3xl bg-neutral-900 p-8 ring-1 ring-neutral-800 shadow-[0_24px_60px_rgba(26,23,0.45)]"
-                >
-                  <h3 class="text-xl font-semibold text-white">Phase 2 — Engineering</h3>
-                  <p class="mt-4 text-sm text-gray-300">
-                    We build financial models, automations, systems, and tools tailored to your operations.
-                  </p>
-                </div>
-                <div
-                  data-reveal
-                  class="phase card rounded-3xl bg-neutral-900 p-8 ring-1 ring-neutral-800 shadow-[0_24px_60px_rgba(26,23,0.45)]"
-                >
-                  <h3 class="text-xl font-semibold text-white">Phase 3 — Deployment</h3>
-                  <p class="mt-4 text-sm text-gray-300">
-                    We ship, train, measure impact, and iterate with real-time telemetry.
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
