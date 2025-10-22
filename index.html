@@ -68,6 +68,16 @@
         inset: 0;
         z-index: 1;
       }
+      .hero-content {
+        position: relative;
+        padding-top: 6.5rem;
+      }
+      .hero-badge {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -1in);
+      }
       .grain {
         position: absolute;
         inset: 0;
@@ -116,6 +126,18 @@
       @media (max-width: 520px) {
         .hero-headline-line {
           font-size: clamp(1.875rem, 7vw, 2.35rem);
+        }
+      }
+      @media (max-width: 768px) {
+        .hero-background {
+          display: none;
+        }
+        .hero-content {
+          padding-top: 0;
+        }
+        .hero-badge {
+          position: static;
+          transform: none;
         }
       }
       .split-card::before {
@@ -236,32 +258,36 @@
           <div class="hero-background" aria-hidden="true"></div>
           <div class="absolute inset-0 hero-overlay mix-blend-screen" aria-hidden="true"></div>
           <div class="mx-auto flex min-h-[90vh] max-w-6xl flex-col gap-12 px-6 pb-24 pt-32 lg:flex-row lg:items-center">
-            <div class="w-full space-y-10 lg:w-3/5 xl:w-7/12">
-              <span
-                class="inline-flex items-center gap-2 rounded-full border border-slate-200/30 bg-white/10 px-4 py-2 text-xs tracking-[0.25em] text-slate-200 hero-fade"
-              >
-                <span class="h-2 w-2 rounded-full bg-slate-200"></span>
-                AI-Powered Financial Optimization
-              </span>
-              <h1 class="font-semibold tracking-tight text-white leading-[1.05] text-[clamp(2.15rem,4.6vw,3.6rem)] lg:text-[4.05rem] lg:max-w-4xl">
-                <span class="hero-headline-line">The future of your business</span>
-                <span class="hero-headline-line">starts <span class="text-brand-gold">here.</span></span>
-              </h1>
-              <p class="max-w-xl text-lg text-slate-200/80 hero-fade">
-                BlackScholes AI develops tools that bring financial data to life by predicting outcomes, surfacing insights instantly, and automating what slow teams down. Everything we deliver is designed to save hours, cut manual effort, and help leaders make confident decisions based on live data.
-              </p>
-              <div class="flex flex-col gap-4 sm:flex-row hero-fade">
-                <a
-                  class="flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-900 shadow-xl transition hover:bg-neutral-200"
-                  href="#contact"
-                  data-scroll
-                  data-scroll-target="#contact"
+            <div class="w-full lg:w-3/5 xl:w-7/12">
+              <div class="hero-content">
+                <span
+                  class="hero-badge mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200/30 bg-white/10 px-4 py-2 text-xs tracking-[0.25em] text-slate-200 hero-fade"
                 >
-                  Start the conversation
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L21 10.5m0 0l-3.75 3.75M21 10.5H3" />
-                  </svg>
-                </a>
+                  <span class="h-2 w-2 rounded-full bg-slate-200"></span>
+                  AI-Powered Financial Optimization
+                </span>
+                <div class="space-y-10">
+                  <h1 class="font-semibold tracking-tight text-white leading-[1.05] text-[clamp(2.15rem,4.6vw,3.6rem)] lg:text-[4.05rem] lg:max-w-4xl">
+                    <span class="hero-headline-line">The future of your business</span>
+                    <span class="hero-headline-line">starts <span class="text-brand-gold">here.</span></span>
+                  </h1>
+                  <p class="max-w-xl text-lg text-slate-200/80 hero-fade">
+                    BlackScholes AI develops tools that bring financial data to life by predicting outcomes, surfacing insights instantly, and automating what slow teams down. Everything we deliver is designed to save hours, cut manual effort, and help leaders make confident decisions based on live data.
+                  </p>
+                  <div class="flex flex-col gap-4 sm:flex-row hero-fade">
+                    <a
+                      class="flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-900 shadow-xl transition hover:bg-neutral-200"
+                      href="#contact"
+                      data-scroll
+                      data-scroll-target="#contact"
+                    >
+                      Start the conversation
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L21 10.5m0 0l-3.75 3.75M21 10.5H3" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
