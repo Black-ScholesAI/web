@@ -64,6 +64,7 @@
         inset: 0;
         z-index: -2;
         background: url('/hero-background.webp') center/cover no-repeat;
+        background-position: 50% 36%;
         transition: opacity 220ms ease;
       }
 
@@ -85,7 +86,7 @@
         flex-direction: column;
         align-items: center;
         gap: 1.2rem;
-        transform: translateY(-7vh);
+        transform: translateY(-6vh);
         text-align: center;
       }
 
@@ -160,10 +161,21 @@
         }
       }
 
-      /* If you export a dedicated mobile image, swap it here */
       @media (max-width: 768px) {
         .hero-background {
-          display: none;
+          background-image: url('/hero-background-mobile.webp');
+          background-position: 50% 40%;
+          background-size: cover;
+        }
+
+        .hero__scrim {
+          background:
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.86)),
+            radial-gradient(72% 62% at 50% 35%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.72) 100%);
+        }
+
+        .hero__content {
+          transform: translateY(-3vh);
         }
 
         .hero__lead {
@@ -256,7 +268,7 @@
               <div class="relative h-10 w-10 overflow-hidden rounded-full border border-slate-600/50 bg-black/70">
                 <img src="logo.webp" alt="BlackScholes AI logo" class="h-full w-full object-contain" />
               </div>
-              <span class="hidden whitespace-nowrap lg:inline-block brand-mark">BlackScholes&nbsp;AI</span>
+              <span class="whitespace-nowrap text-sm sm:text-base brand-mark">BlackScholes&nbsp;AI</span>
             </button>
             <nav class="hidden items-center gap-8 text-sm text-slate-300 lg:flex">
               <a class="transition hover:text-white" href="careers/">Careers</a>
@@ -320,7 +332,7 @@
                 <img
                   src="predictive-analytics.webp"
                   alt="Predictive Analytics"
-                  class="w-full max-w-[280px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  class="mx-auto w-full rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover md:mx-0 md:max-w-[280px]"
                   loading="lazy"
                 />
                 <div class="space-y-3">
@@ -336,7 +348,7 @@
                 <img
                   src="supply-chain-forecasting.webp"
                   alt="Supply-Chain Forecasting"
-                  class="w-full max-w-[280px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  class="mx-auto w-full rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover md:mx-0 md:max-w-[280px]"
                   loading="lazy"
                 />
                 <div class="space-y-3">
@@ -352,7 +364,7 @@
                 <img
                   src="administrative-automation.webp"
                   alt="Administrative Automation"
-                  class="w-full max-w-[280px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  class="mx-auto w-full rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover md:mx-0 md:max-w-[280px]"
                   loading="lazy"
                 />
                 <div class="space-y-3">
@@ -365,7 +377,7 @@
                 <img
                   src="ai-monitoring-facial-recognition.webp"
                   alt="AI Monitoring and Facial Recognition"
-                  class="w-full max-w-[280px] rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover"
+                  class="mx-auto w-full rounded-xl bg-neutral-900 ring-1 ring-neutral-800 shadow-sm object-cover md:mx-0 md:max-w-[280px]"
                   loading="lazy"
                 />
                 <div class="space-y-3">
@@ -415,10 +427,25 @@
                   </article>
                 </div>
 
-                <div class="md:hidden mt-2 flex items-center justify-center gap-2" aria-hidden="true">
-                  <span class="h-1.5 w-1.5 rounded-full bg-slate-500/70"></span>
-                  <span class="h-1.5 w-1.5 rounded-full bg-slate-600/60"></span>
-                  <span class="h-1.5 w-1.5 rounded-full bg-slate-700/50"></span>
+                <div class="md:hidden mt-2 flex items-center justify-center gap-2" data-scroller-indicators>
+                  <button
+                    type="button"
+                    class="h-1.5 w-1.5 rounded-full bg-white/80 transition-all duration-200"
+                    data-scroller-dot
+                    aria-label="Show Growing Businesses"
+                  ></button>
+                  <button
+                    type="button"
+                    class="h-1.5 w-1.5 rounded-full bg-slate-600/60 opacity-80 transition-all duration-200"
+                    data-scroller-dot
+                    aria-label="Show Established Firms"
+                  ></button>
+                  <button
+                    type="button"
+                    class="h-1.5 w-1.5 rounded-full bg-slate-600/60 opacity-80 transition-all duration-200"
+                    data-scroller-dot
+                    aria-label="Show Financial Leaders"
+                  ></button>
                 </div>
 
                 <div class="hidden space-y-6 md:flex md:flex-col">
@@ -604,23 +631,80 @@
           const cards = container.querySelectorAll('.reveal');
           if (!cards.length) return;
 
-          if (prefersReducedMotion) {
-            cards.forEach((card) => card.classList.add('show'));
-            return;
+          const indicator = container.parentElement.querySelector('[data-scroller-indicators]');
+          const dots = indicator ? Array.from(indicator.querySelectorAll('[data-scroller-dot]')) : [];
+
+          const setActiveDot = (index) => {
+            if (!dots.length) return;
+            dots.forEach((dot, dotIndex) => {
+              const isActive = dotIndex === index;
+              dot.classList.toggle('bg-white/80', isActive);
+              dot.classList.toggle('bg-slate-600/60', !isActive);
+              dot.classList.toggle('opacity-80', !isActive);
+              dot.setAttribute('data-active', isActive ? 'true' : 'false');
+              dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+              dot.disabled = isActive;
+            });
+          };
+
+          if (dots.length) {
+            setActiveDot(0);
+            dots.forEach((dot, index) => {
+              dot.addEventListener('click', () => {
+                const targetCard = cards[index];
+                if (!targetCard) return;
+                targetCard.scrollIntoView({
+                  behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                  inline: 'center',
+                  block: 'nearest',
+                });
+              });
+            });
           }
 
-          const observer = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  entry.target.classList.add('show');
-                }
-              });
-            },
-            { root: container, threshold: 0.35 }
-          );
+          let revealObserver;
+          if (!prefersReducedMotion) {
+            revealObserver = new IntersectionObserver(
+              (entries) => {
+                entries.forEach((entry) => {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                  }
+                });
+              },
+              { root: container, threshold: 0.35 }
+            );
+          }
 
-          cards.forEach((card) => observer.observe(card));
+          let activeObserver;
+          if (dots.length) {
+            activeObserver = new IntersectionObserver(
+              (entries) => {
+                const visible = entries
+                  .filter((entry) => entry.isIntersecting)
+                  .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+                if (!visible) return;
+                const index = Number(visible.target.dataset.scrollerIndex);
+                if (!Number.isNaN(index)) {
+                  setActiveDot(index);
+                }
+              },
+              { root: container, threshold: [0.35, 0.6, 0.85] }
+            );
+          }
+
+          cards.forEach((card, index) => {
+            card.dataset.scrollerIndex = index;
+            if (prefersReducedMotion) {
+              card.classList.add('show');
+            } else if (revealObserver) {
+              revealObserver.observe(card);
+            }
+
+            if (activeObserver) {
+              activeObserver.observe(card);
+            }
+          });
         });
       })();
 
