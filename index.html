@@ -130,6 +130,27 @@
         opacity: 0.9;
       }
 
+      .js #hero [data-hero-animate] {
+        opacity: 0;
+        transform: translate3d(0, 18px, 0);
+        transition: opacity 420ms ease, transform 420ms ease;
+        transition-delay: 0s;
+        will-change: opacity, transform;
+      }
+
+      .js #hero.hero--visible [data-hero-animate] {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .js #hero.hero--visible [data-hero-animate]:not([data-hero-delay='after']) {
+        transition-delay: 0.15s;
+      }
+
+      .js #hero.hero--visible [data-hero-delay='after'] {
+        transition-delay: 1s;
+      }
+
       /* ===== CTA ===== */
       .cta {
         display: inline-block;
@@ -177,35 +198,26 @@
         .hero__content {
           transform: translateY(-3vh);
         }
-@media (max-width: 768px) {
-  .hero__eyebrow {
-    position: relative;
-    top: -3rem;
-  }
 
-  .hero__title {
-    position: relative;
-    top: -2rem;
-  }
-.hero__lead {
-  position: relative;
-  top: 4rem; /* moves the paragraph down */
-}
+        .hero__eyebrow {
+          position: relative;
+          top: -3rem;
+        }
 
-.cta {
-  position: relative;
-  top: 5rem; /* moves the button down */
-}
-
-
-  .hero__content {
-    transform: translateY(-4vh);
-  }
-}
-
+        .hero__title {
+          position: relative;
+          top: -2rem;
+        }
 
         .hero__lead {
           margin: 0 auto;
+          position: relative;
+          top: 4rem;
+        }
+
+        .cta {
+          position: relative;
+          top: 5rem;
         }
       }
 
@@ -213,6 +225,11 @@
       @media (prefers-reduced-motion: reduce) {
         .cta {
           transition: none;
+        }
+        .js #hero [data-hero-animate] {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
         }
       }
       .grain {
@@ -332,15 +349,15 @@
           <div class="hero-background" aria-hidden="true"></div>
           <div class="hero__scrim" aria-hidden="true"></div>
           <div class="hero__content">
-            <h1 id="hero-title" class="hero__title">
-              <span class="hero__eyebrow">AI-Powered Financial Optimization</span>
+            <div class="hero__eyebrow" data-hero-animate data-hero-delay="after">AI-Powered Financial Optimization</div>
+            <h1 id="hero-title" class="hero__title" data-hero-animate>
               <span class="hero__line">The future of your business</span>
               <span class="hero__line">starts <span class="hero__highlight">here.</span></span>
             </h1>
-            <p class="hero__lead">
+            <p class="hero__lead" data-hero-animate data-hero-delay="after">
               BlackScholes AI develops tools that bring financial data to life by predicting outcomes, surfacing insights instantly, and automating what slow teams down. Everything we deliver is designed to save hours, cut manual effort, and help leaders make confident decisions based on live data.
             </p>
-            <a class="cta" href="#contact" data-scroll>Start the conversation</a>
+            <a class="cta" href="#contact" data-scroll data-hero-animate data-hero-delay="after">Start the conversation</a>
           </div>
         </section>
 
@@ -599,6 +616,35 @@
     </div>
 
     <script>
+      (function () {
+        const hero = document.getElementById('hero');
+        if (!hero) return;
+        const animatedItems = hero.querySelectorAll('[data-hero-animate]');
+        if (!animatedItems.length) return;
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+          hero.classList.add('hero--visible');
+          return;
+        }
+
+        const activate = () => {
+          hero.classList.add('hero--visible');
+        };
+
+        const runActivation = () => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(activate);
+          });
+        };
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+          runActivation();
+        } else {
+          document.addEventListener('DOMContentLoaded', runActivation, { once: true });
+        }
+      })();
+
       (function () {
         const revealElements = document.querySelectorAll('[data-reveal]');
         if (!revealElements.length) return;
